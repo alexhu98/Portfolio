@@ -1,10 +1,10 @@
 import React from 'react'
 
-const StorySummary = () => {
+const Summary = () => {
   return (
-    <div className='card z-depth-0 story-summary'>
+    <div className='card summary'>
       <div className='card-content grey-text text-darken-3'>
-        <span className='card-title'>Story Title</span>
+        <span className='card-title'>Summary Title</span>
         <p>Posted by Alex</p>
         <p className='grey-text'>2020-06-08</p>
       </div>
@@ -12,4 +12,4 @@ const StorySummary = () => {
   )
 }
 
-export default StorySummary
+export default Summary
