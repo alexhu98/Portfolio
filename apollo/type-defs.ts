@@ -29,10 +29,6 @@ export const typeDefs = gql`
     id: ID!
     title: String!
     summary: String!
-    content: String!
-    sectionName: String!
-    createdAt: Int!
-    updatedAt: Int!
   }
 
   type Query {

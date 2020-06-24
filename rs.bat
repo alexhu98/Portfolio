@@ -1,1 +1,2 @@
-call npm run dev
+cls
+yarn dev

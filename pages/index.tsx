@@ -19,6 +19,8 @@ const Index = () => {
   const viewer = data?.viewer
   const shouldRedirect = !(loading || error || viewer)
 
+  // router.push('/blog')
+
   // useEffect(() => {
   //   if (shouldRedirect) {
   //     router.push('/signin')
@@ -45,7 +47,13 @@ const Index = () => {
     )
   }
 
-  return <p>Loading...</p>
+  return (
+    <div>
+      <Link href='/blog'>
+        <a>Blog</a>
+      </Link>
+    </div>
+  )
 }
 
 export default Index

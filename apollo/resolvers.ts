@@ -3,6 +3,9 @@ import { createUser, findUser, validatePassword, getUsers } from '../lib/user'
 import { setLoginSession, getLoginSession } from '../lib/auth'
 import { removeTokenCookie } from '../lib/auth-cookies'
 
+import dbConnect from '../utils/dbConnect'
+import Article from '../models/article'
+
 export const resolvers = {
   Query: {
     async viewer(_parent: any, _args: any, context: any, _info: any) {
@@ -22,15 +25,8 @@ export const resolvers = {
       return getUsers()
     },
     async articles() {
-      return [{
-        id: 1,
-        title: 'T1',
-        summary: 'S1',
-        content: 'C1',
-        sectionName: 'S1',
-        createdAt: 123,
-        updatedAt: 456,
-      }]
+      await dbConnect()
+      return await Article.find()
     }
   },
   Mutation: {
