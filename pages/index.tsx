@@ -1,3 +1,18 @@
+import Layout from '../components/Layout'
+import { Container, Header } from 'semantic-ui-react'
+
+const Index = () => {
+  return (
+    <Layout title='Home' activeItem='home'>
+      <Container>
+        <Header>Home</Header>
+      </Container>
+    </Layout>
+  )
+}
+
+
+/*
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -12,7 +27,6 @@ const ViewerQuery = gql`
     }
   }
 `
-
 const Index = () => {
   const router = useRouter()
   const { data, loading, error } = useQuery(ViewerQuery)
@@ -55,5 +69,7 @@ const Index = () => {
     </div>
   )
 }
+*/
+
 
 export default Index

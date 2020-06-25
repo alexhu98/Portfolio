@@ -1,13 +1,14 @@
-import Link from 'next/link'
+import Layout from '../components/Layout'
+import { Container, Header } from 'semantic-ui-react'
 
-export default function About() {
+const About = () => {
   return (
-    <div>
-      Welcome to the about page. Go to the{' '}
-      <Link href="/">
-        <a>Home</a>
-      </Link>{' '}
-      page.
-    </div>
+    <Layout title='About' activeItem='about'>
+      <Container>
+        <Header>About</Header>
+      </Container>
+    </Layout>
   )
 }
+
+export default About

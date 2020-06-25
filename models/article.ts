@@ -13,4 +13,14 @@ const ArticleSchema = new Schema({
   },
 })
 
+export type Article = {
+  id: string,
+  title: string,
+  summary: string,
+}
+
+export type Articles = {
+  articles: Article[]
+}
+
 export default mongoose.models.Article || mongoose.model('Article', ArticleSchema)
