@@ -33,7 +33,7 @@ const Index = () => {
   const viewer = data?.viewer
   const shouldRedirect = !(loading || error || viewer)
 
-  // router.push('/blog')
+  // router.push('/posts')
 
   // useEffect(() => {
   //   if (shouldRedirect) {
@@ -63,8 +63,8 @@ const Index = () => {
 
   return (
     <div>
-      <Link href='/blog'>
-        <a>Blog</a>
+      <Link href='/posts'>
+        <a>Posts</a>
       </Link>
     </div>
   )

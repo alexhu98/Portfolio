@@ -11,15 +11,25 @@ const ArticleSchema = new Schema({
     type: String,
     required: true,
   },
+  content: {
+    type: String,
+    default: '',
+    required: true,
+  },
 })
 
 export type Article = {
   id: string,
   title: string,
   summary: string,
+  content: string,
 }
 
-export type Articles = {
+export type ArticleResult = {
+  article: Article
+}
+
+export type ArticlesResult = {
   articles: Article[]
 }
 

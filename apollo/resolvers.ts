@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import { AuthenticationError, UserInputError } from 'apollo-server-micro'
 import { createUser, findUser, validatePassword, getUsers } from '../lib/user'
 import { setLoginSession, getLoginSession } from '../lib/auth'
@@ -26,8 +27,28 @@ export const resolvers = {
     },
     async articles() {
       await dbConnect()
-      return await Article.find()
-    }
+      let articles = R.defaultTo([], await Article.find())
+      articles = R.map(article => ({
+        ...article._doc,
+        id: article.id,
+        content: R.defaultTo('', article.content),
+      }), articles)
+      return articles
+    },
+    async article(_parent: any, args: any) {
+      await dbConnect()
+      let article = await Article.findById(args.id)
+      // console.log('article -> id, article', args.id, article)
+      // if (article && !article.content) {
+      if (article) {
+          article = {
+          ...article._doc,
+          id: article.id,
+          content: R.defaultTo('', article.content),
+        }
+      }
+      return article
+    },
   },
   Mutation: {
     async signUp(_parent: any, args: any, _context: any, _info: any) {

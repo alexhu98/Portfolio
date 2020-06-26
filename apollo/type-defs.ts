@@ -29,6 +29,7 @@ export const typeDefs = gql`
     id: ID!
     title: String!
     summary: String!
+    content: String!
   }
 
   type Query {
@@ -36,6 +37,7 @@ export const typeDefs = gql`
     users: [User]!
     viewer: User
     articles: [Article]!
+    article(id: ID!): Article!
   }
 
   type Mutation {

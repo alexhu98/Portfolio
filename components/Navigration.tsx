@@ -10,7 +10,7 @@ export const NavBar = ({ activeItem }: Props) => {
     <Menu pointing secondary inverted={false} color='black'>
       <Container>
         <Menu.Item icon='home' name='home' href='/' active={activeItem === 'home'} />
-        <Menu.Item icon='box' name='blog' active={activeItem === 'blog'} href='/blog' />
+        <Menu.Item icon='box' name='posts' active={activeItem === 'posts'} href='/posts' />
         <Menu.Item icon='address book' name='about' active={activeItem === 'about'} href='/about' />
         <Menu.Item position='right'>
           <Button>Log In</Button>
