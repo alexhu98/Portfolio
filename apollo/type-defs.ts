@@ -26,10 +26,27 @@ export const typeDefs = gql`
   }
 
   type Article {
-    id: ID!
+    id: String!
     title: String!
     summary: String!
     content: String!
+  }
+
+  input CreateArticleInput {
+    title: String!
+    summary: String!
+    content: String!
+  }
+
+  input UpdateArticleInput {
+    id: String!
+    title: String!
+    summary: String!
+    content: String!
+  }
+
+  input DeleteArticleInput {
+    id: String!
   }
 
   type Query {
@@ -37,12 +54,16 @@ export const typeDefs = gql`
     users: [User]!
     viewer: User
     articles: [Article]!
-    article(id: ID!): Article!
+    article(id: String!): Article!
   }
 
   type Mutation {
     signUp(input: SignUpInput!): SignUpPayload!
     signIn(input: SignInInput!): SignInPayload!
     signOut: Boolean!
+
+    createArticle(input: CreateArticleInput!): Article!
+    updateArticle(input: UpdateArticleInput!): Article!
+    deleteArticle(input: DeleteArticleInput!): Boolean!
   }
 `

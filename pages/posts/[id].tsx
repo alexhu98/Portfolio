@@ -1,16 +1,21 @@
-import * as R from 'ramda'
-import { inspect } from 'util'
+import { useState } from 'react'
 import { initializeApollo } from '../../apollo/client'
-import { useQuery } from '@apollo/react-hooks'
-import { useRouter } from 'next/router'
-import ReactMarkdown from 'react-markdown'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import Layout from '../../components/Layout'
-import { Container, Divider, Header, Loader } from 'semantic-ui-react'
-import { ArticleQuery } from '../../apollo/queries'
-import { ArticleResult } from '../../models/article'
+import { Button, Confirm, Container, Header, Loader } from 'semantic-ui-react'
+import { ArticleQuery, DeleteArticleMutation, UpdateArticleMutation } from '../../apollo/queries'
+import { ArticleResult, ArticleType } from '../../models/article'
 import { Context } from '@apollo/react-common'
+import EditArticleModel from '../../components/EditArticleModel'
+import ArticlePanel from '../../components/ArticlePanel'
 
 const Post = ({ id }: any) => {
+
+  const [editModalOpen, setEditModalOpen] = useState(false)
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [updateArticle] = useMutation(UpdateArticleMutation)
+  const [deleteArticle] = useMutation(DeleteArticleMutation)
+
   const queryResult = useQuery<ArticleResult>(ArticleQuery, {
     variables: {
       id,
@@ -20,57 +25,70 @@ const Post = ({ id }: any) => {
   if (error) {
     return <pre>{ error.message }</pre>
   }
-  const article = data?.article
+  const article = data?.article!
+
+  const [title, setTitle] = useState(article.title)
+  const [summary, setSummary] = useState(article.summary)
+  const [content, setContent] = useState(article.content)
+  const [saving, setSaving] = useState(false)
+
+  const handleEdit = () => {
+    console.log('Post -> handleEdit')
+    setEditModalOpen(true)
+  }
+
+  const handleEditOK = async (changes: ArticleType) => {
+    console.log('Post -> handleEditOK -> changes', changes)
+    setEditModalOpen(false)
+    setSaving(true)
+    const result = await updateArticle({
+      variables: changes
+    });
+    console.log('handleEditOK -> result', result)
+    setTitle(changes.title)
+    setSummary(changes.summary)
+    setContent(changes.content)
+    setSaving(false)
+  }
+
+  const handleEditCancel = () => {
+    console.log('Post -> handleEditCancel')
+    setEditModalOpen(false)
+  }
+
+  const handleDelete = async () => {
+    console.log('handleDelete -> article.id', article.id)
+    const result = await deleteArticle({
+      variables: {
+        id: article.id,
+      },
+    })
+    console.log('handleDelete -> result', result)
+    window.location.replace('/posts')
+  }
+
   return (
     <Layout title='Posts' activeItem='posts'>
-      { article &&
-        <Container>
-          <Header as='h1'>{ article.title }</Header>
-          <Header as='h5'>{ article.id }</Header>
-          <Header as='h2'>{ article.summary }</Header>
-          <ReactMarkdown source={article.content} />
+      <Container>
+        <EditArticleModel article={article} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} onClose={handleEditCancel} />
+        <Confirm header='Delete' open={deleteConfirmOpen} onConfirm={handleDelete} />
 
-          <Divider />
-          <pre>{ inspect(article) }</pre>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Loader active={saving} />
+          <Button onClick={handleEdit} style={{ marginRight: 15 }} >Edit</Button>
+          <Button onClick={() => setDeleteConfirmOpen(true)}>Delete</Button>
+        </div>
 
-          <Divider />
-          <ReactMarkdown className='posts-content' source={markdown} />
-        </Container>
-      }
+        <ArticlePanel article={{
+          id,
+          title,
+          summary,
+          content,
+        }} />
+      </Container>
     </Layout>
   )
 }
-
-const markdown = `
-# Live demo
-
-Changes are automatically rendered as you type.
-
-## Table of Contents
-
-* Implements [GitHub Flavored Markdown](https://github.github.com/gfm/)
-* Renders actual, "native" React DOM elements
-* Allows you to escape or skip HTML (try toggling the checkboxes above)
-* If you escape or skip the HTML, no dangerouslySetInnerHTML is used! Yay!
-
-
-## HTML block below
-
-\`\`\`
-  This blockquote will change based on the HTML settings above.
-\`\`\`
-
-Pretty neat, eh?
-
-## Tables?
-
-| Feature   | Support |
-| --------- | ------- |
-| tables    | ✔ |
-| alignment | ✔ |
-| wewt      | ✔ |
-
-  `
 
 export const getServerSideProps = async (context: Context) => {
   const { id } = context.query

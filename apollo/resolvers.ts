@@ -63,9 +63,7 @@ export const resolvers = {
           id: user.id,
           email: user.email,
         }
-
         await setLoginSession(context.res, session)
-
         return { user }
       }
 
@@ -74,6 +72,26 @@ export const resolvers = {
     async signOut(_parent: any, _args: any, context: any, _info: any) {
       removeTokenCookie(context.res)
       return true
+    },
+    async createArticle(_parent: any, args: any, _context: any, _info: any) {
+      await dbConnect()
+      console.log('createArticle -> args.input', args.input)
+      const article = new Article(args.input)
+      return await article.save()
+    },
+    async updateArticle(_parent: any, args: any, _context: any, _info: any) {
+      // console.log('updateArticle -> args', args)
+      await dbConnect()
+      const article = await Article.findByIdAndUpdate(args.input.id, args.input, { new: true })
+      return article
+    },
+    async deleteArticle(_parent: any, args: any, _context: any, _info: any) {
+      // console.log('deleteArticle -> args.input.id', args.input.id)
+      await dbConnect()
+      const result = await Article.findByIdAndDelete(args.input.id)
+      // console.log('deleteArticle -> result', result)
+      return result
+
     },
   },
 }

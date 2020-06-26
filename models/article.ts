@@ -18,7 +18,7 @@ const ArticleSchema = new Schema({
   },
 })
 
-export type Article = {
+export type ArticleType = {
   id: string,
   title: string,
   summary: string,
@@ -26,11 +26,11 @@ export type Article = {
 }
 
 export type ArticleResult = {
-  article: Article
+  article: ArticleType
 }
 
 export type ArticlesResult = {
-  articles: Article[]
+  articles: ArticleType[]
 }
 
 export default mongoose.models.Article || mongoose.model('Article', ArticleSchema)
