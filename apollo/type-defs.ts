@@ -30,6 +30,8 @@ export const typeDefs = gql`
     title: String!
     summary: String!
     content: String!
+    createdAt: String!
+    updatedAt: String!
   }
 
   input CreateArticleInput {

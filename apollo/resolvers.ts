@@ -7,6 +7,29 @@ import { removeTokenCookie } from '../lib/auth-cookies'
 import dbConnect from '../utils/dbConnect'
 import Article from '../models/article'
 
+const migrateArticle = async (article) => {
+  if (article) {
+    let migrate = false
+    if (!article.content) {
+      article.content = ''
+      migrate = true
+    }
+    if (!article.createdAt) {
+      article.createdAt = (new Date()).toISOString()
+      migrate = true
+    }
+    if (!article.updatedAt) {
+      article.updatedAt = (new Date()).toISOString()
+      migrate = true
+    }
+    if (migrate) {
+      console.log('migrateArticle -> article', article)
+      article = await Article.findByIdAndUpdate(article.id, article, { new: true })
+    }
+  }
+  return article
+}
+
 export const resolvers = {
   Query: {
     async viewer(_parent: any, _args: any, context: any, _info: any) {
@@ -27,27 +50,14 @@ export const resolvers = {
     },
     async articles() {
       await dbConnect()
-      let articles = R.defaultTo([], await Article.find())
-      articles = R.map(article => ({
-        ...article._doc,
-        id: article.id,
-        content: R.defaultTo('', article.content),
-      }), articles)
+      let articles = R.defaultTo([], await Article.find().sort('-createdAt'))
+      articles = R.map(article => migrateArticle(article), articles)
       return articles
     },
     async article(_parent: any, args: any) {
       await dbConnect()
-      let article = await Article.findById(args.id)
-      // console.log('article -> id, article', args.id, article)
-      // if (article && !article.content) {
-      if (article) {
-          article = {
-          ...article._doc,
-          id: article.id,
-          content: R.defaultTo('', article.content),
-        }
-      }
-      return article
+      const article = await Article.findById(args.id)
+      return migrateArticle(article)
     },
   },
   Mutation: {
@@ -77,21 +87,22 @@ export const resolvers = {
       await dbConnect()
       console.log('createArticle -> args.input', args.input)
       const article = new Article(args.input)
+      article.createdAt = (new Date()).toISOString()
+      article.updatedAt = (new Date()).toISOString()
       return await article.save()
     },
     async updateArticle(_parent: any, args: any, _context: any, _info: any) {
       // console.log('updateArticle -> args', args)
       await dbConnect()
+      args.input.updatedAt = (new Date()).toISOString()
       const article = await Article.findByIdAndUpdate(args.input.id, args.input, { new: true })
-      return article
+      return migrateArticle(article)
     },
     async deleteArticle(_parent: any, args: any, _context: any, _info: any) {
       // console.log('deleteArticle -> args.input.id', args.input.id)
       await dbConnect()
-      const result = await Article.findByIdAndDelete(args.input.id)
-      // console.log('deleteArticle -> result', result)
-      return result
-
+      await Article.findByIdAndDelete(args.input.id)
+      return true
     },
   },
 }

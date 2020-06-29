@@ -16,21 +16,31 @@ const ArticleSchema = new Schema({
     default: '',
     required: true,
   },
+  createdAt: {
+    type: String,
+    // default: () => (new Date()).toISOString(),
+  },
+  updatedAt: {
+    type: String,
+    // default: () => (new Date()).toISOString(),
+  },
 })
 
-export type ArticleType = {
+export type IArticle = {
   id: string,
   title: string,
   summary: string,
   content: string,
+  createdAt: string,
+  updatedAt: string,
 }
 
 export type ArticleResult = {
-  article: ArticleType
+  article: IArticle
 }
 
 export type ArticlesResult = {
-  articles: ArticleType[]
+  articles: IArticle[]
 }
 
 export default mongoose.models.Article || mongoose.model('Article', ArticleSchema)

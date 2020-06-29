@@ -2,18 +2,17 @@ import { useState } from 'react'
 import { initializeApollo } from '../../apollo/client'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import Layout from '../../components/Layout'
-import { Button, Confirm, Container, Header, Loader } from 'semantic-ui-react'
-import { ArticleQuery, DeleteArticleMutation, UpdateArticleMutation } from '../../apollo/queries'
-import { ArticleResult, ArticleType } from '../../models/article'
+import { Button, Confirm, Container } from 'semantic-ui-react'
+import { ArticleQuery, DeleteArticleMutation } from '../../apollo/queries'
+import { ArticleResult, IArticle } from '../../models/article'
 import { Context } from '@apollo/react-common'
-import EditArticleModel from '../../components/EditArticleModel'
+import EditArticleModal from '../../components/EditArticleModal'
 import ArticlePanel from '../../components/ArticlePanel'
 
 const Post = ({ id }: any) => {
 
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
-  const [updateArticle] = useMutation(UpdateArticleMutation)
   const [deleteArticle] = useMutation(DeleteArticleMutation)
 
   const queryResult = useQuery<ArticleResult>(ArticleQuery, {
@@ -30,25 +29,24 @@ const Post = ({ id }: any) => {
   const [title, setTitle] = useState(article.title)
   const [summary, setSummary] = useState(article.summary)
   const [content, setContent] = useState(article.content)
-  const [saving, setSaving] = useState(false)
+  const [createdAt, setCreatedAt] = useState(article.createdAt)
+  const [updatedAt, setUpdatedAt] = useState(article.updatedAt)
 
   const handleEdit = () => {
     console.log('Post -> handleEdit')
     setEditModalOpen(true)
   }
 
-  const handleEditOK = async (changes: ArticleType) => {
+  const handleEditOK = async (changes: IArticle | undefined) => {
     console.log('Post -> handleEditOK -> changes', changes)
+    if (changes) {
+      setTitle(changes.title)
+      setSummary(changes.summary)
+      setContent(changes.content)
+      setCreatedAt(changes.createdAt)
+      setUpdatedAt(changes.updatedAt)
+    }
     setEditModalOpen(false)
-    setSaving(true)
-    const result = await updateArticle({
-      variables: changes
-    });
-    console.log('handleEditOK -> result', result)
-    setTitle(changes.title)
-    setSummary(changes.summary)
-    setContent(changes.content)
-    setSaving(false)
   }
 
   const handleEditCancel = () => {
@@ -70,11 +68,10 @@ const Post = ({ id }: any) => {
   return (
     <Layout title='Posts' activeItem='posts'>
       <Container>
-        <EditArticleModel article={article} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} onClose={handleEditCancel} />
         <Confirm header='Delete' open={deleteConfirmOpen} onConfirm={handleDelete} />
 
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Loader active={saving} />
+          <EditArticleModal article={article} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
           <Button onClick={handleEdit} style={{ marginRight: 15 }} >Edit</Button>
           <Button onClick={() => setDeleteConfirmOpen(true)}>Delete</Button>
         </div>
@@ -84,6 +81,8 @@ const Post = ({ id }: any) => {
           title,
           summary,
           content,
+          createdAt,
+          updatedAt,
         }} />
       </Container>
     </Layout>
