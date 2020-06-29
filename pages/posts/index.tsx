@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { initializeApollo } from '../../apollo/client'
 import { useQuery } from '@apollo/react-hooks'
 import ReactMarkdown from 'react-markdown'
@@ -51,8 +51,8 @@ const Posts = () => {
           )}
         </Card.Group>
 
-        {/* <Divider />
-        <pre>{ inspect(articles) }</pre> */}
+        <Divider />
+        {/* <pre>{ inspect(articles) }</pre> */}
       </Container>
     </Layout>
   )

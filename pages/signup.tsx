@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react'
+import React, { useState, FormEvent } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import gql from 'graphql-tag'

@@ -6,7 +6,9 @@
   "jsRules": {},
   "rules": {
       "max-line-length": [false],
-      "no-console": [false]
+      "no-console": [false],
+      "no-inferrable-types": [true, "ignore-params"],
+      "quotemark": [true, "single"]
   },
   "rulesDirectory": []
 }
