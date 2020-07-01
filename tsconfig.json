@@ -5,9 +5,11 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "jsx": "react",
-    "lib": ["es2019"],
-    "module": "commonjs",
+    "jsx": "preserve",
+    "lib": [
+      "es2019"
+    ],
+    "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
@@ -16,9 +18,16 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2019",
+    "target": "es2019",
+    "inlineSourceMap": true,
     "suppressExcessPropertyErrors": true
   },
-  "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "components/Footer.test.tsx"]
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "components/Footer.test.tsx"
+  ]
 }

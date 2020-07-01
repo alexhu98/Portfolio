@@ -2,10 +2,10 @@ import React from 'react'
 import { Button, Container, Menu } from 'semantic-ui-react'
 
 type Props = {
-  activeItem?: string
+  activeItem: string
 }
 
-export const NavBar = ({ activeItem }: Props) => {
+export const NavBar: React.FC<Props> = ({ activeItem }) => {
   return (
     // <Menu pointing secondary inverted={true} color='red'>
     <Menu pointing secondary inverted={false} color='black'>

@@ -8,7 +8,7 @@ type Props = {
   article: IArticle
 }
 
-const ArticlePanel = (props: Props) => {
+const ArticlePanel: React.FC<Props> = (props) => {
   const { article } = props;
   return (
     <div>

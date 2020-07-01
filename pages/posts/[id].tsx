@@ -10,7 +10,11 @@ import { Context } from '@apollo/react-common'
 import EditArticleModal from '../../components/EditArticleModal'
 import ArticlePanel from '../../components/ArticlePanel'
 
-const Post = ({ id }: any) => {
+type Props = {
+  id: string,
+}
+
+const Post: React.FC<Props> = ({ id }) => {
 
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)

@@ -3,14 +3,13 @@ import { AuthenticationError, UserInputError } from 'apollo-server-micro'
 import { createUser, findUser, validatePassword, getUsers } from '../lib/user'
 import { setLoginSession, getLoginSession } from '../lib/auth'
 import { removeTokenCookie } from '../lib/auth-cookies'
-
+import Article, { IArticle } from '../models/article'
 import dbConnect from '../utils/dbConnect'
-import Article from '../models/article'
 
-const migrateArticle = async (article) => {
+const migrateArticle = async (article: IArticle) => {
   if (article) {
     let migrate = false
-    if (!article.content) {
+    if (article.content === undefined) {
       article.content = ''
       migrate = true
     }

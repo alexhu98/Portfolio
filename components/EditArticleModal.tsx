@@ -13,7 +13,7 @@ type Props = {
   onCancel: () => void,
 }
 
-const EditArticleModal = (props: Props) => {
+const EditArticleModal: React.FC<Props> = (props) => {
   const { article, modalOpen, onOK, onCancel } = props
 
   const [id, setId] = useState(R.defaultTo('', article?.id))

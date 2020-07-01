@@ -2,7 +2,7 @@
   "name": "api-routes-apollo-server-and-client-auth",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next",
+    "dev": "cross-env NODE_OPTIONS='--inspect' next",
     "build": "next build",
     "start": "next start",
     "test": "jest",
@@ -11,6 +11,7 @@
   "dependencies": {
     "@apollo/react-common": "^3.1.4",
     "@apollo/react-hooks": "^3.1.5",
+    "@babel/runtime": "^7.10.3",
     "@hapi/iron": "6.0.0",
     "@types/cookie": "^0.4.0",
     "@types/mongoose": "^5.7.27",
@@ -39,6 +40,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.10.3",
+    "@babel/plugin-transform-runtime": "^7.10.3",
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
@@ -53,6 +55,7 @@
     "@types/testing-library__jest-dom": "^5.9.1",
     "@types/testing-library__react": "^10.2.0",
     "babel-jest": "^26.1.0",
+    "cross-env": "^7.0.2",
     "jest": "^26.1.0",
     "jest-dom": "^4.0.0",
     "node-sass": "^4.14.1",
