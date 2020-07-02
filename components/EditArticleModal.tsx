@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, FormEvent } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { Button, Form, Grid, Modal, Loader } from 'semantic-ui-react'
 import ArticlePanel from './ArticlePanel'
@@ -41,7 +41,8 @@ const EditArticleModal: React.FC<Props> = (props) => {
     setContent(initialContent)
   }
 
-  const handleOK = async () => {
+  const handleOK = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
     setSaving(true)
     const changes = { id, title, summary, content }
     const result = id === '' ? await createArticle({ variables: changes }) : await updateArticle({ variables: changes })

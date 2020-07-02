@@ -5,8 +5,8 @@
     "dev": "cross-env NODE_OPTIONS='--inspect' next",
     "build": "next build",
     "start": "next start",
-    "test": "jest",
-    "testmon": "jest --watchAll",
+    "test1": "jest",
+    "test": "jest --watchAll",
     "type-check": "tsc"
   },
   "dependencies": {
