@@ -38,7 +38,7 @@ const Posts = () => {
       <Container>
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
           <EditArticleModal article={undefined} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
-          <Button onClick={handleEdit} style={{ marginRight: 15 }} >New Post</Button>
+          <Button data-testid='new-post-button' onClick={handleEdit} style={{ marginRight: 15 }} >New Post</Button>
         </div>
         <Card.Group stackable>
           { articles.map(article =>

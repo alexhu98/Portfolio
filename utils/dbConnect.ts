@@ -17,6 +17,7 @@ async function dbConnect() {
         await mongoose.connect(process.env.MONGO_URI as string, {
           useNewUrlParser: true,
           useUnifiedTopology: true,
+          useFindAndModify: true,
         })
         // const connection = db.connections[0]
         const connection = mongoose.connection

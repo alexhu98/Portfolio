@@ -1,8 +1,6 @@
 import React from 'react'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { useApollo } from '../apollo/client'
-// import 'core-js/stable'
-// import 'regenerator-runtime/runtime'
 import 'semantic-ui-css/semantic.min.css'
 import '../css/index.scss'
 

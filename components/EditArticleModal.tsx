@@ -22,22 +22,23 @@ const EditArticleModal: React.FC<Props> = (props) => {
   const [content, setContent] = useState(R.defaultTo('', article?.content))
   const [createdAt, setCreatedAt] = useState(R.defaultTo('', article?.createdAt))
   const [updatedAt, setUpdatedAt] = useState(R.defaultTo('', article?.updatedAt))
+  const [initialTitle, setInitialTitle] = useState(R.defaultTo('', article?.title))
+  const [initialSummary, setInitialSummary] = useState(R.defaultTo('', article?.summary))
+  const [initialContent, setInitialContent] = useState(R.defaultTo('', article?.content))
   const [saving, setSaving] = useState(false)
   const [createArticle] = useMutation(CreateArticleMutation)
   const [updateArticle] = useMutation(UpdateArticleMutation)
   const titleRef = useRef()
 
   useEffect(() => {
+    // @ts-ignore
     titleRef.current?.focus()
   }, [])
 
   const resetForm = () => {
-    setId('')
-    setTitle('')
-    setSummary('')
-    setContent('')
-    setCreatedAt('')
-    setUpdatedAt('')
+    setTitle(initialTitle)
+    setSummary(initialSummary)
+    setContent(initialContent)
   }
 
   const handleOK = async () => {
