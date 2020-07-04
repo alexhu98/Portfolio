@@ -1,12 +1,11 @@
 import React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { initializeApollo } from '../../apollo/client'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import Layout from '../../components/Layout'
-import { Button, Confirm, Container } from 'semantic-ui-react'
+import { Button, Confirm, Container, Loader } from 'semantic-ui-react'
 import { ArticleQuery, DeleteArticleMutation } from '../../apollo/queries'
-import { DEFAULT_ARTICLE_SECTION } from '../../models/defaults'
 import { ArticleResult, IArticle } from '../../models/article'
 import { Context } from '@apollo/react-common'
 import EditArticleModal from '../../components/EditArticleModal'
@@ -16,18 +15,9 @@ type Props = {
   id: string,
 }
 
-const DEFAULT_ARTICLE: IArticle = {
-  id: '',
-  title: '',
-  summary: '',
-  content: '',
-  section: '',
-  createdAt: '',
-  updatedAt: '',
-}
-
 const Post: React.FC<Props> = ({ id }) => {
 
+  const router = useRouter()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [deleteArticle] = useMutation(DeleteArticleMutation)
@@ -37,19 +27,21 @@ const Post: React.FC<Props> = ({ id }) => {
       id,
     }
   })
-  const { data, error } = queryResult
-  if (!data?.article || error) {
-      return <pre>{ error ? error.message : 'Error loading article' }</pre>
+  // console.log('queryResult', queryResult)
+  const { data, loading, error } = queryResult
+  if (loading) {
+    return <Loader />
   }
-  const article = data?.article
+  if (!data || !data?.article || error) {
+    console.log('Post -> render -> error', error)
+    router.push('/posts')
+    return <Loader />
+  }
+  const [article, setArticle] = useState(data.article)
 
-  const [title, setTitle] = useState(article.title)
-  const [summary, setSummary] = useState(article.summary)
-  const [content, setContent] = useState(article.content)
-  const [section, setSection] = useState(DEFAULT_ARTICLE_SECTION)
-  const [createdAt, setCreatedAt] = useState(article.createdAt)
-  const [updatedAt, setUpdatedAt] = useState(article.updatedAt)
-  const router = useRouter()
+  useEffect(() => {
+    setArticle(data.article)
+  }, [data.article])
 
   const handleEdit = () => {
     console.log('Post -> handleEdit')
@@ -59,14 +51,9 @@ const Post: React.FC<Props> = ({ id }) => {
   const handleEditOK = async (changes: IArticle | undefined) => {
     console.log('Post -> handleEditOK -> changes', changes)
     if (changes) {
-      setTitle(changes.title)
-      setSummary(changes.summary)
-      setContent(changes.content)
-      setCreatedAt(changes.createdAt)
-      setUpdatedAt(changes.updatedAt)
+      setArticle(changes)
     }
     setEditModalOpen(false)
-    // router.reload()
   }
 
   const handleEditCancel = () => {
@@ -85,29 +72,18 @@ const Post: React.FC<Props> = ({ id }) => {
     router.push('/posts')
   }
 
-  const currentArticle = {
-    id,
-    title,
-    summary,
-    content,
-    section,
-    createdAt,
-    updatedAt,
-  }
-  console.log('currentArticle', currentArticle)
-
   return (
     <Layout title='Posts' activeItem='posts'>
       <Container>
         <Confirm header='Delete' open={deleteConfirmOpen} onConfirm={handleDelete} />
 
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <EditArticleModal article={currentArticle} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
+          <EditArticleModal article={{...article}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
           <Button onClick={handleEdit} style={{ marginRight: 15 }} >Edit</Button>
           <Button onClick={() => setDeleteConfirmOpen(true)}>Delete</Button>
         </div>
 
-        <ArticlePanel article={currentArticle} />
+        <ArticlePanel article={article} />
       </Container>
     </Layout>
   )
@@ -116,18 +92,24 @@ const Post: React.FC<Props> = ({ id }) => {
 export const getServerSideProps = async (context: Context) => {
   const { id } = context.query
   const apolloClient = initializeApollo()
-  await apolloClient.query({
-    query: ArticleQuery,
-    variables: {
-      id,
-    }
-  })
-  return {
+  try {
+    await apolloClient.query({
+      query: ArticleQuery,
+      variables: {
+        id,
+      }
+    })
+  }
+  catch (error) {
+    console.error('Post -> getServerSideProps -> error', error)
+  }
+  const result = {
     props: {
       id,
       initialApolloState: apolloClient.cache.extract(),
     },
   }
+  return result
 }
 
 export default Post

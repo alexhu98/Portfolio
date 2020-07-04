@@ -60,6 +60,7 @@ export const resolvers = {
     },
     async article(_parent: any, args: any) {
       await dbConnect()
+      // console.log('resolvers -> read -> article.id', args.id)
       const article = await Article.findById(args.id)
       return migrateArticle(article)
     },
