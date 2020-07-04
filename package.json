@@ -2,7 +2,8 @@
   "name": "api-routes-apollo-server-and-client-auth",
   "version": "1.0.0",
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS='--inspect' next",
+    "dev": "next",
+    "debug": "cross-env NODE_OPTIONS='--inspect' next",
     "build": "next build",
     "start": "next start",
     "test1": "jest",
@@ -27,6 +28,7 @@
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.3",
     "isomorphic-unfetch": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.20",
     "next": "latest",
     "node-fetch": "^2.6.0",

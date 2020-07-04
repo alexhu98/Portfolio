@@ -48,15 +48,18 @@ const EditArticleModal: React.FC<Props> = (props) => {
   }
 
   return (
-    <Modal open={modalOpen} onClose={handleCancel} size='large'>
+    <Modal className='edit-article-modal' open={modalOpen} onClose={handleCancel} size='large'>
       <Modal.Content>
         <Modal.Description>
           <Grid columns={2} divided>
             <Grid.Column>
-              <Form onSubmit={handleOK}>
-                <Form.Input autoFocus placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} />
-                <Form.TextArea placeholder='Summary' value={summary} onChange={(e) => setSummary((e.target as HTMLTextAreaElement).value)} />
-                <Form.TextArea placeholder='Content' value={content} onChange={(e) => setContent((e.target as HTMLTextAreaElement).value)} style={{ minHeight: '30vh' }} />
+              <Form className='edit-article-form' onSubmit={handleOK}>
+                <Form.TextArea
+                  className='article-content'
+                  placeholder='Content'
+                  value={content}
+                  onChange={(e) => setContent((e.target as HTMLTextAreaElement).value)} style={{ minHeight: '30vh' }}
+                />
               </Form>
             </Grid.Column>
             <Grid.Column>

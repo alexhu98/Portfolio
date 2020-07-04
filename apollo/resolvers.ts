@@ -1,4 +1,6 @@
 import * as R from 'ramda'
+import fs from 'fs'
+import path from 'path'
 import { AuthenticationError, UserInputError } from 'apollo-server-micro'
 import { createUser, findUser, validatePassword, getUsers } from '../lib/user'
 import { setLoginSession, getLoginSession } from '../lib/auth'
@@ -6,6 +8,47 @@ import { removeTokenCookie } from '../lib/auth-cookies'
 import { DEFAULT_ARTICLE_SECTION } from '../models/defaults'
 import Article, { IArticle } from '../models/article'
 import dbConnect from '../utils/dbConnect'
+
+type IStore = {
+  articles: IArticle[],
+  sections: string[],
+}
+
+const store: IStore = {
+  articles: [],
+  sections: [],
+}
+
+const readArticle = (section: string, name: string): IArticle => {
+  const id = name.substring(5).slice(0, -3)
+  const fullPath = path.join('docs', section, name)
+  const content = fs.readFileSync(fullPath).toString()
+  const now = (new Date()).toISOString()
+  return {
+    id,
+    title: name,
+    summary: name,
+    content,
+    section,
+    createdAt: now,
+    updatedAt: now,
+  }
+}
+
+const loadArticles = () => {
+  if (!store.sections.length) {
+    const docs = path.join('docs')
+    const sections = fs.readdirSync(docs)
+    R.forEach(section => {
+      store.sections = R.append(section, store.sections)
+      const names = fs.readdirSync(path.join(docs, section))
+      const sortedNames = R.sort((a, b) => b.localeCompare(a), names)
+      const sectionArticles = R.map(name => readArticle(section, name), sortedNames)
+      console.log('loadArticles -> section = ' + section + ', sectionArticles.length =', sectionArticles.length)
+      store.articles = R.concat(store.articles, sectionArticles)
+    }, sections)
+  }
+}
 
 const migrateArticle = async (article: IArticle) => {
   if (article) {
@@ -39,30 +82,36 @@ export const resolvers = {
     async viewer(_parent: any, _args: any, context: any, _info: any) {
       try {
         const session = await getLoginSession(context.req)
-
         if (session) {
           return findUser({ email: session.email })
         }
       } catch (error) {
-        throw new AuthenticationError(
-          'Authentication token is invalid, please log in'
-        )
+        throw new AuthenticationError('Authentication token is invalid, please log in')
       }
     },
     async users () {
       return getUsers()
     },
     async articles() {
-      await dbConnect()
-      let articles = R.defaultTo([], await Article.find().sort('-createdAt'))
-      articles = R.map(article => migrateArticle(article), articles)
-      return articles
+      loadArticles()
+      return store.articles
+
+      // await dbConnect()
+      // let articles = R.defaultTo([], await Article.find().sort('-createdAt'))
+      // articles = R.map(article => migrateArticle(article), articles)
+      // return articles
     },
     async article(_parent: any, args: any) {
-      await dbConnect()
-      // console.log('resolvers -> read -> article.id', args.id)
-      const article = await Article.findById(args.id)
-      return migrateArticle(article)
+      loadArticles()
+      const result = R.find(R.propEq('id', args.id), store.articles)
+      if (!result) {
+        throw new Error('Article not found: ' + args.id)
+      }
+      return result
+
+      // await dbConnect()
+      // const article = await Article.findById(args.id)
+      // return migrateArticle(article)
     },
   },
   Mutation: {

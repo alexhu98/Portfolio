@@ -14,7 +14,7 @@ export const NavBar: React.FC<Props> = ({ activeItem }) => {
         <Menu.Item icon='box' name='posts' active={activeItem === 'posts'} href='/posts' />
         <Menu.Item icon='address book' name='about' active={activeItem === 'about'} href='/about' />
         <Menu.Item position='right'>
-          <Button>Log In</Button>
+          <Button style={{ display: 'none' }}>Log In</Button>
         </Menu.Item>
       </Container>
     </Menu>

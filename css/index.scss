@@ -1,3 +1,28 @@
 // .ui.secondary.pointing.menu {
   // background-color: darken($color: darkblue, $amount: 10);
 // }
+
+.edit-article-modal {
+  .edit-article-form {
+    .article-content {
+      textarea {
+        height: 600px;
+      }
+    }
+  }
+
+  .article-panel {
+    height: 600px;
+    overflow: auto;
+  }
+}
+
+.posts-container {
+  .ui.card {
+    color: black;
+    .article-panel {
+      max-height: 300px;
+      overflow: hidden;
+    }
+  }
+}
