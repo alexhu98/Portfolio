@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { Button, Form, Grid, Modal, Loader } from 'semantic-ui-react'
 import ArticlePanel from './ArticlePanel'
@@ -21,11 +21,6 @@ const EditArticleModal: React.FC<Props> = (props) => {
   const [saving, setSaving] = useState(false)
   const [createArticle] = useMutation(CreateArticleMutation)
   const [updateArticle] = useMutation(UpdateArticleMutation)
-  const titleRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    titleRef.current?.focus()
-  }, [titleRef.current])
 
   useEffect(() => {
     setTitle(article.title)
@@ -53,10 +48,17 @@ const EditArticleModal: React.FC<Props> = (props) => {
   }
 
   return (
-    <Modal open={modalOpen} onClose={handleCancel}>
+    <Modal open={modalOpen} onClose={handleCancel} size='large'>
       <Modal.Content>
         <Modal.Description>
           <Grid columns={2} divided>
+            <Grid.Column>
+              <Form onSubmit={handleOK}>
+                <Form.Input autoFocus placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} />
+                <Form.TextArea placeholder='Summary' value={summary} onChange={(e) => setSummary((e.target as HTMLTextAreaElement).value)} />
+                <Form.TextArea placeholder='Content' value={content} onChange={(e) => setContent((e.target as HTMLTextAreaElement).value)} style={{ minHeight: '30vh' }} />
+              </Form>
+            </Grid.Column>
             <Grid.Column>
               <ArticlePanel article={{
                 ...article,
@@ -65,25 +67,13 @@ const EditArticleModal: React.FC<Props> = (props) => {
                 content,
               }} />
             </Grid.Column>
-            <Grid.Column>
-              <Form onSubmit={handleOK}>
-                <div className='field'>
-                  <div className='ui input'>
-                    <input placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} ref={titleRef} />
-                  </div>
-                </div>
-                {/* <Form.Input autoFocus placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} /> */}
-                <Form.TextArea placeholder='Summary' value={summary} onChange={(e: React.FormEvent<HTMLTextAreaElement>) => setSummary((e.target as HTMLTextAreaElement).value)} />
-                <Form.TextArea placeholder='Content' value={content} onChange={(e: React.FormEvent<HTMLTextAreaElement>) => setContent((e.target as HTMLTextAreaElement).value)} style={{ minHeight: '30vh' }} />
-              </Form>
-            </Grid.Column>
           </Grid>
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
         <Loader active={saving} />
-        <Button onClick={handleOK} type='submit'>OK</Button>
         <Button onClick={handleCancel}>Cancel</Button>
+        <Button onClick={handleOK} type='submit' primary>OK</Button>
       </Modal.Actions>
     </Modal>
   )

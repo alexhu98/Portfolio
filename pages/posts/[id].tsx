@@ -75,7 +75,7 @@ const Post: React.FC<Props> = ({ id }) => {
   return (
     <Layout title='Posts' activeItem='posts'>
       <Container>
-        <Confirm header='Delete' open={deleteConfirmOpen} onConfirm={handleDelete} />
+        <Confirm header='Delete' open={deleteConfirmOpen} onConfirm={handleDelete} size='tiny' onCancel={() => setDeleteConfirmOpen(false)} />
 
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <EditArticleModal article={{...article}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />

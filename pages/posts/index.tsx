@@ -15,7 +15,7 @@ const Posts = () => {
   const router = useRouter()
   const queryResult = useQuery<ArticlesResult>(ArticlesQuery)
   const { data } = queryResult
-  const [articles, setArticles] = useState(() => R.defaultTo([] as IArticle[], data?.articles))
+  const [articles] = useState(() => R.defaultTo([] as IArticle[], data?.articles))
   const [editModalOpen, setEditModalOpen] = useState(false)
 
   useEffect(() => {
