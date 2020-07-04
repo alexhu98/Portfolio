@@ -30,6 +30,7 @@ export const typeDefs = gql`
     title: String!
     summary: String!
     content: String!
+    section: String!
     createdAt: String!
     updatedAt: String!
   }
@@ -38,6 +39,7 @@ export const typeDefs = gql`
     title: String!
     summary: String!
     content: String!
+    section: String!
   }
 
   input UpdateArticleInput {
@@ -45,6 +47,7 @@ export const typeDefs = gql`
     title: String!
     summary: String!
     content: String!
+    section: String!
   }
 
   input DeleteArticleInput {

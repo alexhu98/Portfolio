@@ -16,13 +16,18 @@ const ArticleSchema = new Schema({
     default: '',
     required: true,
   },
+  section: {
+    type: String,
+    default: '',
+    required: true,
+  },
   createdAt: {
     type: String,
-    // default: () => (new Date()).toISOString(),
+    required: true,
   },
   updatedAt: {
     type: String,
-    // default: () => (new Date()).toISOString(),
+    required: true,
   },
 })
 
@@ -31,6 +36,7 @@ export type IArticle = {
   title: string,
   summary: string,
   content: string,
+  section: string,
   createdAt: string,
   updatedAt: string,
 }

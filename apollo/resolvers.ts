@@ -3,6 +3,7 @@ import { AuthenticationError, UserInputError } from 'apollo-server-micro'
 import { createUser, findUser, validatePassword, getUsers } from '../lib/user'
 import { setLoginSession, getLoginSession } from '../lib/auth'
 import { removeTokenCookie } from '../lib/auth-cookies'
+import { DEFAULT_ARTICLE_SECTION } from '../models/defaults'
 import Article, { IArticle } from '../models/article'
 import dbConnect from '../utils/dbConnect'
 
@@ -11,6 +12,10 @@ const migrateArticle = async (article: IArticle) => {
     let migrate = false
     if (article.content === undefined) {
       article.content = ''
+      migrate = true
+    }
+    if (!article.section) {
+      article.section = DEFAULT_ARTICLE_SECTION
       migrate = true
     }
     if (!article.createdAt) {
@@ -85,9 +90,10 @@ export const resolvers = {
     async createArticle(_parent: any, args: any, _context: any, _info: any) {
       await dbConnect()
       console.log('createArticle -> args.input', args.input)
+      const now = (new Date()).toISOString()
       const article = new Article(args.input)
-      article.createdAt = (new Date()).toISOString()
-      article.updatedAt = (new Date()).toISOString()
+      article.createdAt = now
+      article.updatedAt = now
       return await article.save()
     },
     async updateArticle(_parent: any, args: any, _context: any, _info: any) {
