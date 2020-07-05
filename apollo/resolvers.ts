@@ -20,7 +20,7 @@ const store: IStore = {
 }
 
 const readArticle = (section: string, name: string): IArticle => {
-  const id = name.substring(5).slice(0, -3)
+  const id = name.substring(9).slice(0, -3)
   const fullPath = path.join('docs', section, name)
   const content = fs.readFileSync(fullPath).toString()
   const now = (new Date()).toISOString()
@@ -36,6 +36,8 @@ const readArticle = (section: string, name: string): IArticle => {
 }
 
 const loadArticles = () => {
+  store.articles = []
+  store.sections = []
   if (!store.sections.length) {
     const docs = path.join('docs')
     const sections = fs.readdirSync(docs)
@@ -92,8 +94,12 @@ export const resolvers = {
     async users () {
       return getUsers()
     },
-    async articles() {
+    async articles(_parent: any, args: any) {
+      console.log('articles -> args', args)
       loadArticles()
+      if (args.section) {
+        return R.filter(R.propEq('section', args.section), store.articles)
+      }
       return store.articles
 
       // await dbConnect()

@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/react-hooks'
-import { Button, Card, Container } from 'semantic-ui-react'
+import { Button, Card, Container, Grid } from 'semantic-ui-react'
 import { initializeApollo } from '../../apollo/client'
 import { ArticlesQuery } from '../../apollo/queries'
 import { DEFAULT_ARTICLE } from '../../models/defaults'
@@ -16,6 +16,8 @@ const Posts = () => {
   const queryResult = useQuery<ArticlesResult>(ArticlesQuery)
   const { data } = queryResult
   const [articles] = useState(() => R.defaultTo([] as IArticle[], data?.articles))
+  const [sprints] = useState(() => R.filter(R.propEq('section', 'Sprints'), articles))
+  const [posts] = useState(() => R.filter(R.propEq('section', 'Posts'), articles))
   const [editModalOpen, setEditModalOpen] = useState(false)
 
   const handleEdit = () => {
@@ -35,21 +37,42 @@ const Posts = () => {
 
   return (
     <Layout title='Posts' activeItem='posts'>
-      <Container className='posts-container'>
-        <div style={{ display: 'none', justifyContent: 'flex-end', marginBottom: 10 }}>
-          <EditArticleModal article={{...DEFAULT_ARTICLE}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
-          <Button data-testid='new-post-button' onClick={handleEdit} style={{ marginRight: 15 }} >New Post</Button>
-        </div>
-        <Card.Group itemsPerRow={2} stackable>
-          { articles.map(article =>
-            <Card key={article.id} as='div' onClick={() => router.push(`/posts/${article.id}`)}>
-              <Card.Content>
-                <ArticlePanel article={article} />
-              </Card.Content>
-            </Card>
-          )}
-        </Card.Group>
-      </Container>
+      <Grid columns={2} divided>
+        <Grid.Column width={6}>
+          <Container className='sprints-container' fluid>
+            <div style={{ display: 'none', justifyContent: 'flex-end', marginBottom: 10 }}>
+              <EditArticleModal article={{...DEFAULT_ARTICLE}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
+              <Button data-testid='new-post-button' onClick={handleEdit} style={{ marginRight: 15 }} >New Post</Button>
+            </div>
+            <Card.Group itemsPerRow={1} stackable>
+              { sprints.map(article =>
+                <Card key={article.id} as='div' onClick={() => router.push(`/posts/${article.id}`)}>
+                  <Card.Content>
+                    <ArticlePanel article={article} />
+                  </Card.Content>
+                </Card>
+              )}
+            </Card.Group>
+          </Container>
+        </Grid.Column>
+        <Grid.Column width={10}>
+          <Container className='posts-container' fluid>
+            <div style={{ display: 'none', justifyContent: 'flex-end', marginBottom: 10 }}>
+              <EditArticleModal article={{...DEFAULT_ARTICLE}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
+              <Button data-testid='new-post-button' onClick={handleEdit} style={{ marginRight: 15 }} >New Post</Button>
+            </div>
+            <Card.Group itemsPerRow={1} stackable>
+              { posts.map(article =>
+                <Card key={article.id} as='div' onClick={() => router.push(`/posts/${article.id}`)}>
+                  <Card.Content>
+                    <ArticlePanel article={article} />
+                  </Card.Content>
+                </Card>
+              )}
+            </Card.Group>
+          </Container>
+        </Grid.Column>
+      </Grid>
     </Layout>
   )
 }

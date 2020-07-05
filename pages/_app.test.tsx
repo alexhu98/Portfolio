@@ -46,153 +46,153 @@ describe('Posts page', () => {
 
 })
 
-describe('GraphQL for Article', () => {
-  let newArticle: IArticle
+// describe('GraphQL for Article', () => {
+//   let newArticle: IArticle
 
-  beforeAll(async () => {
-    // create an article for all the tests below
-    const apolloClient = createApolloClient()
-    try {
-      const result = await apolloClient.mutate({
-        mutation: CreateArticleMutation,
-        variables: {
-          title: 'TEST title',
-          summary: 'TEST summary',
-          content: 'TEST content',
-          section: 'TEST section',
-        }
-      })
-      // console.log('result', result)
-      const { data } = result
-      newArticle = data.createArticle
-    }
-    catch (error) {
-      console.error(error)
-    }
-  })
+//   beforeAll(async () => {
+//     // create an article for all the tests below
+//     const apolloClient = createApolloClient()
+//     try {
+//       const result = await apolloClient.mutate({
+//         mutation: CreateArticleMutation,
+//         variables: {
+//           title: 'TEST title',
+//           summary: 'TEST summary',
+//           content: 'TEST content',
+//           section: 'TEST section',
+//         }
+//       })
+//       // console.log('result', result)
+//       const { data } = result
+//       newArticle = data.createArticle
+//     }
+//     catch (error) {
+//       console.error(error)
+//     }
+//   })
 
-  it('Create Article', () => {
-    const createArticle = newArticle
-    expect(createArticle).toBeDefined()
-    expect(typeof createArticle.id).toBe('string')
-    expect(createArticle.title).toBe('TEST title')
-    expect(createArticle.summary).toBe('TEST summary')
-    expect(createArticle.content).toBe('TEST content')
-    expect(createArticle.section).toBe('TEST section')
-    expect(createArticle.createdAt).toBeDefined()
-    expect(new Date(createArticle.createdAt)).toBeTruthy()
-    expect(createArticle.updatedAt).toBeDefined()
-    expect(new Date(createArticle.updatedAt)).toBeTruthy()
-    expect(createArticle.createdAt).toBe(createArticle.updatedAt)
-  })
+//   it('Create Article', () => {
+//     const createArticle = newArticle
+//     expect(createArticle).toBeDefined()
+//     expect(typeof createArticle.id).toBe('string')
+//     expect(createArticle.title).toBe('TEST title')
+//     expect(createArticle.summary).toBe('TEST summary')
+//     expect(createArticle.content).toBe('TEST content')
+//     expect(createArticle.section).toBe('TEST section')
+//     expect(createArticle.createdAt).toBeDefined()
+//     expect(new Date(createArticle.createdAt)).toBeTruthy()
+//     expect(createArticle.updatedAt).toBeDefined()
+//     expect(new Date(createArticle.updatedAt)).toBeTruthy()
+//     expect(createArticle.createdAt).toBe(createArticle.updatedAt)
+//   })
 
-  // read all the articles and check that the newly created article is part of it
-  it('Read Articles', async () => {
-    const apolloClient = createApolloClient()
-    const result = await apolloClient.query({
-      query: ArticlesQuery,
-    })
-    expect(result).toBeDefined()
-    const { data } = result
-    expect(data).toBeDefined()
-    const { articles } = data
-    expect(articles).toBeDefined()
-    expect(articles.length).toBeGreaterThan(0)
-    expect(articles.find(article => article.id === newArticle.id)).toBeDefined()
-  })
+//   // read all the articles and check that the newly created article is part of it
+//   it('Read Articles', async () => {
+//     const apolloClient = createApolloClient()
+//     const result = await apolloClient.query({
+//       query: ArticlesQuery,
+//     })
+//     expect(result).toBeDefined()
+//     const { data } = result
+//     expect(data).toBeDefined()
+//     const { articles } = data
+//     expect(articles).toBeDefined()
+//     expect(articles.length).toBeGreaterThan(0)
+//     expect(articles.find(article => article.id === newArticle.id)).toBeDefined()
+//   })
 
-  // read the newly created article
-  it('Read Article', async () => {
-    const apolloClient = createApolloClient()
-    const result = await apolloClient.query({
-      query: ArticleQuery,
-      variables: {
-        id: newArticle.id,
-      }
-    })
-    // console.log('ArticleQuery result =', result)
-    expect(result).toBeDefined()
-    const { data } = result
-    expect(data).toBeDefined()
-    const { article } = data
-    expect(article).toBeDefined()
-    expect(article.id).toBe(newArticle.id)
-  })
+//   // read the newly created article
+//   it('Read Article', async () => {
+//     const apolloClient = createApolloClient()
+//     const result = await apolloClient.query({
+//       query: ArticleQuery,
+//       variables: {
+//         id: newArticle.id,
+//       }
+//     })
+//     // console.log('ArticleQuery result =', result)
+//     expect(result).toBeDefined()
+//     const { data } = result
+//     expect(data).toBeDefined()
+//     const { article } = data
+//     expect(article).toBeDefined()
+//     expect(article.id).toBe(newArticle.id)
+//   })
 
-  // update the newly created article
-  it('Update Article', async () => {
-    const apolloClient = createApolloClient()
-    const result = await apolloClient.mutate({
-      mutation: UpdateArticleMutation,
-      variables: {
-        id: newArticle.id,
-        title: 'TEST title updated',
-        summary: 'TEST summary updated',
-        content: 'TEST content updated',
-        section: 'TEST section updated',
-      }
-    })
-    // console.log('UpdateArticleMutation result = ', result)
-    expect(result).toBeDefined()
-    const { data } = result
-    expect(data).toBeDefined()
-    const { updateArticle } = data
-    expect(updateArticle).toBeDefined()
-    expect(updateArticle.id).toBe(newArticle.id)
-    expect(updateArticle.title).toBe('TEST title updated')
-    expect(updateArticle.summary).toBe('TEST summary updated')
-    expect(updateArticle.content).toBe('TEST content updated')
-    expect(updateArticle.section).toBe('TEST section updated')
-    expect(updateArticle.createdAt).toBe(newArticle.createdAt)
-    expect(updateArticle.updatedAt).not.toBe(newArticle.updatedAt)
-  })
+//   // update the newly created article
+//   it('Update Article', async () => {
+//     const apolloClient = createApolloClient()
+//     const result = await apolloClient.mutate({
+//       mutation: UpdateArticleMutation,
+//       variables: {
+//         id: newArticle.id,
+//         title: 'TEST title updated',
+//         summary: 'TEST summary updated',
+//         content: 'TEST content updated',
+//         section: 'TEST section updated',
+//       }
+//     })
+//     // console.log('UpdateArticleMutation result = ', result)
+//     expect(result).toBeDefined()
+//     const { data } = result
+//     expect(data).toBeDefined()
+//     const { updateArticle } = data
+//     expect(updateArticle).toBeDefined()
+//     expect(updateArticle.id).toBe(newArticle.id)
+//     expect(updateArticle.title).toBe('TEST title updated')
+//     expect(updateArticle.summary).toBe('TEST summary updated')
+//     expect(updateArticle.content).toBe('TEST content updated')
+//     expect(updateArticle.section).toBe('TEST section updated')
+//     expect(updateArticle.createdAt).toBe(newArticle.createdAt)
+//     expect(updateArticle.updatedAt).not.toBe(newArticle.updatedAt)
+//   })
 
 
-  // read all the articles and check that the existing articles has the section default to Posts
-  it('Migrate Articles', async () => {
-    const apolloClient = createApolloClient()
-    const result = await apolloClient.query({
-      query: ArticlesQuery,
-    })
-    expect(result).toBeDefined()
-    const { data } = result
-    expect(data).toBeDefined()
-    const { articles } = data
-    expect(articles).toBeDefined()
-    expect(articles.length).toBeGreaterThan(0)
-    expect(articles.find(article => article.section === DEFAULT_ARTICLE_SECTION)).toBeDefined()
-  })
+//   // read all the articles and check that the existing articles has the section default to Posts
+//   it('Migrate Articles', async () => {
+//     const apolloClient = createApolloClient()
+//     const result = await apolloClient.query({
+//       query: ArticlesQuery,
+//     })
+//     expect(result).toBeDefined()
+//     const { data } = result
+//     expect(data).toBeDefined()
+//     const { articles } = data
+//     expect(articles).toBeDefined()
+//     expect(articles.length).toBeGreaterThan(0)
+//     expect(articles.find(article => article.section === DEFAULT_ARTICLE_SECTION)).toBeDefined()
+//   })
 
-  // delete the newly created article and then read all the articles checking
-  // that the deleted article is not there any more
-  it('Delete Article', async () => {
-    {
-      const apolloClient = createApolloClient()
-      const result = await apolloClient.mutate({
-        mutation: DeleteArticleMutation,
-        variables: {
-          id: newArticle.id,
-        }
-      })
-      // console.log('DeleteArticleMutation result =', result)
-      expect(result).toBeDefined()
-      const { data } = result
-      expect(data).toBeDefined()
-      const { deleteArticle } = data
-      expect(deleteArticle).toBeTruthy()
-    }
-    {
-      const apolloClient = createApolloClient()
-      const result = await apolloClient.query({
-        query: ArticlesQuery,
-      })
-      expect(result).toBeDefined()
-      const { data } = result
-      expect(data).toBeDefined()
-      const { articles } = data
-      expect(articles).toBeDefined()
-      expect(articles.length).toBeGreaterThan(0)
-      expect(articles.find(article => article.id === newArticle.id)).toBeUndefined()
-    }
-  })
-})
+//   // delete the newly created article and then read all the articles checking
+//   // that the deleted article is not there any more
+//   it('Delete Article', async () => {
+//     {
+//       const apolloClient = createApolloClient()
+//       const result = await apolloClient.mutate({
+//         mutation: DeleteArticleMutation,
+//         variables: {
+//           id: newArticle.id,
+//         }
+//       })
+//       // console.log('DeleteArticleMutation result =', result)
+//       expect(result).toBeDefined()
+//       const { data } = result
+//       expect(data).toBeDefined()
+//       const { deleteArticle } = data
+//       expect(deleteArticle).toBeTruthy()
+//     }
+//     {
+//       const apolloClient = createApolloClient()
+//       const result = await apolloClient.query({
+//         query: ArticlesQuery,
+//       })
+//       expect(result).toBeDefined()
+//       const { data } = result
+//       expect(data).toBeDefined()
+//       const { articles } = data
+//       expect(articles).toBeDefined()
+//       expect(articles.length).toBeGreaterThan(0)
+//       expect(articles.find(article => article.id === newArticle.id)).toBeUndefined()
+//     }
+//   })
+// })

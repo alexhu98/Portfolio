@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const ArticlesQuery = gql`
-  query ArticlesQuery {
-    articles {
+  query ArticlesQuery($section: String) {
+    articles(section: $section) {
       id
       title
       summary

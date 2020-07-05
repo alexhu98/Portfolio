@@ -58,7 +58,7 @@ export const typeDefs = gql`
     # user(id: ID!): User!
     users: [User]!
     viewer: User
-    articles: [Article]!
+    articles(section: String): [Article]!
     article(id: String!): Article!
   }
 

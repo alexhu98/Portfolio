@@ -2,6 +2,29 @@
   // background-color: darken($color: darkblue, $amount: 10);
 // }
 
+.article-panel {
+  h1 {
+    text-align: center;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  h5 {
+    color: #545454;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: normal;
+    margin-top: 0;
+  }
+
+  p {
+    color: rgb(51, 51, 51);
+    font-size: 1.3rem;
+  }
+}
+
 .edit-article-modal {
   .edit-article-form {
     .article-content {
@@ -17,12 +40,11 @@
   }
 }
 
-.posts-container {
-  .ui.card {
-    color: black;
-    .article-panel {
-      max-height: 300px;
-      overflow: hidden;
-    }
-  }
-}
+// .posts-container {
+//   .ui.card {
+//     .article-panel {
+//       max-height: 300px;
+//       overflow: hidden;
+//     }
+//   }
+// }
