@@ -20,7 +20,8 @@ const store: IStore = {
 }
 
 const readArticle = (section: string, name: string): IArticle => {
-  const id = name.substring(9).slice(0, -3)
+  // const id = name.substring(9).slice(0, -3)
+  const id = name.slice(0, -3)
   const fullPath = path.join('docs', section, name)
   const content = fs.readFileSync(fullPath).toString()
   const now = (new Date()).toISOString()

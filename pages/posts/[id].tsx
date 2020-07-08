@@ -77,7 +77,7 @@ const Post: React.FC<Props> = ({ id }) => {
       <Container>
         <Confirm header='Delete' open={deleteConfirmOpen} onConfirm={handleDelete} size='tiny' onCancel={() => setDeleteConfirmOpen(false)} />
 
-        <div style={{ display: 'none', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <EditArticleModal article={{...article}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
           <Button onClick={handleEdit} style={{ marginRight: 15 }} >Edit</Button>
           <Button onClick={() => setDeleteConfirmOpen(true)}>Delete</Button>

@@ -35,44 +35,50 @@ const Posts = () => {
     setEditModalOpen(false)
   }
 
+  const handleClickCard = (id: string) => {
+    // router.push(`/posts/${id}`)
+  }
+
   return (
     <Layout title='Posts' activeItem='posts'>
-      <Grid columns={2} divided>
-        <Grid.Column width={6}>
-          <Container className='sprints-container' fluid>
-            <div style={{ display: 'none', justifyContent: 'flex-end', marginBottom: 10 }}>
-              <EditArticleModal article={{...DEFAULT_ARTICLE}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
-              <Button data-testid='new-post-button' onClick={handleEdit} style={{ marginRight: 15 }} >New Post</Button>
-            </div>
-            <Card.Group itemsPerRow={1} stackable>
-              { sprints.map(article =>
-                <Card key={article.id} as='div' onClick={() => router.push(`/posts/${article.id}`)}>
-                  <Card.Content>
-                    <ArticlePanel article={article} />
-                  </Card.Content>
-                </Card>
-              )}
-            </Card.Group>
-          </Container>
-        </Grid.Column>
-        <Grid.Column width={10}>
-          <Container className='posts-container' fluid>
-            <div style={{ display: 'none', justifyContent: 'flex-end', marginBottom: 10 }}>
-              <EditArticleModal article={{...DEFAULT_ARTICLE}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
-              <Button data-testid='new-post-button' onClick={handleEdit} style={{ marginRight: 15 }} >New Post</Button>
-            </div>
-            <Card.Group itemsPerRow={1} stackable>
-              { posts.map(article =>
-                <Card key={article.id} as='div' onClick={() => router.push(`/posts/${article.id}`)}>
-                  <Card.Content>
-                    <ArticlePanel article={article} />
-                  </Card.Content>
-                </Card>
-              )}
-            </Card.Group>
-          </Container>
-        </Grid.Column>
-      </Grid>
+      <Container text={false}>
+        <Grid columns={2} divided>
+          <Grid.Column width={7}>
+            <Container className='sprints-container' fluid>
+              <div style={{ display: 'none', justifyContent: 'flex-end', marginBottom: 10 }}>
+                <EditArticleModal article={{...DEFAULT_ARTICLE}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
+                <Button data-testid='new-post-button' onClick={handleEdit} style={{ marginRight: 15 }} >New Post</Button>
+              </div>
+              <Card.Group itemsPerRow={1} stackable>
+                { sprints.map(article =>
+                  <Card key={article.id} as='div' onClick={() => handleClickCard(article.id)}>
+                    <Card.Content>
+                      <ArticlePanel article={article} />
+                    </Card.Content>
+                  </Card>
+                )}
+              </Card.Group>
+            </Container>
+          </Grid.Column>
+          <Grid.Column width={9}>
+            <Container className='posts-container' fluid>
+              <div style={{ display: 'none', justifyContent: 'flex-end', marginBottom: 10 }}>
+                <EditArticleModal article={{...DEFAULT_ARTICLE}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
+                <Button data-testid='new-post-button' onClick={handleEdit} style={{ marginRight: 15 }} >New Post</Button>
+              </div>
+              <Card.Group itemsPerRow={1} stackable>
+                { posts.map(article =>
+                  <Card key={article.id} as='div' onClick={() => handleClickCard(article.id)}>
+                    <Card.Content>
+                      <ArticlePanel article={article} />
+                    </Card.Content>
+                  </Card>
+                )}
+              </Card.Group>
+            </Container>
+          </Grid.Column>
+        </Grid>
+      </Container>
     </Layout>
   )
 }

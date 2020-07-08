@@ -1,8 +1,12 @@
-// .ui.secondary.pointing.menu {
-  // background-color: darken($color: darkblue, $amount: 10);
-// }
+.ui.secondary.pointing.menu {
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  background-color: white;
+}
 
 .article-panel {
+
   h1 {
     text-align: center;
   }
@@ -21,7 +25,21 @@
 
   p {
     color: rgb(51, 51, 51);
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+  }
+
+  ul, ol {
+    font-size: 1.1rem;
+  }
+
+  ol {
+    padding-left: 15px;
+  }
+
+  pre {
+    padding: 0.5rem 0 0.5rem 1rem;
+    border: 1px dashed gray;
+    background-color: #f8f8f8;
   }
 }
 
@@ -40,6 +58,12 @@
   }
 }
 
+.sprints-container {
+  a {
+    font-size: 1.1rem;
+  }
+}
+
 // .posts-container {
 //   .ui.card {
 //     .article-panel {
@@ -48,3 +72,36 @@
 //     }
 //   }
 // }
+
+.timeline-date {
+  display: inline-block;
+  text-align: center;
+  line-height: 1.2rem;
+
+  .day {
+    font-size: large;
+  }
+
+  .month {
+    font-family: "Roboto Condensed", Roboto, sans-serif;
+    font-size: small;
+  }
+}
+
+.sprint-timeline-content {
+  .timeline-date {
+    .day {
+      font-size: x-large;
+    }
+
+    .month {
+      font-size: large;
+    }
+
+    .year {
+      font-family: "Roboto Condensed", Roboto, sans-serif;
+      font-size: xx-large;
+      margin-left: 8px;
+    }
+  }
+}

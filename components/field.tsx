@@ -4,7 +4,7 @@ export default function Field({ name, label, type, autoComplete, required }: any
   return (
     <div>
       <label id={[name, 'label'].join('-')} htmlFor={[name, 'input'].join('-')}>
-        {label} {required ? <span title="Required">*</span> : undefined}
+        {label} {required ? <span title='Required'>*</span> : undefined}
       </label>
       <br />
       <input

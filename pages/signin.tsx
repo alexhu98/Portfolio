@@ -54,21 +54,21 @@ function SignIn() {
       <form onSubmit={handleSubmit}>
         {errorMsg && <p>{errorMsg}</p>}
         <Field
-          name="email"
-          type="email"
-          autoComplete="email"
+          name='email'
+          type='email'
+          autoComplete='email'
           required
-          label="Email"
+          label='Email'
         />
         <Field
-          name="password"
-          type="password"
-          autoComplete="password"
+          name='password'
+          type='password'
+          autoComplete='password'
           required
-          label="Password"
+          label='Password'
         />
-        <button type="submit">Sign in</button> or{' '}
-        <Link href="signup">
+        <button type='submit'>Sign in</button> or{' '}
+        <Link href='signup'>
           <a>Sign up</a>
         </Link>
       </form>

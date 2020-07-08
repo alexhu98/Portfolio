@@ -2,20 +2,25 @@
 
 ##### June 8th, 2020 By Alex Hu
 
-The goal for this sprint is to evaluate different frameworks.
+Goal: Evaluate Different Frameworks
 
-- ✔ Client-Side React
+### TypeScript & Materialize CSS ✔
 
- - npx create-react-app
+1. Create a React app with TypeScript
+2. Style a NavBar with Materialize CSS
 
-- ✔ GraphQL & ApolloServer with TypeScript
+[React, Redux & Firebase App Tutorial](https://www.youtube.com/watch?v=Oi4v5uxTY5o&list=PL4cUxeGkcC9iWstfXntcj8f-dFZ4UtlN3)
 
- - npx create-graphql-api
+### GraphQL with TypeScript ✔
 
-- ✔ Use Razzle for React SSR
+1. Create a GraphQL Server with TypeScript and Data Modeling Tools
+```
+npx create-graphql-api
+```
+[Typescript GraphQL CRUD Tutorial](https://www.youtube.com/watch?v=WhzIjYQmWvs)
 
- - npx create-razzle-app --example with-typescript
+2. Create a Next.js GraphQL Server with TypeScript for Server-Side-Rendering
 
-- ✔ Next.js for React SSR
-
- - npx create-next-app --example with-typescript-graphql
+```
+npx create-next-app --example with-typescript-graphql
+```

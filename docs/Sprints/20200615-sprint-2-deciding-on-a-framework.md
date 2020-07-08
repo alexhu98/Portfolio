@@ -2,11 +2,28 @@
 
 ##### June 15th, 2020 By Alex Hu
 
-As always, there are many paths one can take to archive a goal. So I am going to use this sprint to decide on a framework to move forward.
+Goal: Deciding on a Framework
 
-- ✔ Next.js + GraphQL + Knex
-- ✔ Next.js + GraphQL + MongoDB
-- ✔ Materialize
-- ✔ Material-ui
-- ✔ Semantic-ui
-- ✔ react-bootstrap
+### Next.js + GraphQL + Database ✔
+
+1. Create a Next.js GraphQL Server using Knex as database connector
+
+[Building a GraphQL server in Next.js](https://www.youtube.com/watch?v=Hn5neKIfJs8)
+
+2. Create a Next.js GraphQL Server Connecting to MongoDB
+
+[Build an app with NextJS and MongoDB](https://www.youtube.com/watch?v=tt9hws5JGRc)
+
+### Evaluate Different CSS Frameworks ✔
+
+1. Materialize / Material-UI
+
+[Materialize Tutorial](https://www.youtube.com/watch?v=gCZ3y6mQpW0&list=PL4cUxeGkcC9gGrbtvASEZSlFEYBnPkmff&index=1)
+
+2. Semantic-UI / semantic-ui-react
+
+[Semantic UI In 60 Minutes](https://www.youtube.com/watch?v=a9mUH1EWp40)
+
+3. Bootstrap / react-bootstrap
+
+[Bootstrap Beginner Crash Course](https://www.youtube.com/watch?v=5GcQtLDGXy8)

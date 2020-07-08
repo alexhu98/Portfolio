@@ -28,7 +28,8 @@ const EditArticleModal: React.FC<Props> = (props) => {
     setContent(article.content)
   }, [article])
 
-  const handleOK = async (event: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
+  const handleOK = async (event: React.MouseEvent<HTMLButtonElement>
+                               | React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setSaving(true)
     const changes = {
@@ -54,11 +55,11 @@ const EditArticleModal: React.FC<Props> = (props) => {
           <Grid columns={2} divided>
             <Grid.Column>
               <Form className='edit-article-form' onSubmit={handleOK}>
-                <Form.TextArea
+                <Form.TextArea as='textarea'
                   className='article-content'
                   placeholder='Content'
                   value={content}
-                  onChange={(e) => setContent((e.target as HTMLTextAreaElement).value)} style={{ minHeight: '30vh' }}
+                  onChange={(e) => setContent(e.currentTarget.value)} style={{ minHeight: '30vh' }}
                 />
               </Form>
             </Grid.Column>
