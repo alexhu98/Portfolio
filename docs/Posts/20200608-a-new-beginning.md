@@ -1,4 +1,4 @@
-# Fresh Start
+# A New Beginning
 
 ##### June 9th, 2020 By Alex Hu
 

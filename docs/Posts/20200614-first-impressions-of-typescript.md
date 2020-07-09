@@ -55,14 +55,17 @@ and I don't even know where to start with these lint errors, except to @ts-ignor
 ```
 pages/index.tsx:84:5 - error TS2769: No overload matches this call.
   The last overload gave the following error.
-    Argument of type '<T>(list: readonly T[]) => T[]' is not assignable to parameter of type '(x: K extends (infer U)[] ? U[] : K extends Dictionary<infer U> ? Dictionary<U> : never) => IArticle[]'.
+    Argument of type '<T>(list: readonly T[]) => T[]' is not assignable to parameter of type
+     '(x: K extends (infer U)[] ? U[] : K extends Dictionary<infer U> ? Dictionary<U> : never) => IArticle[]'.
       Types of parameters 'list' and 'x' are incompatible.
-        Type 'K extends (infer U)[] ? U[] : K extends Dictionary<infer U> ? Dictionary<U> : never' is not assignable to type 'readonly IArticle[]'.
-          Type 'unknown[] | (K extends Dictionary<infer U> ? Dictionary<U> : never)' is not assignable to type 'readonly IArticle[]'.
-            Type 'unknown[]' is not assignable to type 'readonly IArticle[]'.
-              Type 'unknown' is not assignable to type 'IArticle'.
-                Type 'IArticle[] | Dictionary<IArticle>' is not assignable to type 'readonly IArticle[]'.
-                  Type 'Dictionary<IArticle>' is missing the following properties from type 'readonly IArticle[]': length, concat, join, slice, and 18 more.
+       Type 'K extends (infer U)[] ? U[] : K extends Dictionary<infer U> ? Dictionary<U> : never' is not assignable to
+        type 'readonly IArticle[]'.
+         Type 'unknown[] | (K extends Dictionary<infer U> ? Dictionary<U> : never)' is not assignable to type 'readonly IArticle[]'.
+          Type 'unknown[]' is not assignable to type 'readonly IArticle[]'.
+           Type 'unknown' is not assignable to type 'IArticle'.
+            Type 'IArticle[] | Dictionary<IArticle>' is not assignable to type 'readonly IArticle[]'.
+             Type 'Dictionary<IArticle>' is missing the following properties from type 'readonly IArticle[]':
+              length, concat, join, slice, and 18 more.
 
 84     R.sortBy(R.prop('id'))
        ~~~~~~~~~~~~~~~~~~~~~~
@@ -81,12 +84,12 @@ Found 2 errors.
 ```
 
 
-3. Generic type is really hard to read! There is an example on strongly type the GraphQL resolvers and queries using
+3. Generic type is really hard to read! There is an example on strongly-typed GraphQL resolvers and queries using
 [GraphQL code generator](https://graphql-code-generator.com/).
 ```
 npx create-next-app --example with-typescript-graphql
 ```
-The code generator create a TypeScript file with 130 lines for the following GraphQL. I couldn't imagnine myself handwriting similar code full of generic types inside.
+The code generator creates a TypeScript file with 130 lines for the following GraphQL. I couldn't imagnine myself handwriting similar code full of nested generic types like that.
 ```
 type Mutation {
   createStory(description: String!, title: String!): Story!
