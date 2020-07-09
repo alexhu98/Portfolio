@@ -4,7 +4,7 @@
 
 Goal: Build a Functional Posts Page with a Real Backend
 
-### Front End
+### Front End ✔
 
 1. Create a React client in [TypeScript](https://www.typescriptlang.org/)
 
@@ -15,13 +15,13 @@ along with a Add button for adding new post.
 
 3. Use [Markdown](https://www.markdownguide.org/) format to enter content
 
-### Back End
+### Back End ✔
 
 1. Create a [Next.js](https://nextjs.org/) app
 2. Use [Apollo GraphQL](https://www.apollographql.com/) server and client
 3. Use [Mongoose](https://mongoosejs.com/) for database connection
 
-### Database
+### Database ✔
 
 Create a [MongoDB](https://www.mongodb.com/) database connection using the cloud [MongoDB Altas](https://www.mongodb.com/cloud/atlas).
 Note: Use [MongoDB Compass](https://www.mongodb.com/products/compass) to view database records.

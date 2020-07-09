@@ -19,21 +19,30 @@ const store: IStore = {
   sections: [],
 }
 
+const parseArticle = (section: string, name: string, id: string, content: string): IArticle => {
+  const yearToken = parseInt(name.substring(0, 4), 10)
+  const monthToken = parseInt(name.substring(4, 6), 10) - 1
+  const dayToken = parseInt(name.substring(6, 8), 10)
+  const timestamp = (new Date(yearToken, monthToken, dayToken)).toISOString()
+  const lines = content.split('\n')
+  const title = lines[0].substring(2)
+  return {
+    id,
+    title,
+    summary: title,
+    content,
+    section,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  }
+}
+
 const readArticle = (section: string, name: string): IArticle => {
   // const id = name.substring(9).slice(0, -3)
   const id = name.slice(0, -3)
   const fullPath = path.join('docs', section, name)
   const content = fs.readFileSync(fullPath).toString()
-  const now = (new Date()).toISOString()
-  return {
-    id,
-    title: name,
-    summary: name,
-    content,
-    section,
-    createdAt: now,
-    updatedAt: now,
-  }
+  return parseArticle(section, name, id, content)
 }
 
 const loadArticles = () => {
@@ -47,7 +56,7 @@ const loadArticles = () => {
       const names = fs.readdirSync(path.join(docs, section))
       const sortedNames = R.sort((a, b) => b.localeCompare(a), names)
       const sectionArticles = R.map(name => readArticle(section, name), sortedNames)
-      console.log('loadArticles -> section = ' + section + ', sectionArticles.length =', sectionArticles.length)
+      // console.log('loadArticles -> section = ' + section + ', sectionArticles.length =', sectionArticles.length)
       store.articles = R.concat(store.articles, sectionArticles)
     }, sections)
   }
@@ -115,7 +124,6 @@ export const resolvers = {
         throw new Error('Article not found: ' + args.id)
       }
       return result
-
       // await dbConnect()
       // const article = await Article.findById(args.id)
       // return migrateArticle(article)

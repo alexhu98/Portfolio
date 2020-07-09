@@ -58,11 +58,11 @@
   }
 }
 
-.sprints-container {
-  a {
-    font-size: 1.1rem;
-  }
-}
+// .sprints-container {
+//   a {
+//     font-size: 1.1rem;
+//   }
+// }
 
 // .posts-container {
 //   .ui.card {
@@ -74,8 +74,12 @@
 // }
 
 .timeline-date {
-  display: inline-block;
-  text-align: center;
+  display: inline-grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  grid-gap: 0px 4px;
   line-height: 1.2rem;
 
   .day {
@@ -85,23 +89,44 @@
   .month {
     font-family: "Roboto Condensed", Roboto, sans-serif;
     font-size: small;
+    text-transform: uppercase;
+    grid-row: 2;
+    grid-column: 1;
+}
+
+  .year {
+    font-family: "Roboto Condensed", Roboto, sans-serif;
   }
 }
 
 .sprint-timeline-content {
+  .sprint-title {
+    font-family: "Roboto Condensed", Roboto, sans-serif;
+    font-size: 2rem;
+  }
+
+  .sprint-number {
+    font-family: "Roboto Condensed", Roboto, sans-serif;
+    margin-left: 4px;
+  }
+
   .timeline-date {
+    line-height: 1.5rem;
+
     .day {
       font-size: x-large;
     }
 
     .month {
       font-size: large;
+      grid-row: 2;
+      grid-column: 1;
     }
 
     .year {
-      font-family: "Roboto Condensed", Roboto, sans-serif;
       font-size: xx-large;
-      margin-left: 8px;
+      grid-row: 1/3;
+      grid-column: 2;
     }
   }
 }

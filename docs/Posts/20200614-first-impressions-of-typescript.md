@@ -38,21 +38,55 @@ const handleOK = (event: React.MouseEvent<HTMLButtonElement>
 Come on, this is a bit much. The damn thing is so long that it doesn't fit into a single line any more!
 And it is much less readable than the JavaScript version.
 
-2. Oh, those compiler errors! They remind me the early days of C++ where it is transpiled into C and then the C compiler
+2. Oh, those lint/compiler errors! They remind me the early days of C++ where it is transpiled into C and then the C compiler
 do the actual work. The error messages were very cryptic, until we got a native C++ compiler, but generic type made it worse again.
 It is not helping that TypeScript has both of these features / problems.
 
+Consider this perfectly fine Ramda code:
+```js
+const filterAndSortArticles = (articles: IArticle[]): IArticle[] => {
+  return R.pipe(
+    R.filter((article: IArticle) => ['Sprints', 'Posts'].includes(article.section)),
+    R.sortBy(R.prop('id'))
+  )(articles) as IArticle[]
+}
 ```
- /// SOME EXAMPLE COMPILER ERORR ///
+and I don't even know where to start with these lint errors, except to @ts-ignore them away:
+```
+pages/index.tsx:84:5 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '<T>(list: readonly T[]) => T[]' is not assignable to parameter of type '(x: K extends (infer U)[] ? U[] : K extends Dictionary<infer U> ? Dictionary<U> : never) => IArticle[]'.
+      Types of parameters 'list' and 'x' are incompatible.
+        Type 'K extends (infer U)[] ? U[] : K extends Dictionary<infer U> ? Dictionary<U> : never' is not assignable to type 'readonly IArticle[]'.
+          Type 'unknown[] | (K extends Dictionary<infer U> ? Dictionary<U> : never)' is not assignable to type 'readonly IArticle[]'.
+            Type 'unknown[]' is not assignable to type 'readonly IArticle[]'.
+              Type 'unknown' is not assignable to type 'IArticle'.
+                Type 'IArticle[] | Dictionary<IArticle>' is not assignable to type 'readonly IArticle[]'.
+                  Type 'Dictionary<IArticle>' is missing the following properties from type 'readonly IArticle[]': length, concat, join, slice, and 18 more.
+
+84     R.sortBy(R.prop('id'))
+       ~~~~~~~~~~~~~~~~~~~~~~
+
+  node_modules/@types/ramda/index.d.ts:1415:17
+    1415 export function pipe<V0, V1, V2, T1, T2>(fn0: (x0: V0, x1: V1, x2: V2) => T1, fn1: (x: T1) => T2): (x0: V0, x1: V1, x2: V2) => T2;
+                         ~~~~
+    The last overload is declared here.
+
+pages/index.tsx:85:5 - error TS2554: Expected 0 arguments, but got 1.
+
+85   )(articles) as IArticle[]
+       ~~~~~~~~
+
+Found 2 errors.
 ```
 
-3.
 
-Here is an example on strongly type the GraphQL resolvers and queries using [GraphQL code generator](https://graphql-code-generator.com/).
+3. Generic type is really hard to read! There is an example on strongly type the GraphQL resolvers and queries using
+[GraphQL code generator](https://graphql-code-generator.com/).
 ```
 npx create-next-app --example with-typescript-graphql
 ```
-The code generator create a TypeScript file with 130 lines for the following GraphQL. I couldn't imagnine myself handwriting similar code.
+The code generator create a TypeScript file with 130 lines for the following GraphQL. I couldn't imagnine myself handwriting similar code full of generic types inside.
 ```
 type Mutation {
   createStory(description: String!, title: String!): Story!
@@ -72,5 +106,5 @@ type Story {
 }
 ```
 
-At one point, I was about the give up on TypeScript, but then I remember that this is a learning project. I might as well give it a honest try
-and form a second option as the project mature.
+At one point, I was about the give up on TypeScript, but then I remember that this is a learning project.
+I might as well give it a honest try and form a second option as the project mature.
