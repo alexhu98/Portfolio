@@ -1,3 +1,11 @@
+body {
+  overflow-y: scroll;
+}
+
+.fouc {
+  visibility: hidden;
+}
+
 .navbar {
   margin-bottom: 1rem;
   position: sticky;
@@ -17,8 +25,8 @@ hr {
 }
 
 .article-paper {
-  margin-top: 1rem;
-  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1rem;
 }
 
 .article-panel {
@@ -45,6 +53,7 @@ hr {
   p {
     color: rgb(51, 51, 51);
     font-size: 1.2rem;
+    line-height: 1.5rem;
   }
 
   ul, ol {
@@ -112,7 +121,7 @@ hr {
   grid-template-columns: auto auto;
   grid-template-rows: auto auto;
   grid-gap: 0px 4px;
-  line-height: 1.2rem;
+  line-height: 1rem;
 
   .day {
     font-family: Roboto, sans-serif;

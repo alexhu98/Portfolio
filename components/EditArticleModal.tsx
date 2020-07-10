@@ -18,7 +18,6 @@ const EditArticleModal: React.FC<Props> = (props) => {
   const [title, setTitle] = useState(R.defaultTo('', article?.title))
   const [summary, setSummary] = useState(R.defaultTo('', article?.summary))
   const [content, setContent] = useState(R.defaultTo('', article?.content))
-  const [saving, setSaving] = useState(false)
   const [createArticle] = useMutation(CreateArticleMutation)
   const [updateArticle] = useMutation(UpdateArticleMutation)
 
@@ -31,7 +30,6 @@ const EditArticleModal: React.FC<Props> = (props) => {
   const handleOK = async (event: React.MouseEvent<HTMLButtonElement>
                                | React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setSaving(true)
     const changes = {
       ...article,
       title,
@@ -40,7 +38,6 @@ const EditArticleModal: React.FC<Props> = (props) => {
     }
     const result = article.id === '' ? await createArticle({ variables: changes }) : await updateArticle({ variables: changes })
     console.log('EditArticleModal.handleOK -> result', result)
-    setSaving(false)
     onOK(result?.data?.createArticle || result?.data?.updateArticle)
   }
 

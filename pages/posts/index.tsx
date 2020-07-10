@@ -27,7 +27,7 @@ const Posts = () => {
 
   return (
     <Layout title='Posts' activeItem='posts'>
-      <Container text={false}>
+      <Container>
         { articles.map(article =>
           <Paper className='article-paper' key={article.id} elevation={1}>
             <ArticlePanel key={article.id} article={article} />

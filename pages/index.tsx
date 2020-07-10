@@ -5,7 +5,7 @@ import { format } from 'date-fns'
 import { useQuery } from '@apollo/react-hooks'
 import { initializeApollo } from '../apollo/client'
 import { ArticlesQuery } from '../apollo/queries'
-import { Grid, Hidden, Typography, useMediaQuery, Link } from '@material-ui/core'
+import { Fade, Grid, Hidden, Link, Paper, Typography, useMediaQuery } from '@material-ui/core'
 import { useTheme  } from '@material-ui/core/styles'
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from '@material-ui/lab'
 import { ArticlesResult, IArticle } from '../models/article'
@@ -46,16 +46,32 @@ const Index = () => {
   const { data } = queryResult
   const [allArticles] = useState(() => R.defaultTo([] as IArticle[], data?.articles))
   const [articles] = useState(filterAndSortArticles(allArticles))
-  const [selected, setSelected] = useState(articles.length ? articles[0] : DEFAULT_ARTICLE)
+  const [selectedArticle, setSelectedArticle] = useState(articles.length ? articles[0] : DEFAULT_ARTICLE)
+  const [fadeInArticle, setFadeInArticle] = useState(DEFAULT_ARTICLE)
+  const [fadeIn, setFadeIn] = useState(true)
   const theme = useTheme()
   const xs = useMediaQuery(theme.breakpoints.only('xs'))
 
-  const handleTitleClick = (e: React.MouseEvent, article: IArticle) => {
+  const handleTitleClick = (e: React.MouseEvent<HTMLElement>, article: IArticle) => {
     if (!xs && !e.ctrlKey) {
       e.preventDefault()
-      setSelected(article)
+      fadeArticle(article)
     }
   }
+
+  const fadeArticle = (article: IArticle) => {
+    if (article !== selectedArticle) {
+      setFadeInArticle(article)
+      setFadeIn(false)
+    }
+  }
+
+  const handleFadeExited = () => {
+    setSelectedArticle(fadeInArticle)
+    setFadeIn(true)
+  }
+
+  const getLinkUnderline = (article: IArticle) => article === selectedArticle ? 'always' : 'hover'
 
   return (
     <Layout title='Home' activeItem='home'>
@@ -73,11 +89,13 @@ const Index = () => {
                   { index < articles.length - 1 ? <TimelineConnector /> : null }
                 </TimelineSeparator>
                 <TimelineContent className={clsx('timeline-content', getContentClassName(article))}>
-                  <Link color='textPrimary' className='title' href={`/posts/${article.id}`} onClick={(e) => handleTitleClick(e, article)} rel='noopener'>
-                    { article === selected
-                      ? <u>{ getTitle(article) }</u>
-                      : <span>{ getTitle(article) }</span>
-                    }
+                  <Link
+                    className='title'
+                    href={`/posts/${article.id}`} onClick={(e: React.MouseEvent<HTMLElement>) => handleTitleClick(e, article)}
+                    color='textPrimary'
+                    underline={getLinkUnderline(article)}
+                    rel='noopener'>
+                    { getTitle(article) }
                   </Link>
                 </TimelineContent>
               </TimelineItem>
@@ -86,7 +104,11 @@ const Index = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={7} >
           <Hidden only='xs' >
-            <ArticlePanel article={selected} />
+            <Fade in={fadeIn} timeout={125} onExited={handleFadeExited} >
+              <Paper className='article-paper'>
+                <ArticlePanel article={selectedArticle} />
+              </Paper>
+            </Fade>
           </Hidden>
         </Grid>
         <Grid item xs={false} sm={false} md={1} />
