@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -5,7 +6,7 @@ import { initializeApollo } from '../../apollo/client'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import Layout from '../../components/Layout'
 import { Button, Container, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core'
-import { ArticleQuery, DeleteArticleMutation } from '../../apollo/queries'
+import { ArticleQuery, ArticlesQuery, DeleteArticleMutation } from '../../apollo/queries'
 import { ArticleResult, IArticle } from '../../models/article'
 import { Context } from '@apollo/react-common'
 import EditArticleModal from '../../components/EditArticleModal'
@@ -105,8 +106,9 @@ const Post: React.FC<Props> = ({ id }) => {
   )
 }
 
-export const getServerSideProps = async (context: Context) => {
-  const { id } = context.query
+export const getStaticProps = async (context: Context) => {
+  // console.log('getStaticProps -> context', context)
+  const { id } = context.params
   const apolloClient = initializeApollo()
   try {
     await apolloClient.query({
@@ -117,7 +119,7 @@ export const getServerSideProps = async (context: Context) => {
     })
   }
   catch (error) {
-    console.error('Post -> getServerSideProps -> error', error)
+    console.error('Post -> getStaticProps -> error', error)
   }
   const result = {
     props: {
@@ -126,6 +128,29 @@ export const getServerSideProps = async (context: Context) => {
     },
   }
   return result
+}
+
+export async function getStaticPaths() {
+  const apolloClient = initializeApollo()
+  try {
+    const result = await apolloClient.query({
+      query: ArticlesQuery,
+    })
+    const articles = result?.data?.articles
+    const paths = R.map(article => `/posts/${article.id}`, articles)
+    // console.log('Post -> getStaticPaths -> paths', paths)
+    return {
+      paths,
+      fallback: true,
+    }
+  }
+  catch (error) {
+    console.error('Post -> getStaticPaths -> error', error)
+  }
+  return {
+    paths: [],
+    fallback: true,
+  }
 }
 
 export default Post
