@@ -63,12 +63,12 @@ const Post: React.FC<Props> = ({ id }) => {
 
   const handleDelete = async () => {
     console.log('handleDelete -> article.id', article.id)
-    // const result = await deleteArticle({
-    //   variables: {
-    //     id: article.id,
-    //   },
-    // })
-    // console.log('handleDelete -> result', result)
+    const result = await deleteArticle({
+      variables: {
+        id: article.id,
+      },
+    })
+    console.log('handleDelete -> result', result)
     router.push('/posts')
   }
 

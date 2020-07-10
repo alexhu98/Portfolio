@@ -58,7 +58,6 @@ const EditArticleModal: React.FC<Props> = (props) => {
               value={content}
               placeholder='Content'
               onChange={(e) => setContent(e.currentTarget.value)} style={{ minHeight: '30vh' }}
-
             />
           </Grid>
           <Grid item xs={6}>
@@ -80,36 +79,3 @@ const EditArticleModal: React.FC<Props> = (props) => {
 }
 
 export default React.memo(EditArticleModal)
-
-
-    {/* <Modal className='edit-article-modal' open={modalOpen} onClose={handleCancel} size='large'>
-      <Modal.Content>
-        <Modal.Description>
-          <Grid columns={2} divided>
-            <Grid.Column>
-              <Form className='edit-article-form' onSubmit={handleOK}>
-                <Form.TextArea as='textarea'
-                  className='article-content'
-                  placeholder='Content'
-                  value={content}
-                  onChange={(e) => setContent(e.currentTarget.value)} style={{ minHeight: '30vh' }}
-                />
-              </Form>
-            </Grid.Column>
-            <Grid.Column>
-              <ArticlePanel article={{
-                ...article,
-                title,
-                summary,
-                content,
-              }} />
-            </Grid.Column>
-          </Grid>
-        </Modal.Description>
-      </Modal.Content>
-      <Modal.Actions>
-        <Loader active={saving} />
-        <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleOK} type='submit' primary>OK</Button>
-      </Modal.Actions>
-    </Modal> */}
