@@ -6,14 +6,11 @@ Goal: Build a Functional Posts Page with a Real Backend
 
 ### Front End ✔
 
-1. Create a React client in [TypeScript](https://www.typescriptlang.org/)
-
+1. Create a React client in [TypeScript](https://www.typescriptlang.org/) with a NavBar
 2. Create a Posts section and present each post in a [Semantic UI's Card](https://react.semantic-ui.com/views/card/) component,
-along with a Add button for adding new post.
-
-2. Create individual Post page with Edit and Delete buttons.
-
-3. Use [Markdown](https://www.markdownguide.org/) format to enter content
+along with a Add button for adding new post
+3. Create individual Post page with Edit and Delete buttons.
+4. Accept [Markdown](https://www.markdownguide.org/) as article content
 
 ### Back End ✔
 
@@ -23,5 +20,5 @@ along with a Add button for adding new post.
 
 ### Database ✔
 
-Create a [MongoDB](https://www.mongodb.com/) database connection using the cloud [MongoDB Altas](https://www.mongodb.com/cloud/atlas).
-Note: Use [MongoDB Compass](https://www.mongodb.com/products/compass) to view database records.
+1. Create a [MongoDB](https://www.mongodb.com/) in the cloud [MongoDB Altas](https://www.mongodb.com/cloud/atlas)
+2. Use [MongoDB Compass](https://www.mongodb.com/products/compass) to view database records

@@ -105,7 +105,7 @@ export const resolvers = {
       return getUsers()
     },
     async articles(_parent: any, args: any) {
-      console.log('articles -> args', args)
+      // console.log('articles -> args', args)
       loadArticles()
       if (args.section) {
         return R.filter(R.propEq('section', args.section), store.articles)

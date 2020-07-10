@@ -16,14 +16,15 @@ Goal: Deciding on a Framework
 
 ### Evaluate Different CSS Frameworks ✔
 
-1. Materialize / Material-UI
+1. Bootstrap / React-Bootstrap
+
+[Bootstrap Beginner Crash Course](https://www.youtube.com/watch?v=5GcQtLDGXy8)
+
+2. Materialize / Material-UI
 
 [Materialize Tutorial](https://www.youtube.com/watch?v=gCZ3y6mQpW0&list=PL4cUxeGkcC9gGrbtvASEZSlFEYBnPkmff&index=1)
 
-2. Semantic-UI / semantic-ui-react
+3. Semantic-UI / Semantic-UI-React
 
 [Semantic UI In 60 Minutes](https://www.youtube.com/watch?v=a9mUH1EWp40)
 
-3. Bootstrap / react-bootstrap
-
-[Bootstrap Beginner Crash Course](https://www.youtube.com/watch?v=5GcQtLDGXy8)

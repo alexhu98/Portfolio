@@ -27,12 +27,12 @@ const Index = () => {
 
   const handleTitleClick = (e: React.MouseEvent<HTMLElement>, article: IArticle) => {
     e.preventDefault()
-    fadeArticle(article)
+    fadeArticle(article)              // start the fade out / fade in sequence
   }
 
   const fadeArticle = (article: IArticle) => {
     if (article !== selectedArticle) {
-      setFadeInArticle(article)       // remember the article we are waiting to be faded in
+      setFadeInArticle(article)       // remember the article to be faded in
       setFadeIn(false)                // trigger the fade out, then wait for onExited
     }
   }
@@ -45,10 +45,10 @@ const Index = () => {
   return (
     // ...
 
-    // set the transition timetout duration to 150 milliseconds which
-    // is half for each of the fade-out / fade-in transitions
+    // set the transition timeout duration to 150 milliseconds for
+    // each half of the fade-out / fade-in transitions
     <Fade in={fadeIn} timeout={150} onExited={handleFadeExited} >
-      <Paper className='article-paper'>
+      <Paper>
         <ArticlePanel article={selectedArticle} />
       </Paper>
     </Fade>
@@ -59,11 +59,11 @@ const Index = () => {
 ### [Flash of Unstyled Content](https://www.techrepublic.com/blog/web-designer/how-to-prevent-flash-of-unstyled-content-on-your-websites/)
 
 I was not happy with the FOUC problem. Expecially when the timeline component, the unstyled content
-shows its ugly head, just imagine the a vertical timeline that get mushed together at the left edge
-of the screen! Forunately, we can get rid of it by setting visibility to 'hidden' on the outer Layout
-wrapper initially, then removed it when the page is rendered using useEffect().
+shows its ugly head. Just imagine the a [vertical timeline](https://uicookies.com/vertical-timeline/)
+got mushed together at the left edge of the screen!
 
-It starts with a simple 'fouc' class in the css file.
+Forunately, we can get rid of it by setting visibility to 'hidden' on the outer Layout wrapper initially,
+then removed it when the page is rendered using useEffect(). It starts with a simple 'fouc' class in the css file.
 ```css
 // index.css
 .fouc {

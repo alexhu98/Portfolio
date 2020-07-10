@@ -11,7 +11,7 @@ export const NavBar: React.FC<Props> = ({ activeItem }) => {
       <Tabs value={activeItem} indicatorColor='primary' textColor='primary' centered>
         <Tab value='home' label='Home' component={Link} href='/' />
         <Tab value='posts' label='Posts' component={Link} href='/posts' />
-        <Tab value='about' label='About' component={Link} href='/about' />
+        {/* <Tab value='about' label='About' component={Link} href='/about' /> */}
       </Tabs>
     </Paper>
   )
