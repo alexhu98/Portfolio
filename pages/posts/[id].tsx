@@ -107,9 +107,8 @@ const Post: React.FC<Props> = ({ id }) => {
   )
 }
 
-// export const getStaticProps: : GetStaticProps = async (context: Context) => {
-export const getServerSideProps = async (context: Context) => {
-    console.log('getStaticProps -> context', context)
+export const getStaticProps: GetStaticProps = async (context: Context) => {
+  // console.log('getStaticProps -> context', context)
   const { id } = context.params ? context.params : context.query
   const apolloClient = initializeApollo()
   try {
@@ -131,7 +130,7 @@ export const getServerSideProps = async (context: Context) => {
   }
 }
 
-export async function getStaticPaths1() {
+export async function getStaticPaths() {
   const apolloClient = initializeApollo()
   try {
     const result = await apolloClient.query({

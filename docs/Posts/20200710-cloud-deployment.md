@@ -28,19 +28,18 @@ I notice that the only different between them is the
 [getStaticProps()](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation)
 is used in the Posts page, while the \[id\] page is using
 [getServerSideProps()](https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering)
+My getServerSideProps() used context.query which is causing the error:
 ```js
-export const getStaticProps = async (context: Context) => {
-  console.log('getStaticProps -> context', context) // when in doubt, console log the context
+export const getServerSideProps = async (context: Context) => {
+  const { id } = context.query
+```
+and switch to use context.params resolved the problem.
+```js
+export const getServerSideProps = async (context: Context) => {
   const { id } = context.params ? context.params : context.query
 ```
 
 Since my site can be run using server static generation, I decide to switch to getStaticProps().
-
-For getServerSideProps(), the id parameter is retrieved from the context.query
-```js
-  const { id } = context.query
-```
-whereas the getStaticProps() pass the id parameter through the context.params
 ```js
 export const getStaticProps = async (context: Context) => {
   console.log('getStaticProps -> context', context) // when in doubt, console log the context
