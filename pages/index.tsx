@@ -2,11 +2,10 @@ import * as R from 'ramda'
 import React, { useState } from 'react'
 import clsx from 'clsx'
 import { format } from 'date-fns'
-import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/react-hooks'
 import { initializeApollo } from '../apollo/client'
 import { ArticlesQuery } from '../apollo/queries'
-import { Grid, Hidden, Slide, Typography, useMediaQuery } from '@material-ui/core'
+import { Grid, Hidden, Typography, useMediaQuery, Link } from '@material-ui/core'
 import { useTheme  } from '@material-ui/core/styles'
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from '@material-ui/lab'
 import { ArticlesResult, IArticle } from '../models/article'
@@ -23,7 +22,7 @@ const renderDate = (article: IArticle, includeYear: boolean) => {
   return article.section === 'Sprints'
     ? <div className='sprint-number'>{ sprintNumber.join(' ')}</div>
     : <div className='timeline-date'>
-        { includeYear && <div className='year'>{ year }</div> }
+        { includeYear ? <div className='year'>{ year }</div> : null }
         <div className='day'>{ day }</div>
         <div className='month'>{ month }</div>
       </div>
@@ -43,7 +42,6 @@ const getTimelineDot = (article: IArticle) => article.section === 'Sprints' ? 'd
 const getTitle = (article: IArticle) => article.section === 'Sprints' ? R.splitAt(2, article.title.split(' '))[1].join(' ') : article.title
 
 const Index = () => {
-  const router = useRouter()
   const queryResult = useQuery<ArticlesResult>(ArticlesQuery)
   const { data } = queryResult
   const [allArticles] = useState(() => R.defaultTo([] as IArticle[], data?.articles))
@@ -52,11 +50,9 @@ const Index = () => {
   const theme = useTheme()
   const xs = useMediaQuery(theme.breakpoints.only('xs'))
 
-  const handleTitleClick = (article: IArticle) => {
-    if (xs) {
-      router.push(`/posts/${article.id}`)
-    }
-    else {
+  const handleTitleClick = (e: React.MouseEvent, article: IArticle) => {
+    if (!xs && !e.ctrlKey) {
+      e.preventDefault()
       setSelected(article)
     }
   }
@@ -74,13 +70,15 @@ const Index = () => {
                 </TimelineOppositeContent>
                 <TimelineSeparator>
                   <TimelineDot variant={getTimelineDot(article) } />
-                  <TimelineConnector />
+                  { index < articles.length - 1 ? <TimelineConnector /> : null }
                 </TimelineSeparator>
                 <TimelineContent className={clsx('timeline-content', getContentClassName(article))}>
-                  { !xs && selected === article
-                    ? <u className='title'>{ getTitle(article) }</u>
-                    : <span className='title' onClick={() => handleTitleClick(article)}>{ getTitle(article) }</span>
-                  }
+                  <Link color='textPrimary' className='title' href={`/posts/${article.id}`} onClick={(e) => handleTitleClick(e, article)} rel='noopener'>
+                    { article === selected
+                      ? <u>{ getTitle(article) }</u>
+                      : <span>{ getTitle(article) }</span>
+                    }
+                  </Link>
                 </TimelineContent>
               </TimelineItem>
             )}

@@ -52,7 +52,7 @@ function SignIn() {
     <>
       <h1>Sign In</h1>
       <form onSubmit={handleSubmit}>
-        {errorMsg && <p>{errorMsg}</p>}
+        { errorMsg ? <p>{errorMsg}</p> : null }
         <Field
           name='email'
           type='email'

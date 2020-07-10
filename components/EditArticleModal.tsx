@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 import React, { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
-import { Button, Form, Grid, Modal, Loader } from 'semantic-ui-react'
+import { Button, Dialog, DialogActions, DialogContent, Grid } from '@material-ui/core'
 import ArticlePanel from './ArticlePanel'
 import { IArticle } from '../models/article'
 import { CreateArticleMutation, UpdateArticleMutation } from '../apollo/queries'
@@ -49,7 +49,40 @@ const EditArticleModal: React.FC<Props> = (props) => {
   }
 
   return (
-    <Modal className='edit-article-modal' open={modalOpen} onClose={handleCancel} size='large'>
+    <Dialog className='edit-article-modal' fullWidth={true} maxWidth='lg' open={modalOpen} onClose={handleCancel}>
+      <DialogContent>
+        <Grid container spacing={0}>
+          <Grid item xs={6}>
+            <textarea
+              className='article-content'
+              value={content}
+              placeholder='Content'
+              onChange={(e) => setContent(e.currentTarget.value)} style={{ minHeight: '30vh' }}
+
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <ArticlePanel article={{
+                ...article,
+                title,
+                summary,
+                content,
+              }} />
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleOK} type='submit' primary>OK</Button>
+        <Button onClick={handleCancel}>Cancel</Button>
+      </DialogActions>
+    </Dialog>
+  )
+}
+
+export default React.memo(EditArticleModal)
+
+
+    {/* <Modal className='edit-article-modal' open={modalOpen} onClose={handleCancel} size='large'>
       <Modal.Content>
         <Modal.Description>
           <Grid columns={2} divided>
@@ -79,8 +112,4 @@ const EditArticleModal: React.FC<Props> = (props) => {
         <Button onClick={handleCancel}>Cancel</Button>
         <Button onClick={handleOK} type='submit' primary>OK</Button>
       </Modal.Actions>
-    </Modal>
-  )
-}
-
-export default React.memo(EditArticleModal)
+    </Modal> */}

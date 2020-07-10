@@ -47,7 +47,7 @@ function SignUp() {
     <>
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        {errorMsg && <p>{errorMsg}</p>}
+        { errorMsg ? <p>{errorMsg}</p> : null }
         <Field
           name='email'
           type='email'

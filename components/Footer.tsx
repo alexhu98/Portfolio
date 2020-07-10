@@ -1,5 +1,5 @@
 import React from 'react'
-import { Divider } from 'semantic-ui-react'
+import { Divider } from '@material-ui/core'
 
 const Footer = () => {
   // return null

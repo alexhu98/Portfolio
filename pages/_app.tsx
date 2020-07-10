@@ -1,7 +1,6 @@
 import React from 'react'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { useApollo } from '../apollo/client'
-import 'semantic-ui-css/semantic.min.css'
 import '../css/index.scss'
 
 export default function App({ Component, pageProps }: any) {

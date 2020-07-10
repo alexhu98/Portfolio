@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { initializeApollo } from '../../apollo/client'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import Layout from '../../components/Layout'
-import { Button, Confirm, Container, Loader } from 'semantic-ui-react'
+import { Button, Container, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core'
 import { ArticleQuery, DeleteArticleMutation } from '../../apollo/queries'
 import { ArticleResult, IArticle } from '../../models/article'
 import { Context } from '@apollo/react-common'
@@ -30,12 +30,12 @@ const Post: React.FC<Props> = ({ id }) => {
   // console.log('queryResult', queryResult)
   const { data, loading, error } = queryResult
   if (loading) {
-    return <Loader />
+    return <CircularProgress />
   }
   if (!data || !data?.article || error) {
     console.log('Post -> render -> error', error)
     router.push('/posts')
-    return <Loader />
+    return <CircularProgress />
   }
   const [article, setArticle] = useState(data.article)
 
@@ -63,19 +63,35 @@ const Post: React.FC<Props> = ({ id }) => {
 
   const handleDelete = async () => {
     console.log('handleDelete -> article.id', article.id)
-    const result = await deleteArticle({
-      variables: {
-        id: article.id,
-      },
-    })
-    console.log('handleDelete -> result', result)
+    // const result = await deleteArticle({
+    //   variables: {
+    //     id: article.id,
+    //   },
+    // })
+    // console.log('handleDelete -> result', result)
     router.push('/posts')
   }
 
   return (
     <Layout title='Posts' activeItem='posts'>
       <Container>
-        <Confirm header='Delete' open={deleteConfirmOpen} onConfirm={handleDelete} size='tiny' onCancel={() => setDeleteConfirmOpen(false)} />
+        <Dialog open={deleteConfirmOpen} onClose={() => setDeleteConfirmOpen(false)}>
+          <DialogTitle>Delete</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Are you sure?</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={async () => {
+              setDeleteConfirmOpen(false)
+              await handleDelete()
+            }} color='primary' autoFocus>
+              OK
+            </Button>
+            <Button onClick={() => setDeleteConfirmOpen(false)} color='primary'>
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <EditArticleModal article={{...article}} modalOpen={editModalOpen} onOK={handleEditOK} onCancel={handleEditCancel} />
