@@ -1,6 +1,6 @@
 # A New Beginning
 
-##### June 9th, 2020 By Alex Hu
+##### June 8th, 2020 By Alex Hu
 
 After converting a couple of Flex / ActionScript applications to React + Redux at work for the last few years,
 it is time to refresh the server side skill set as well. To document the journey, I decided to have some fun

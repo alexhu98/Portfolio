@@ -1,6 +1,7 @@
 import * as R from 'ramda'
 import React, { useState } from 'react'
 import clsx from 'clsx'
+import { GetStaticProps } from 'next'
 import { format } from 'date-fns'
 import { useQuery } from '@apollo/react-hooks'
 import { initializeApollo } from '../apollo/client'
@@ -117,7 +118,7 @@ const Index = () => {
   )
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const apolloClient = initializeApollo()
   try {
     await apolloClient.query({

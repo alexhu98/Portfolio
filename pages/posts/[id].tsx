@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 import React from 'react'
+import { GetStaticProps } from 'next'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { initializeApollo } from '../../apollo/client'
@@ -106,9 +107,10 @@ const Post: React.FC<Props> = ({ id }) => {
   )
 }
 
-export const getStaticProps = async (context: Context) => {
-  // console.log('getStaticProps -> context', context)
-  const { id } = context.params
+// export const getStaticProps: : GetStaticProps = async (context: Context) => {
+export const getServerSideProps = async (context: Context) => {
+    console.log('getStaticProps -> context', context)
+  const { id } = context.params ? context.params : context.query
   const apolloClient = initializeApollo()
   try {
     await apolloClient.query({
@@ -121,22 +123,21 @@ export const getStaticProps = async (context: Context) => {
   catch (error) {
     console.error('Post -> getStaticProps -> error', error)
   }
-  const result = {
+  return {
     props: {
       id,
       initialApolloState: apolloClient.cache.extract(),
-    },
+    }
   }
-  return result
 }
 
-export async function getStaticPaths() {
+export async function getStaticPaths1() {
   const apolloClient = initializeApollo()
   try {
     const result = await apolloClient.query({
       query: ArticlesQuery,
     })
-    const articles = result?.data?.articles
+    const articles = R.defaultTo([], result?.data?.articles)
     const paths = R.map(article => `/posts/${article.id}`, articles)
     // console.log('Post -> getStaticPaths -> paths', paths)
     return {

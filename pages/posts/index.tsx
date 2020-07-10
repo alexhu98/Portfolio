@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 import React, { useState } from 'react'
+import { GetStaticProps } from 'next'
 import { useQuery } from '@apollo/react-hooks'
 import { Container, Paper } from '@material-ui/core'
 import { initializeApollo } from '../../apollo/client'
@@ -38,7 +39,7 @@ const Posts = () => {
   )
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const apolloClient = initializeApollo()
   try {
     await apolloClient.query({
