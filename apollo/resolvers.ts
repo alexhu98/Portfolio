@@ -5,7 +5,7 @@ import { AuthenticationError, UserInputError } from 'apollo-server-micro'
 import { createUser, findUser, validatePassword, getUsers } from '../lib/user'
 import { setLoginSession, getLoginSession } from '../lib/auth'
 import { removeTokenCookie } from '../lib/auth-cookies'
-import { DEFAULT_ARTICLE_SECTION } from '../models/defaults'
+import { DEFAULT_ARTICLE, DEFAULT_ARTICLE_SECTION } from '../models/defaults'
 import Article, { IArticle } from '../models/article'
 import dbConnect from '../utils/dbConnect'
 
@@ -121,7 +121,11 @@ export const resolvers = {
       loadArticles()
       const result = R.find(R.propEq('id', args.id), store.articles)
       if (!result) {
-        throw new Error('Article not found: ' + args.id)
+        // throw new Error('Article not found: ' + args.id)
+        return {
+          ...DEFAULT_ARTICLE,
+          content: '# ' + 'Article not found: ' + args.id,
+        }
       }
       return result
       // await dbConnect()
