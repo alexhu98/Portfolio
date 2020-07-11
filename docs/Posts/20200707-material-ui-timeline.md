@@ -1,5 +1,4 @@
-# Adding Material-UI Timeline
-
+# Material-UI Timeline
 ##### July 7th, 2020 By Alex Hu
 
 The [Material-UI Timeline](https://material-ui.com/components/timeline/) component is just the

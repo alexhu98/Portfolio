@@ -1,5 +1,4 @@
 # First Impressions of TypeScript
-
 ##### June 14th, 2020 By Alex Hu
 
 ***I don't like her***, for her kept complaining about my *type!*

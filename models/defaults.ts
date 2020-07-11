@@ -11,3 +11,7 @@ export const DEFAULT_ARTICLE: IArticle = {
   createdAt: '',
   updatedAt: '',
 }
+
+export const EMPTY_ARTICLES = [] as IArticle[]
+
+export const POLLING_INTERVAL = process.env.NODE_ENV === 'production' ? 0 : 2000

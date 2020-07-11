@@ -1,5 +1,4 @@
 # Cloud Deployment
-
 ##### July 10th, 2020 By Alex Hu
 
 [Vercel](https://vercel.com/), the creator of Next.js, has this really easy deployment for Next.js app.

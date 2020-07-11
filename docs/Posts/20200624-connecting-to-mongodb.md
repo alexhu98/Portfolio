@@ -1,5 +1,4 @@
 # Connecting to MongoDB
-
 ##### June 24th, 2020 By Alex Hu
 
 Creating the [MongoDB](https://www.mongodb.com/) is simple enough through

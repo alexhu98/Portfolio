@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState, useEffect } from 'react'
 import Head from 'next/head'
-import { NavBar } from '../components/Navigration'
+import { NavBar } from './Navigation'
 import Footer from './Footer'
 
 type Props = {

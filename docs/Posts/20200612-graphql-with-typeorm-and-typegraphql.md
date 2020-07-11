@@ -1,5 +1,4 @@
 # GraphQL with TypeORM and TypeGraphQL
-
 ##### June 12th, 2020 By Alex Hu
 
 [**GraphQL**](https://graphql.org/) gains a lot of steam in the last few years. It is easy to understand why it has

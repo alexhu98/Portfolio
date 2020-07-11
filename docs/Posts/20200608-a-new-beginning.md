@@ -1,5 +1,4 @@
 # A New Beginning
-
 ##### June 8th, 2020 By Alex Hu
 
 After converting a couple of Flex / ActionScript applications to React + Redux at work for the last few years,

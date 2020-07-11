@@ -1,5 +1,4 @@
 # Restarting the App
-
 ##### June 23rd, 2020 By Alex Hu
 
 After looking through a number of frameworks, it is time to restart the app with [Next.js](https://nextjs.org/)

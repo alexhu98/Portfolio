@@ -1,5 +1,4 @@
 # Server Side Rendering
-
 ##### June 11th, 2020 By Alex Hu
 
 For [Server Side Rendering, React has a StaticRouter](https://alligator.io/react/react-router-ssr/)
@@ -22,6 +21,6 @@ and Static Site Generation would be ideal.
 
 [**Next.js**](https://nextjs.org/) quickly comes up as just the solution for both of them, and it has an active community behind it.
 ```
-    npx create-next-app
+npx create-next-app
 ```
 will create a skeleton app to get you started.

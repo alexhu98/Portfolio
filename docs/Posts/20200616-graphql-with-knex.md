@@ -1,5 +1,4 @@
 # GraphQL with Knex
-
 ##### June 16th, 2020 By Alex Hu
 
 Back to basic [building a GraphQL server in Next.js](https://www.youtube.com/watch?v=Hn5neKIfJs8)
@@ -32,7 +31,7 @@ exports.down = function(knex) {
 }
 ```
 
-Running the **`knex seed:run`** command with the seed file below will seed the sections table.
+Running the *knex seed:run* command with the seed file below will seed the sections table.
 
 ```js
 exports.seed = function(knex) {

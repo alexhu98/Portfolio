@@ -1,5 +1,4 @@
 # Flash of Unstyled Content
-
 ##### July 8th, 2020 By Alex Hu
 
 I was not happy with the

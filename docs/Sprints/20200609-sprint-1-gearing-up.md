@@ -1,5 +1,4 @@
 # Sprint 1 Gearing Up
-
 ##### June 8th, 2020 By Alex Hu
 
 Goal: Evaluate Different Frameworks

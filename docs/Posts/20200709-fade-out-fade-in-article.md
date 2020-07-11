@@ -1,5 +1,4 @@
 # Fade Out / Fade In Article
-
 ##### July 9th, 2020 By Alex Hu
 
 A little fade-out / fade-in transitions won't hurt when the user switches article by clicking around on the timeline, with

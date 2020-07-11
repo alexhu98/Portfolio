@@ -1,5 +1,4 @@
 # Start and Stop
-
 ##### June 10th, 2020 By Alex Hu
 
 Today is a quick start with [create-react-app](https://github.com/facebook/create-react-app)

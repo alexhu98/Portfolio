@@ -19,11 +19,11 @@ const store: IStore = {
   sections: [],
 }
 
-const parseArticle = (section: string, name: string, id: string, content: string): IArticle => {
+const parseArticle = (section: string, name: string, id: string, content: string, updatedAt: Date): IArticle => {
   const yearToken = parseInt(name.substring(0, 4), 10)
   const monthToken = parseInt(name.substring(4, 6), 10) - 1
   const dayToken = parseInt(name.substring(6, 8), 10)
-  const timestamp = (new Date(yearToken, monthToken, dayToken)).toISOString()
+  const createdAt = (new Date(yearToken, monthToken, dayToken)).toISOString()
   const lines = content.split('\n')
   const title = lines[0].substring(2)
   return {
@@ -32,17 +32,18 @@ const parseArticle = (section: string, name: string, id: string, content: string
     summary: title,
     content,
     section,
-    createdAt: timestamp,
-    updatedAt: timestamp,
+    createdAt,
+    updatedAt: updatedAt.toISOString(),
   }
 }
 
 const readArticle = (section: string, name: string): IArticle => {
-  // const id = name.substring(9).slice(0, -3)
-  const id = name.slice(0, -3)
+  const id = name.substring(9).slice(0, -3)
+  // const id = name.slice(0, -3)
   const fullPath = path.join('docs', section, name)
   const content = fs.readFileSync(fullPath).toString()
-  return parseArticle(section, name, id, content)
+  const stats = fs.statSync(fullPath)
+  return parseArticle(section, name, id, content, stats.mtime)
 }
 
 const loadArticles = () => {

@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { GetStaticProps } from 'next'
 import { format } from 'date-fns'
@@ -7,10 +7,10 @@ import { useQuery } from '@apollo/react-hooks'
 import { initializeApollo } from '../apollo/client'
 import { ArticlesQuery } from '../apollo/queries'
 import { Fade, Grid, Hidden, Link, Paper, Typography, useMediaQuery } from '@material-ui/core'
-import { useTheme  } from '@material-ui/core/styles'
+import { useTheme } from '@material-ui/core/styles'
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from '@material-ui/lab'
 import { ArticlesResult, IArticle } from '../models/article'
-import { DEFAULT_ARTICLE } from 'models/defaults'
+import { DEFAULT_ARTICLE, POLLING_INTERVAL } from '../models/defaults'
 import Layout from '../components/Layout'
 import ArticlePanel from '../components/ArticlePanel'
 
@@ -29,11 +29,13 @@ const renderDate = (article: IArticle, includeYear: boolean) => {
       </div>
 }
 
-const filterAndSortArticles = (articles: IArticle[]): IArticle[] => {
+const filterAndSortArticles = (articles: IArticle[] | undefined): IArticle[] => {
   return R.pipe(
+    R.defaultTo([]),
+    // @ts-ignore
     R.filter((article: IArticle) => ['Sprints', 'Posts'].includes(article.section)),
     // @ts-ignore
-    R.sortBy(R.prop('id'))
+    R.sortBy(R.prop('createdAt'))
   // @ts-ignore
   )(articles) as IArticle[]
 }
@@ -43,15 +45,30 @@ const getTimelineDot = (article: IArticle) => article.section === 'Sprints' ? 'd
 const getTitle = (article: IArticle) => article.section === 'Sprints' ? R.splitAt(2, article.title.split(' '))[1].join(' ') : article.title
 
 const Index = () => {
-  const queryResult = useQuery<ArticlesResult>(ArticlesQuery)
-  const { data } = queryResult
-  const [allArticles] = useState(() => R.defaultTo([] as IArticle[], data?.articles))
-  const [articles] = useState(filterAndSortArticles(allArticles))
+  const { data } = useQuery<ArticlesResult>(ArticlesQuery, {
+    pollInterval: POLLING_INTERVAL,
+  })
+  const [articles, setArticles] = useState(() => filterAndSortArticles(data?.articles))
   const [selectedArticle, setSelectedArticle] = useState(articles.length ? articles[0] : DEFAULT_ARTICLE)
   const [fadeInArticle, setFadeInArticle] = useState(DEFAULT_ARTICLE)
   const [fadeIn, setFadeIn] = useState(true)
   const theme = useTheme()
   const xs = useMediaQuery(theme.breakpoints.only('xs'))
+
+  useEffect(() => {
+    if (POLLING_INTERVAL) {
+      console.log('useEffect -> data', data)
+      const sortedArticles = filterAndSortArticles(data?.articles)
+      setArticles(sortedArticles)
+      const selected = R.find(R.propEq('id', selectedArticle.id), sortedArticles)
+      if (selected) {
+        setSelectedArticle(selected)
+      }
+    }
+    else {
+      console.log('useEffect -> skipping data', data)
+    }
+  }, [data])
 
   const handleTitleClick = (e: React.MouseEvent<HTMLElement>, article: IArticle) => {
     if (!xs && !e.ctrlKey) {
@@ -77,8 +94,8 @@ const Index = () => {
   return (
     <Layout title='Home' activeItem='home'>
       <Grid container spacing={0}>
-        <Grid item xs={false} sm={false} md={1} />
-        <Grid item xs={12} sm={6} md={3} >
+        <Grid item xs={false} sm={false} md={false} lg={1} />
+        <Grid item xs={12} sm={6} md={5} lg={3} >
           <Timeline align='left'>
             { articles.map((article, index) =>
               <TimelineItem key={article.id}>
@@ -103,7 +120,7 @@ const Index = () => {
             )}
           </Timeline>
         </Grid>
-        <Grid item xs={12} sm={6} md={7} >
+        <Grid item xs={12} sm={6} md={7} lg={7} >
           <Hidden only='xs' >
             <Fade in={fadeIn} timeout={125} onExited={handleFadeExited} >
               <Paper className='article-paper'>
@@ -112,7 +129,7 @@ const Index = () => {
             </Fade>
           </Hidden>
         </Grid>
-        <Grid item xs={false} sm={false} md={1} />
+        <Grid item xs={false} sm={false} md={false} lg={1} />
       </Grid>
     </Layout>
   )

@@ -1,6 +1,5 @@
 # CSS Frameworks
-
-##### June 17th, 2020 By Alex Hu
+##### June 18th, 2020 By Alex Hu
 
 Time to pick a [CSS Framworks](https://dzone.com/articles/11-best-css-frameworks-to-look-forward-in-2020) from
 
