@@ -3,7 +3,7 @@
 
 I was not happy with the
 [Flash of Unstyled Content](https://www.techrepublic.com/blog/web-designer/how-to-prevent-flash-of-unstyled-content-on-your-websites/)
-(FOUC) problem. Expecially when the timeline component, the unstyled content
+(FOUC) problem. Expecially with the timeline component, the unstyled content
 shows its ugly head. Just imagine the [vertical timeline](https://uicookies.com/vertical-timeline/)
 got mushed together at the left edge of the screen!
 

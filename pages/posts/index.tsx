@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import React, { useEffect, useState } from 'react'
 import { GetStaticProps } from 'next'
 import { useQuery } from '@apollo/react-hooks'
-import { Container, Paper } from '@material-ui/core'
+import { Container } from '@material-ui/core'
 import { initializeApollo } from '../../apollo/client'
 import { ArticlesQuery } from '../../apollo/queries'
 import { IArticle, ArticlesResult } from '../../models/article'
@@ -38,7 +38,10 @@ const Posts = () => {
   return (
     <Layout title='Posts' activeItem='posts'>
       <Container maxWidth='md'>
-        { articles.map(article => <ArticleCard key={article.id} article={article} /> )}
+        { articles.map(article => article.summary
+          ? <ArticleCard key={article.id} article={article} />
+          : null
+        )}
       </Container>
     </Layout>
   )

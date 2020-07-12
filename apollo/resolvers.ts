@@ -9,6 +9,7 @@ import { DEFAULT_ARTICLE, DEFAULT_ARTICLE_SECTION } from '../models/defaults'
 import Article, { IArticle } from '../models/article'
 import dbConnect from '../utils/dbConnect'
 
+const MIN_SUMMARY_WORDS = 30
 const MAX_SUMMARY_WORDS = 60
 
 type IStore = {
@@ -25,7 +26,7 @@ const parseLine = (line: string) => {
   return line.replace(/\(.*\)/g, '').replace(/\[/g, '').replace(/\]/g, '').replace(/\*/g, '')
 }
 
-const parseSummary = (id: string, content: string) => {
+const parseSummary = (content: string) => {
   const lines = content.split('\n')
   const summaryLines = [] as string[]
   const contentLines = [] as string[]
@@ -33,9 +34,6 @@ const parseSummary = (id: string, content: string) => {
   let contentStopped = false
   R.forEach((line: string) => {
     line = line.trim()
-    if (id === 'a-new-beginning') {
-      console.log('parseSummary -> line', id + ' ' + contentFound + ' - ' + line)
-    }
     if (line.length === 0) {
       contentFound = true
     }
@@ -45,15 +43,12 @@ const parseSummary = (id: string, content: string) => {
           contentStopped = true
         }
         else {
-          // if (contentLines.length === 0) {
-          //   console.log('parseSummary -> line', id + ' - ' + line)
-          // }
           contentLines.push(parseLine(line))
         }
       }
     }
     else if (line.startsWith('#### ')) {
-      summaryLines.push(parseLine(line))
+      summaryLines.push(parseLine(line.replace(/\#/g, '')))
     }
   }, lines)
   let summary = ''
@@ -61,9 +56,8 @@ const parseSummary = (id: string, content: string) => {
     summary = summaryLines.join(' ')
   }
   else {
-    summary = contentLines.join(' ')
-    const words = summary.split(' ')
-    summary = R.take(MAX_SUMMARY_WORDS, words).join(' ')
+    const words = contentLines.join(' ').split(' ')
+    summary = words.length < MIN_SUMMARY_WORDS ? '' : R.take(MAX_SUMMARY_WORDS, words).join(' ')
   }
   if (R.last(summary) === '.') {
     summary = R.init(summary)
@@ -98,10 +92,10 @@ const parseImages = (content: string) => {
 }
 
 const parseCreatedAt = (name: string) => {
-  const yearToken = parseInt(name.substring(0, 4), 10)
-  const monthToken = parseInt(name.substring(4, 6), 10) - 1
-  const dayToken = parseInt(name.substring(6, 8), 10)
-  return new Date(yearToken, monthToken, dayToken)
+  const yearToken = name.substring(0, 4)
+  const monthToken = name.substring(4, 6)
+  const dayToken = name.substring(6, 8)
+  return `${yearToken}-${monthToken}-${dayToken}T00:00:00.000Z`
 }
 
 const parseArticle = (section: string, name: string, id: string, content: string, updatedAt: Date): IArticle => {
@@ -112,11 +106,11 @@ const parseArticle = (section: string, name: string, id: string, content: string
   return {
     id,
     title,
-    summary: parseSummary(id, content),
+    summary: parseSummary(content),
     content,
     section,
     images: parseImages(content),
-    createdAt: createdAt.toISOString(),
+    createdAt,
     updatedAt: updatedAt.toISOString(),
   }
 }
@@ -131,7 +125,6 @@ const readArticle = (section: string, name: string): IArticle => {
 }
 
 const loadArticles = () => {
-  console.log(' ---- loadArticles() ----')
   store.articles = []
   store.sections = []
   if (!store.sections.length) {

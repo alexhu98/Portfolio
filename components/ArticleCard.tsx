@@ -10,7 +10,7 @@ const ArticleCard: React.FC<Props> = (props) => {
   const { article } = props;
 
   return (
-    <Card className='article-card'>
+    <Card className='article-card' elevation={3}>
       { article.images.length === 0 ? null :
         <Hidden only='xs'>
           <CardMedia
@@ -20,11 +20,11 @@ const ArticleCard: React.FC<Props> = (props) => {
         </Hidden>
       }
       <CardContent className='content'>
-        <Typography gutterBottom variant='h5' component='h2'>
+        <Typography gutterBottom variant='h5' component='a' href={`/posts/${article.id}`}>
           { article.title }
         </Typography>
-        <Typography variant='body2' color='textSecondary' component='p'>
-          { article.summary }
+        <Typography variant='body2' color='textSecondary' component='a' href={`/posts/${article.id}`}>
+          <p>{ article.summary }</p>
         </Typography>
       </CardContent>
     </Card>

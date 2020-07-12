@@ -8,6 +8,7 @@ export const DEFAULT_ARTICLE: IArticle = {
   summary: '',
   content: '',
   section: DEFAULT_ARTICLE_SECTION,
+  images: [],
   createdAt: '',
   updatedAt: '',
 }

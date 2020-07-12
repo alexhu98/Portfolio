@@ -15,17 +15,21 @@ import Layout from '../components/Layout'
 import ArticlePanel from '../components/ArticlePanel'
 
 const renderDate = (article: IArticle, includeYear: boolean) => {
-  const timestamp = new Date(article.createdAt)
-  const year = timestamp.getFullYear()
+  const timestamp = new Date()
+  timestamp.setFullYear(
+    parseInt(article.createdAt.substring(0, 4), 10),
+    parseInt(article.createdAt.substring(5, 7), 10) - 1,
+    15)
+  const year = article.createdAt.substring(0, 4)
   const month = format(timestamp, 'MMM')
-  const day = format(timestamp, 'dd')
+  const day = article.createdAt.substring(8, 10)
   const [sprintNumber] = R.splitAt(2, article.title.split(' '))
   return article.section === 'Sprints'
     ? <div className='sprint-number'>{ sprintNumber.join(' ')}</div>
     : <div className='timeline-date'>
-        { includeYear ? <div className='year'>{ year }</div> : null }
-        <div className='day'>{ day }</div>
         <div className='month'>{ month }</div>
+        <div className='day'>{ day }</div>
+        { includeYear ? <div className='year'>{ year }</div> : null }
       </div>
 }
 
