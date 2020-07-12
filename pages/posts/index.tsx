@@ -8,7 +8,7 @@ import { ArticlesQuery } from '../../apollo/queries'
 import { IArticle, ArticlesResult } from '../../models/article'
 import { POLLING_INTERVAL } from '../../models/defaults'
 import Layout from '../../components/Layout'
-import ArticlePanel from '../../components/ArticlePanel'
+import ArticleCard from '../../components/ArticleCard'
 
 const filterAndSortArticles = (articles: IArticle[] | undefined): IArticle[] => {
   return R.pipe(
@@ -37,12 +37,8 @@ const Posts = () => {
 
   return (
     <Layout title='Posts' activeItem='posts'>
-      <Container>
-        { articles.map(article =>
-          <Paper className='article-paper' key={article.id} elevation={1}>
-            <ArticlePanel key={article.id} article={article} />
-          </Paper>
-        )}
+      <Container maxWidth='md'>
+        { articles.map(article => <ArticleCard key={article.id} article={article} /> )}
       </Container>
     </Layout>
   )

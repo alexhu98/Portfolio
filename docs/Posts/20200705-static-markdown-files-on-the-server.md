@@ -64,3 +64,21 @@ useEffect(() => {
   setArticles(filterAndSortArticles(data?.articles))
 }, [data])
 ```
+
+### Styling Images with Markdown
+
+There is an excellent article on
+[How to Style Images With Markdown](https://www.xaprb.com/blog/how-to-style-images-with-markdown/).
+I put *main* as the image alt text
+
+!\[main\](https://images.unsplash.com/photo-1558981806-ec527fa84c39)
+
+and style it through normal CSS
+```
+img[alt=main] {
+  display: block;
+  margin: 1rem auto;
+  width: 60%;
+  height: auto;
+}
+```

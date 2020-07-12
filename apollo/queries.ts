@@ -8,6 +8,7 @@ export const ArticlesQuery = gql`
       summary
       content
       section
+      images
       createdAt
       updatedAt
     }
@@ -22,6 +23,7 @@ export const ArticleQuery = gql`
       summary
       content
       section
+      images
       createdAt
       updatedAt
     }
@@ -36,6 +38,7 @@ export const CreateArticleMutation = gql`
       summary
       content
       section
+      images
       createdAt
       updatedAt
     }
@@ -50,6 +53,7 @@ export const UpdateArticleMutation = gql`
       summary
       content
       section
+      images
       createdAt
       updatedAt
     }

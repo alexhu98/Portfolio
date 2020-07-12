@@ -21,6 +21,7 @@ const ArticleSchema = new Schema({
     default: '',
     required: true,
   },
+  images: [String],
   createdAt: {
     type: String,
     required: true,
@@ -39,6 +40,7 @@ export type IArticle = {
   section: string,
   createdAt: string,
   updatedAt: string,
+  images: string[],
 }
 
 export type ArticleResult = {

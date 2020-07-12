@@ -9,6 +9,8 @@ import { DEFAULT_ARTICLE, DEFAULT_ARTICLE_SECTION } from '../models/defaults'
 import Article, { IArticle } from '../models/article'
 import dbConnect from '../utils/dbConnect'
 
+const MAX_SUMMARY_WORDS = 60
+
 type IStore = {
   articles: IArticle[],
   sections: string[],
@@ -19,20 +21,102 @@ const store: IStore = {
   sections: [],
 }
 
-const parseArticle = (section: string, name: string, id: string, content: string, updatedAt: Date): IArticle => {
+const parseLine = (line: string) => {
+  return line.replace(/\(.*\)/g, '').replace(/\[/g, '').replace(/\]/g, '').replace(/\*/g, '')
+}
+
+const parseSummary = (id: string, content: string) => {
+  const lines = content.split('\n')
+  const summaryLines = [] as string[]
+  const contentLines = [] as string[]
+  let contentFound = false
+  let contentStopped = false
+  R.forEach((line: string) => {
+    line = line.trim()
+    if (id === 'a-new-beginning') {
+      console.log('parseSummary -> line', id + ' ' + contentFound + ' - ' + line)
+    }
+    if (line.length === 0) {
+      contentFound = true
+    }
+    else if (contentFound) {
+      if (!contentStopped) {
+        if (line.startsWith('#') || line.startsWith('!') || line.startsWith('\`\`\`')) {
+          contentStopped = true
+        }
+        else {
+          // if (contentLines.length === 0) {
+          //   console.log('parseSummary -> line', id + ' - ' + line)
+          // }
+          contentLines.push(parseLine(line))
+        }
+      }
+    }
+    else if (line.startsWith('#### ')) {
+      summaryLines.push(parseLine(line))
+    }
+  }, lines)
+  let summary = ''
+  if (summaryLines.length > 0) {
+    summary = summaryLines.join(' ')
+  }
+  else {
+    summary = contentLines.join(' ')
+    const words = summary.split(' ')
+    summary = R.take(MAX_SUMMARY_WORDS, words).join(' ')
+  }
+  if (R.last(summary) === '.') {
+    summary = R.init(summary)
+  }
+  if (summary) {
+    summary += '...'
+  }
+  return summary
+}
+
+const parseContent = (id: string, content: string) => {
+  const fullPath = path.join('public', 'images', id + '.jpg')
+  if (fs.existsSync(fullPath)) {
+    let lines = content.split('\n')
+    if (lines.length > 3) {
+      const mainImage = `![main](/images/${id}.jpg)`
+      lines = R.concat(
+        R.append(mainImage, R.slice(0, 2, lines)),
+        R.slice(2, Infinity, lines)
+      )
+      content = lines.join('\n')
+      // console.log('parseImages -> content', content)
+    }
+  }
+  return content
+}
+
+const parseImages = (content: string) => {
+  const imageTags = R.defaultTo([], content.match(/\!\[.*\]\(.*\)/g))
+  // @ts-ignore
+  return R.map(imageTag => imageTag.match(/\(.*\)/)[0].slice(1, -1), imageTags)
+}
+
+const parseCreatedAt = (name: string) => {
   const yearToken = parseInt(name.substring(0, 4), 10)
   const monthToken = parseInt(name.substring(4, 6), 10) - 1
   const dayToken = parseInt(name.substring(6, 8), 10)
-  const createdAt = (new Date(yearToken, monthToken, dayToken)).toISOString()
+  return new Date(yearToken, monthToken, dayToken)
+}
+
+const parseArticle = (section: string, name: string, id: string, content: string, updatedAt: Date): IArticle => {
   const lines = content.split('\n')
   const title = lines[0].substring(2)
+  const createdAt = parseCreatedAt(name)
+  content = parseContent(id, content)
   return {
     id,
     title,
-    summary: title,
+    summary: parseSummary(id, content),
     content,
     section,
-    createdAt,
+    images: parseImages(content),
+    createdAt: createdAt.toISOString(),
     updatedAt: updatedAt.toISOString(),
   }
 }
@@ -47,6 +131,7 @@ const readArticle = (section: string, name: string): IArticle => {
 }
 
 const loadArticles = () => {
+  console.log(' ---- loadArticles() ----')
   store.articles = []
   store.sections = []
   if (!store.sections.length) {

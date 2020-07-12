@@ -31,6 +31,7 @@ export const typeDefs = gql`
     summary: String!
     content: String!
     section: String!
+    images: [String]!
     createdAt: String!
     updatedAt: String!
   }

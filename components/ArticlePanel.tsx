@@ -14,7 +14,7 @@ const ArticlePanel: React.FC<Props> = (props) => {
         <Header as='h5'>{ article.section }</Header>
         <Header as='h5'>{ article.updatedAt }</Header>
         <Header as='h4'>{ article.summary }</Header> */}
-        <ReactMarkdown source={article.content} />
+        <ReactMarkdown source={article.content} escapeHtml={false} />
         {/* <Divider />
         <pre>{ inspect(article) }</pre> */}
     </div>

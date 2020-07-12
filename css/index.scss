@@ -62,6 +62,33 @@ hr {
     border: 1px dashed gray;
     background-color: #f8f8f8;
   }
+
+  img[alt=main] {
+    display: block;
+    margin: 1rem auto;
+    width: 60%;
+    height: auto;
+  }
+}
+
+.article-card {
+  display: flex;
+  max-width: 1000px;
+  margin-bottom: 16px;
+
+  .media {
+    flex: 0 0 320px;
+    height: 200px;
+  }
+
+  .content {
+    h2 {
+      font-family: "Roboto Condensed", Roboto, sans-serif;
+    }
+
+    flex: 1 1 auto;
+    max-width: 500;
+  }
 }
 
 .edit-article-modal {
