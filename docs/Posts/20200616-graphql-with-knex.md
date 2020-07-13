@@ -4,16 +4,16 @@
 Back to basic [building a GraphQL server in Next.js](https://www.youtube.com/watch?v=Hn5neKIfJs8)
 using [knex.js](https://github.com/knex/knex) which is *a SQL query builder that is flexible, portable, and fun to use!*
 
-Knex supports a good number of SQL database, but MongoDB is not one that it support as MongoDB is a NoSQL database.
-You can access database by building a query like this:
+Knex supports a good number of SQL database, although MongoDB is not one that it support for MongoDB is a NoSQL database.
+You access a SQL database by building a query like this:
 ```
 knex.select().from('articles').orderBy('article_order', 'asc')
 ```
 What I especially like is it's support for [database migrations](http://perkframework.com/v1/guides/database-migrations-knex.html)
 and [seeding](https://dev.to/cesareferrari/database-seeding-with-knex-51gf). Yes, you have to write the migration files and seed files
 by hand but they are easy to to do. In fact, instead of creating the table on a SQL table by hand, you can and you should create the
-table in your development machine using a migration file, so that the table can be created ain the production database automatically.
-After adding the migration file, running the **`knex migrate:latest`** command will bring the system up to the latest migration.
+table in your development machine using a migration file, so that the table can be created in the production database automatically.
+After adding the migration file, running the *knex migrate:latest* command will bring the system up to the latest migration.
 
 ```js
 exports.up = function(knex) {

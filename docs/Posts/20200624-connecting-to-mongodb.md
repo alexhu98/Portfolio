@@ -15,9 +15,8 @@ a database operation like find / save / delete:
 ```
 MongoError: topology was destroyed
 ```
-I ended up putting my ```dbConnect()``` before each resolver operation to reconnecting to the database
+I ended up putting my *dbConnect()* before each resolver operation to reconnecting to the database
 and retry the connection if necessary,
-at
 ```js
 async deleteArticle(_parent: any, args: any, _context: any, _info: any) {
     await dbConnect()

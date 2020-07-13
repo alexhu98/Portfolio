@@ -2,7 +2,7 @@
 ##### July 7th, 2020 By Alex Hu
 
 The [Material-UI Timeline](https://material-ui.com/components/timeline/) component is just the
-user interface to provide a outline of development progress. It puts a
+user interface to provide an outline of development progress. It puts a
 [vertial timeline](https://uicookies.com/vertical-timeline/) in the center of the page
 leaving a lot of white space on both side of it. I tried putting the article content
 to fill those white spaces, but they make a big bad long scrolling page.
@@ -18,4 +18,4 @@ the conversion process went quite smoothly.
 
 The timeline component has too much white space so I decided to tighten it up a bit putting it on
 the left side of the screen, and show the selected article at the right side of the screen.
-The screen is also made responsive for phone size display to only show the timeline but not the article.
+The screen is also made responsive for smartphone screen to only show the timeline but not the article.

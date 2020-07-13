@@ -4,7 +4,7 @@
 For [Server Side Rendering, React has a StaticRouter](https://alligator.io/react/react-router-ssr/)
 instead of the Client-Side BrowserRouter.
 
-That works well for the simple Hello World app where no data to preload into the page. It gets more complicated as
+That works well for the simple Hello World app with no data to preload into the page. It gets more complicated as
 soon as you try to load real data into the page. In a Client-Side React app, all the data are loaded after the page is loaded.
 With Server Side Rendering, you have to load the data before the page is rendered in the server side *and* also load
 additional data on the client side especially if your app is a single page app. In the worst case, you will have to implement

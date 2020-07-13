@@ -5,16 +5,13 @@ After looking through a number of frameworks, it is time to restart the app with
 for the Server-Side Rendering, and [Apollo GraphQL](https://www.apollographql.com/) for the [GraphQL](https://graphql.org/)
 server and client request.
 
-The simple way to get get a Next.js started is to run create-next-app with the desired example template. I picked this
+The simple way to get a Next.js started is to run *create-next-app* with the desired example template. I picked this
 example as a starting point as it has all the hooks for Apollo server and client, along with some example codes to
-calling useQuery and useMutation, and thje single sign up / sign in / sign out pages. Othen than those, it is bare bone
+calling useQuery and useMutation, and the simple sign up / sign in / sign out pages. Othen than those, it is bare bone
 enough to experience the full back-end development.
 ```
 npx create-next-app --example api-routes-apollo-server-and-client-auth
 ```
-
-
-
 [MongoDB](https://www.mongodb.com/) hosted in by MongoDB [Altas](https://www.mongodb.com/cloud/atlas) in the cloud,
 and MongoDB [Compass](https://www.mongodb.com/products/compass) for viewing the database.
 

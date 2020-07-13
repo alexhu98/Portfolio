@@ -158,7 +158,7 @@ const generateSiteMap = (articles: IArticle[]) => {
       ],
       R.reverse(R.map(article => `${SITE_URL}/posts/${article.id}`, articles)),
     )
-    const data = list.join('\r\n')
+    const data = list.join('\r\n') + '\r\n'
     fs.writeFileSync(siteMapPath, data)
   }
 }

@@ -61,7 +61,7 @@ const Index = () => {
 
   useEffect(() => {
     if (POLLING_INTERVAL) {
-      console.log('useEffect -> data', data)
+      // console.log('useEffect -> data', data)
       const sortedArticles = filterAndSortArticles(data?.articles)
       setArticles(sortedArticles)
       const selected = R.find(R.propEq('id', selectedArticle.id), sortedArticles)
@@ -69,9 +69,9 @@ const Index = () => {
         setSelectedArticle(selected)
       }
     }
-    else {
-      console.log('useEffect -> skipping data', data)
-    }
+    // else {
+    //   console.log('useEffect -> skipping data', data)
+    // }
   }, [data])
 
   const handleTitleClick = (e: React.MouseEvent<HTMLElement>, article: IArticle) => {

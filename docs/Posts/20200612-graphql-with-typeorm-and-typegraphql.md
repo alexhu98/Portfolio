@@ -7,16 +7,16 @@ a good following as [there are a lot to like](https://graphql.org/learn/):
 * Easy to learn query language
 * JSON result that match up with the query
 * Strong data type and schema
-* Graph*i*QL
+* GraphiQL query browser
 
-What sold me was actually [Graph*i*QL](https://github.com/graphql/graphiql). There is nothing like a good interactive
-query browser as you can build and test the server side changes without touching a line of the client app.
+What sold me was actually [GraphiQL](https://github.com/graphql/graphiql) query browser. There is nothing like a
+good interactive query browser as you can build and test the server side changes without touching a line of client code.
 
-On the other hand, I am not too crazy about having to define the data types 3 times:
+On the other hand, I am not too crazy about having to define the data types 3 times, namely
 
- 1. GraphQL schema
- 2. Database models
- 3. TypeScript data types
+1. GraphQL schema
+2. Database models
+3. TypeScript data types
 
 Wouldn't it be good to define the model only once? Well, the community already build this beast using
 [TypeORM](https://github.com/typeorm/typeorm) and [TypeGraphQL](https://typegraphql.com/) and YouTube

@@ -1,7 +1,7 @@
 # Sprint 2 Deciding on a Framework
 ##### June 15th, 2020 By Alex Hu
 
-Goal: Deciding on a Framework
+Goal: Decide on a Framework
 
 ### Next.js + GraphQL + Database ✔
 

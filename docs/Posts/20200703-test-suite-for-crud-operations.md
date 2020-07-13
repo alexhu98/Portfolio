@@ -1,9 +1,8 @@
 # Test Suite for CRUD operations
 ##### July 3rd, 2020 By Alex Hu
 
-When adding new fields to the data models, it was apparent that adding new fields to the
-data model is a troublesome area. When adding the createdAt and updatedAt fields, the
-app was broken in numerious area, namely
+When adding new fields to the data models, it was apparent that adding additional fields to the
+data model is a troublesome area, as the app was broken in numerious area, namely
 
 1. GraphQL query
 2. GraphQL mutation

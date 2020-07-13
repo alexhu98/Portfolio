@@ -12,7 +12,7 @@ Goal: Build a Functional Posts Page with a Real Backend
 
 1. Create a [Next.js](https://nextjs.org/) app
 2. Use [Apollo GraphQL](https://www.apollographql.com/) server and client
-3. Use [Mongoose](https://mongoosejs.com/) for database connection
+3. Use [Mongoose](https://mongoosejs.com/) for database connection and schema
 
 ### Front End ✔
 
