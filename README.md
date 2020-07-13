@@ -1,38 +1,22 @@
-# Apollo Server and Client Auth Example
+# A New Beginning
+##### June 8th, 2020 By Alex Hu
 
-[Apollo](https://www.apollographql.com/client/) is a GraphQL client that allows you to easily query the exact data you need from a GraphQL server. In addition to fetching and mutating data, Apollo analyzes your queries and their results to construct a client-side cache of your data, which is kept up to date as further queries and mutations are run.
+After converting a couple of Flex / ActionScript applications to React + Redux at work for the last few years,
+it is time to refresh the server side skill set as well. To document the journey, I decided to have some fun
+creating my personal portfolio site and have it serves as a test bed for different technologies.
 
-In this simple example, we integrate Apollo seamlessly with [Next.js data fetching methods](https://nextjs.org/docs/basic-features/data-fetching) to fetch queries in the server and hydrate them in the browser.
+There are quite a few things I would like to learn. The primary ones are
 
-## How to use
+ - TypeScript
+ - React with Hooks, without Redux
+ - Node.js
+ - GraphQL + Apollo
 
-### Using `create-next-app`
+I also want to pick up these ones along the way:
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) or [npx](https://github.com/zkat/npx#readme) to bootstrap the example:
-
-```bash
-npx create-next-app --example api-routes-apollo-server-and-client-auth api-routes-apollo-server-and-client-auth-app
-# or
-yarn create next-app --example api-routes-apollo-server-and-client-auth api-routes-apollo-server-and-client-auth-app
-```
-
-### Download manually
-
-Download the example:
-
-```bash
-curl https://codeload.github.com/vercel/next.js/tar.gz/canary | tar -xz --strip=2 next.js-canary/examples/api-routes-apollo-server-and-client-auth
-cd api-routes-apollo-server-and-client-auth
-```
-
-Install it and run:
-
-```bash
-npm install
-npm run dev
-# or
-yarn
-yarn dev
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/import?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+ - MongoDB
+ - Authentication
+ - Cloud functions
+ - Cloud deployment
+ - Docker
+ - AWS Free Tier / Google Cloud Platform Free Tier

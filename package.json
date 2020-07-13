@@ -30,17 +30,13 @@
     "graphql": "^15.3.0",
     "graphql-tag": "^2.10.3",
     "isomorphic-unfetch": "^3.0.0",
-    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.20",
     "next": "^9.4.4",
     "node-fetch": "^2.6.0",
-    "object-inspect": "^1.8.0",
-    "prop-types": "^15.6.2",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-markdown": "^4.3.1",
-    "uuid": "8.2.0"
+    "react-markdown": "^4.3.1"
   },
   "license": "ISC",
   "devDependencies": {
