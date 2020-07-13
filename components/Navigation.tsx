@@ -7,7 +7,7 @@ type Props = {
 
 export const NavBar: React.FC<Props> = ({ activeItem }) => {
   return (
-    <Paper className='navbar'>
+    <Paper className='navbar' elevation={3}>
       <Tabs value={activeItem} indicatorColor='primary' textColor='primary' centered>
         <Tab value='home' label='Home' component={Link} href='/' />
         <Tab value='posts' label='Posts' component={Link} href='/posts' />

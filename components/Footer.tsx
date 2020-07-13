@@ -6,7 +6,10 @@ const Footer = () => {
   return (
     <footer>
       <Divider data-testid='footer-divider' />
-      {/* <span>I'm here to stay (Footer)</span> */}
+      <div className='copyright-legal'>
+        <small className='copyright'>&copy; Alex Hu</small>
+        <small className='legal'><a href='/legal.html'>Privacy &amp; Terms</a></small>
+      </div>
     </footer>
   )
 }

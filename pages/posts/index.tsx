@@ -10,12 +10,13 @@ import { POLLING_INTERVAL } from '../../models/defaults'
 import Layout from '../../components/Layout'
 import ArticleCard from '../../components/ArticleCard'
 
-const filterAndSortArticles = (articles: IArticle[] | undefined): IArticle[] => {
+const filterAndSortArticles = (articles: IArticle[] | undefined) => {
   return R.pipe(
     R.defaultTo([]),
     // @ts-ignore
-    R.filter((article: IArticle) => ['Sprints', 'Posts'].includes(article.section)),
+    R.filter(article => ['Sprints', 'Posts'].includes(article.section)),
     // @ts-ignore
+    R.filter(article => article.summary),
     R.sortBy(R.prop('createdAt')),
     // @ts-ignore
     R.reverse()
@@ -35,12 +36,19 @@ const Posts = () => {
     }
   }, [data])
 
+  const reverseCount = Math.round(articles.length / 4) + 1
+
   return (
     <Layout title='Posts' activeItem='posts'>
       <Container maxWidth='md'>
-        { articles.map(article => article.summary
-          ? <ArticleCard key={article.id} article={article} />
-          : null
+        <h2 className='recent-articles'>Recent Articles</h2>
+        { articles.map((article, index) =>
+          <ArticleCard
+            key={article.id}
+            article={article}
+            large={index === 0 || index === articles.length - 1}
+            reverse={index > 0 && index % reverseCount === 0}
+          />
         )}
       </Container>
     </Layout>

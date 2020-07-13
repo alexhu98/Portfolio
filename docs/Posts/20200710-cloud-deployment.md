@@ -70,10 +70,10 @@ to define a list of paths that have to be rendered to HTML at build time, such a
 export async function getStaticPaths() {
   return {
     paths: [
-      '/posts/20200608-a-new-beginning',
-      '/posts/20200609-sprint-1-gearing-up',
+      '/posts/a-new-beginning',
+      '/posts/sprint-1-gearing-up',
       //...
-      '/posts/20200710-cloud-deployment',
+      '/posts/cloud-deployment',
     ],
     fallback: true,
   }

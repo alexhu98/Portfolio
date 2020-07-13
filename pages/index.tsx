@@ -100,10 +100,10 @@ const Index = () => {
       <Grid container spacing={0}>
         <Grid item xs={false} sm={false} md={false} lg={1} />
         <Grid item xs={12} sm={6} md={5} lg={3} >
-          <Timeline align='left'>
+          <Timeline align='left' className='timeline'>
             { articles.map((article, index) =>
-              <TimelineItem key={article.id}>
-                <TimelineOppositeContent className={clsx('timeline-content', getContentClassName(article))}>
+              <TimelineItem key={article.id} className='timeline-item'>
+                <TimelineOppositeContent className={clsx('timeline-content', 'timeline-timestamp', getContentClassName(article))}>
                   <Typography component='div' color='textPrimary'>{ renderDate(article, index === 0) }</Typography>
                 </TimelineOppositeContent>
                 <TimelineSeparator>

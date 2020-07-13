@@ -1,16 +1,19 @@
 import * as R from 'ramda'
 import fs from 'fs'
 import path from 'path'
+import { differenceInSeconds } from 'date-fns'
 import { AuthenticationError, UserInputError } from 'apollo-server-micro'
 import { createUser, findUser, validatePassword, getUsers } from '../lib/user'
 import { setLoginSession, getLoginSession } from '../lib/auth'
 import { removeTokenCookie } from '../lib/auth-cookies'
-import { DEFAULT_ARTICLE, DEFAULT_ARTICLE_SECTION } from '../models/defaults'
+import { DEFAULT_ARTICLE, DEFAULT_ARTICLE_SECTION, SITE_URL } from '../models/defaults'
 import Article, { IArticle } from '../models/article'
 import dbConnect from '../utils/dbConnect'
 
 const MIN_SUMMARY_WORDS = 30
 const MAX_SUMMARY_WORDS = 60
+
+const SITE_MAP_UPDATE_DURATION = 60
 
 type IStore = {
   articles: IArticle[],
@@ -79,7 +82,6 @@ const parseContent = (id: string, content: string) => {
         R.slice(2, Infinity, lines)
       )
       content = lines.join('\n')
-      // console.log('parseImages -> content', content)
     }
   }
   return content
@@ -135,9 +137,29 @@ const loadArticles = () => {
       const names = fs.readdirSync(path.join(docs, section))
       const sortedNames = R.sort((a, b) => b.localeCompare(a), names)
       const sectionArticles = R.map(name => readArticle(section, name), sortedNames)
-      // console.log('loadArticles -> section = ' + section + ', sectionArticles.length =', sectionArticles.length)
       store.articles = R.concat(store.articles, sectionArticles)
     }, sections)
+  }
+  generateSiteMap(store.articles)
+}
+
+const generateSiteMap = (articles: IArticle[]) => {
+  const siteMapPath = path.join('public', 'sitemap.txt')
+  let needUpdate = process.env.NODE_ENV !== 'production'
+  if (needUpdate && fs.existsSync(siteMapPath)) {
+    const stats = fs.statSync(siteMapPath)
+    needUpdate = differenceInSeconds(new Date(), stats.mtime) > SITE_MAP_UPDATE_DURATION
+  }
+  if (needUpdate) {
+    const list = R.concat(
+      [
+        SITE_URL,
+        `${SITE_URL}/posts`,
+      ],
+      R.reverse(R.map(article => `${SITE_URL}/posts/${article.id}`, articles)),
+    )
+    const data = list.join('\n')
+    fs.writeFileSync(siteMapPath, data)
   }
 }
 

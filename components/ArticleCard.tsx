@@ -1,16 +1,19 @@
 import React from 'react'
+import clsx from 'clsx'
 import { Card, CardContent, CardMedia, Hidden, Typography } from '@material-ui/core'
 import { IArticle } from '../models/article'
 
 type Props = {
-  article: IArticle
+  article: IArticle,
+  large: boolean,
+  reverse: boolean,
 }
 
 const ArticleCard: React.FC<Props> = (props) => {
-  const { article } = props;
+  const { article, large, reverse } = props;
 
   return (
-    <Card className='article-card' elevation={3}>
+    <Card className={clsx('article-card', { large, reverse })} elevation={3}>
       { article.images.length === 0 ? null :
         <Hidden only='xs'>
           <CardMedia
