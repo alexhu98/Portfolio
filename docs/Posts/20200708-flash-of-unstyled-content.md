@@ -3,9 +3,8 @@
 
 I was not happy with the
 [Flash of Unstyled Content](https://www.techrepublic.com/blog/web-designer/how-to-prevent-flash-of-unstyled-content-on-your-websites/)
-(FOUC) problem. Expecially with the timeline component, the unstyled content
-shows its ugly head. Just imagine the [vertical timeline](https://uicookies.com/vertical-timeline/)
-got mushed together at the left edge of the screen!
+(FOUC) problem. The unstyled content shows its ugly head with the timeline component. Just imagine the
+[vertical timeline](https://uicookies.com/vertical-timeline/) got mushed together at the left edge of the screen!
 
 Forunately, we can get rid of the problem by setting visibility to 'hidden' on the outer Layout wrapper initially,
 then removed it when the page is rendered with a useEffect(). It starts with a simple 'fouc' class in the css file.
