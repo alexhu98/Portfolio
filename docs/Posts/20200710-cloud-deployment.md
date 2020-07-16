@@ -5,7 +5,7 @@
 All you need to do is to import your Git Repository and the
 [Git Integrations](https://vercel.com/docs/v2/git-integrations) allows automatic deployments on every push.
 
-For example, this site is at https://portfolio-ivory-three.vercel.app/
+For example, this site is at https://portfolio.alexhu.vercel.app/
 and I only have to manually deploy it once in the very beginning, then just push my code to
 the repository. I was looking for the redeploy button on their site but couldn't find one, then
 I released that it is automatic!

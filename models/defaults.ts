@@ -1,6 +1,6 @@
 import { IArticle } from './article'
 
-export const SITE_URL = 'https://portfolio-ivory-three.vercel.app'
+export const SITE_URL = 'https://portfolio.alexhu.vercel.app'
 
 export const DEFAULT_ARTICLE_SECTION = 'Posts'
 
