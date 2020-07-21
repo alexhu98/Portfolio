@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import { useQuery } from '@apollo/react-hooks'
 import { initializeApollo } from '../apollo/client'
 import { ArticlesQuery } from '../apollo/queries'
-import { Fade, Grid, Hidden, Link, Paper, Typography, useMediaQuery } from '@material-ui/core'
+import { Fade, Grid, Hidden, Paper, Typography, useMediaQuery } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from '@material-ui/lab'
 import { motion } from 'framer-motion'
@@ -127,7 +127,7 @@ const Index = () => {
                     href={`/posts/${article.id}`} onClick={(e: React.MouseEvent<HTMLElement>) => handleTitleClick(e, article)}
                     rel='noopener'
                     whileHover={{
-                      scale: 1.2,
+                      scale: 1.1,
                       originX: 0,
                     }}
                   >
