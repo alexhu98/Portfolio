@@ -9,6 +9,7 @@ import { ArticlesQuery } from '../apollo/queries'
 import { Fade, Grid, Hidden, Link, Paper, Typography, useMediaQuery } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from '@material-ui/lab'
+import { motion } from 'framer-motion'
 import { ArticlesResult, IArticle } from '../models/article'
 import { DEFAULT_ARTICLE, POLLING_INTERVAL } from '../models/defaults'
 import Layout from '../components/Layout'
@@ -111,14 +112,27 @@ const Index = () => {
                   { index < articles.length - 1 ? <TimelineConnector /> : null }
                 </TimelineSeparator>
                 <TimelineContent className={clsx('timeline-content', getContentClassName(article))}>
-                  <Link
+                  {/* <Link
                     className='title'
                     href={`/posts/${article.id}`} onClick={(e: React.MouseEvent<HTMLElement>) => handleTitleClick(e, article)}
                     color='textPrimary'
                     underline={getLinkUnderline(article)}
                     rel='noopener'>
                     { getTitle(article) }
-                  </Link>
+                  </Link> */}
+                  <motion.a
+                    className={clsx('title', 'MuiTypography-root', 'MuiTypography-colorTextPrimary', 'MuiLink-root',
+                      getLinkUnderline(article) === 'hover' ? 'MuiLink-underlineHover' : 'MuiLink-underlineAlways'
+                    )}
+                    href={`/posts/${article.id}`} onClick={(e: React.MouseEvent<HTMLElement>) => handleTitleClick(e, article)}
+                    rel='noopener'
+                    whileHover={{
+                      scale: 1.2,
+                      originX: 0,
+                    }}
+                  >
+                    { getTitle(article) }
+                  </motion.a>
                 </TimelineContent>
               </TimelineItem>
             )}

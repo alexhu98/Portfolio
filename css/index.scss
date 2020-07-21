@@ -180,6 +180,11 @@ h2.recent-articles {
 
   .timeline-content {
     font-family: "Roboto Condensed", Roboto, sans-serif;
+
+    .title {
+      display: inline-block;
+    }
+
     .timeline-date {
       font-family: "Roboto Condensed", Roboto, sans-serif;
       display: inline-grid;
