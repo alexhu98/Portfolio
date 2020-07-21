@@ -145,6 +145,7 @@ const loadArticles = () => {
 
 const generateSiteMap = (articles: IArticle[]) => {
   const siteMapPath = path.join('public', 'sitemap.txt')
+  articles = R.filter(article => ['Sprints', 'Posts'].includes(article.section), articles)
   let needUpdate = process.env.NODE_ENV !== 'production'
   if (needUpdate && fs.existsSync(siteMapPath)) {
     const stats = fs.statSync(siteMapPath)
