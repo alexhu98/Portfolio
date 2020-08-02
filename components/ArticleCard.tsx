@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { Card, CardContent, CardMedia, Hidden, Typography } from '@material-ui/core'
+import { CardContent, CardMedia, Hidden, Typography } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { IArticle } from '../models/article'
 
@@ -14,7 +14,6 @@ const ArticleCard: React.FC<Props> = (props) => {
   const { article, large, reverse } = props;
 
   return (
-    // <Card className={clsx('article-card', { large, reverse })} elevation={3} variant='outlined'>
     <motion.div
       className={clsx('article-card', { large, reverse }, 'MuiPaper-root MuiCard-root MuiPaper-outlined MuiPaper-rounded')}
       whileHover={{
@@ -42,7 +41,6 @@ const ArticleCard: React.FC<Props> = (props) => {
         </Typography>
       </CardContent>
     </motion.div>
-    // </Card>
   )
 }
 

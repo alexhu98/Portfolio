@@ -140,7 +140,7 @@ const Index = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={7} lg={7} >
           <Hidden only='xs' >
-            <Fade in={fadeIn} timeout={125} onExited={handleFadeExited} >
+            <Fade in={fadeIn} timeout={100} onExited={handleFadeExited} >
               <Paper className='article-paper'>
                 <ArticlePanel article={selectedArticle} />
               </Paper>

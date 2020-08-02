@@ -2,14 +2,9 @@ body {
   font-family: Roboto, sans-serif;
 }
 
-// avoid Flash of Unstyled Content by hiding all contents initially
-// then make it visible once loaded
-.fouc {
-  visibility: hidden;
-}
-
 .navbar {
   // sticky navbar at the top
+  display: flex;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -19,6 +14,10 @@ body {
   margin-left: -8px;
   margin-right: -8px;
   margin-bottom: 1rem;
+
+  .MuiTabs-root {
+    flex: 1;
+  }
 
   &.MuiPaper-elevation3 {
     box-shadow: 0 5px 20px -10px rgba(0, 0, 0, 0.3);
