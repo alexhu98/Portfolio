@@ -7,7 +7,7 @@ import { initializeApollo } from 'apollo/client'
 import { ArticlesQuery } from 'apollo/queries'
 import Head from 'next/head'
 import { useAnimation } from 'framer-motion';
-import { motion, PanInfo } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { NavBar } from './Navigation'
 import Footer from './Footer'
 import { ArticlesResult, IArticle } from 'models/article'
