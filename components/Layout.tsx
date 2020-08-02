@@ -8,7 +8,8 @@ import { ArticlesQuery } from 'apollo/queries'
 import Head from 'next/head'
 import { useAnimation } from 'framer-motion';
 import { motion } from 'framer-motion'
-import { NavBar } from './Navigation'
+import { IconButton, Link, Paper, Tabs, Tab } from '@material-ui/core'
+import { ArrowBack, ArrowForward } from '@material-ui/icons'
 import Footer from './Footer'
 import { ArticlesResult, IArticle } from 'models/article'
 
@@ -61,7 +62,7 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, activeIte
     const newRoutes = buildRoutes(data?.articles)
     setRoutes(newRoutes)
     setBackHref(getNextRoute(router.asPath, newRoutes, -1))
-    setNextHref(getNextRoute(router.asPath, newRoutes, 1))
+    setNextHref(getNextRoute(router.asPath, newRoutes, +1))
   }, [data])
 
   const back = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -77,7 +78,7 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, activeIte
       e.preventDefault()
       await exitAnimation.start('exitNext')
       router.push(nextHref)
-      }
+    }
   }
 
   // avoid Flash of Unstyled Content by hiding all contents initially
@@ -102,12 +103,10 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, activeIte
     },
   }
 
+  const clickBackOrNext = (href: string) => backHref === href ? back : nextHref === href ? next : undefined
+
   return (
-    <motion.div
-      variants={containerVariants}
-      initial='hidden'
-      animate='visible'
-    >
+    <motion.div variants={containerVariants} initial='hidden' animate='visible'>
       <Head>
         <title>{ title }</title>
         <meta charSet='utf-8' />
@@ -116,11 +115,20 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, activeIte
         <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' />
         <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400&display=swap' />
       </Head>
-      <NavBar activeItem={activeItem} backHref={backHref} nextHref={nextHref} onClickBack={back} onClickNext={next} />
-      <motion.div
-        variants={containerVariants}
-        animate={exitAnimation}
-      >
+
+      <Paper className='navbar' elevation={3}>
+        <Tabs value={activeItem} indicatorColor='primary' textColor='primary'>
+          <Tab value='home' label='Home' component={Link} href='/' onClick={clickBackOrNext('/')} />
+          <Tab value='posts' label='Posts' component={Link} href='/posts' onClick={clickBackOrNext('/posts')} />
+          {/* <Tab value='about' label='About' component={Link} href='/about' /> */}
+        </Tabs>
+        <div className='navbar-buttons'>
+          <IconButton onClick={back} href={backHref}><ArrowBack /></IconButton>
+          <IconButton onClick={next} href={nextHref}><ArrowForward /></IconButton>
+        </div>
+      </Paper>
+
+      <motion.div variants={containerVariants} animate={exitAnimation}>
         {children}
         <Footer />
       </motion.div>
