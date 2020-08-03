@@ -127,8 +127,10 @@ const readArticle = (section: string, name: string): IArticle => {
 }
 
 const loadArticles = () => {
-  store.articles = []
-  store.sections = []
+  if (process.env.NODE_ENV !== 'production') {
+    store.articles = []
+    store.sections = []
+  }
   if (!store.sections.length) {
     const docs = path.join('docs')
     const sections = fs.readdirSync(docs)
@@ -139,6 +141,8 @@ const loadArticles = () => {
       const sectionArticles = R.map(name => readArticle(section, name), sortedNames)
       store.articles = R.concat(store.articles, sectionArticles)
     }, sections)
+    // console.log(`loadArticles -> store.sections.length = `, store.sections.length)
+    // console.log(`loadArticles -> store.articles.length = `, store.articles.length)
   }
   generateSiteMap(store.articles)
 }
@@ -184,7 +188,7 @@ const migrateArticle = async (article: IArticle) => {
       migrate = true
     }
     if (migrate) {
-      console.log('migrateArticle -> article', article)
+      // console.log('migrateArticle -> article', article)
       article = await Article.findByIdAndUpdate(article.id, article, { new: true })
     }
   }

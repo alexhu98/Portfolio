@@ -1,31 +1,24 @@
 import * as R from 'ramda'
-import React, { PropsWithChildren, useEffect, useState } from 'react'
-import { GetStaticProps } from 'next'
+import React, { PropsWithChildren } from 'react'
 import { useRouter } from 'next/router'
-import { useQuery } from '@apollo/react-hooks'
-import { initializeApollo } from 'apollo/client'
-import { ArticlesQuery } from 'apollo/queries'
 import Head from 'next/head'
 import { useAnimation } from 'framer-motion';
 import { motion } from 'framer-motion'
 import { IconButton, Link, Paper, Tabs, Tab } from '@material-ui/core'
 import { ArrowBack, ArrowForward } from '@material-ui/icons'
 import Footer from './Footer'
-import { ArticlesResult, IArticle } from 'models/article'
+import { IArticle } from 'models/article'
+import { filterAndSortArticles } from 'models/utils'
 
 type Props = {
   title: string
-  activeItem: string
+  articles?: IArticle[],
 }
 
 const buildRoutes = (articles: IArticle[] | undefined): string[] => {
   // console.log(`buildRoutes() articles`, articles)
   const routes = R.pipe(
-    R.defaultTo([]),
-    // @ts-ignore
-    R.filter((article: IArticle) => ['Sprints', 'Posts'].includes(article.section)),
-    // @ts-ignore
-    R.sortBy(R.prop('createdAt')),
+    filterAndSortArticles,
     R.map(article => `/posts/${article.id}`),
     R.concat(['/', '/posts'])
   // @ts-ignore
@@ -49,21 +42,15 @@ const getNextRoute = (path: string, routes: string[], direction: number): string
   return nextRoute || '/'
 }
 
-const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, activeItem }) => {
+const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, articles }) => {
 
   const router = useRouter()
   const exitAnimation = useAnimation()
-  const { data } = useQuery<ArticlesResult>(ArticlesQuery)
-  const [routes, setRoutes] = useState(() => buildRoutes(data?.articles))
-  const [backHref, setBackHref] = useState(() => getNextRoute(router.asPath, routes, -1))
-  const [nextHref, setNextHref] = useState(() => getNextRoute(router.asPath, routes, 1))
-
-  useEffect(() => {
-    const newRoutes = buildRoutes(data?.articles)
-    setRoutes(newRoutes)
-    setBackHref(getNextRoute(router.asPath, newRoutes, -1))
-    setNextHref(getNextRoute(router.asPath, newRoutes, +1))
-  }, [data])
+  // console.log(`Layout -> articles?.length = `, articles?.length)
+  const activeItem = router.asPath
+  const routes = buildRoutes(articles)
+  const backHref = getNextRoute(router.asPath, routes, -1)
+  const nextHref = getNextRoute(router.asPath, routes, +1)
 
   const back = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (!e.ctrlKey) {
@@ -114,12 +101,14 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, activeIte
         <meta name='google-site-verification' content='yKJNmNpvtiHvsXH_CN5BxIgVy5dwktxYqpXYAQgvNdo' />
         <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap' />
         <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400&display=swap' />
+        <link rel='prefetch' href={backHref} as='document' />
+        <link rel='prefetch' href={nextHref} as='document' />
       </Head>
 
       <Paper className='navbar' elevation={3}>
         <Tabs value={activeItem} indicatorColor='primary' textColor='primary'>
-          <Tab value='home' label='Home' component={Link} href='/' onClick={clickBackOrNext('/')} />
-          <Tab value='posts' label='Posts' component={Link} href='/posts' onClick={clickBackOrNext('/posts')} />
+          <Tab value='/' label='Home' component={Link} href='/' onClick={clickBackOrNext('/')} />
+          <Tab value='/posts' label='Posts' component={Link} href='/posts' onClick={clickBackOrNext('/posts')} />
           {/* <Tab value='about' label='About' component={Link} href='/about' /> */}
         </Tabs>
         <div className='navbar-buttons'>
@@ -134,23 +123,6 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, activeIte
       </motion.div>
     </motion.div>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const apolloClient = initializeApollo()
-  try {
-    await apolloClient.query({
-      query: ArticlesQuery,
-    })
-  }
-  catch (error) {
-    console.error('Posts -> getStaticProps -> error', error)
-  }
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-    },
-  }
 }
 
 export default Layout

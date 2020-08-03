@@ -12,6 +12,7 @@ import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem
 import { motion } from 'framer-motion'
 import { ArticlesResult, IArticle } from '../models/article'
 import { DEFAULT_ARTICLE, POLLING_INTERVAL } from '../models/defaults'
+import { filterAndSortArticles } from '../models/utils'
 import Layout from '../components/Layout'
 import ArticlePanel from '../components/ArticlePanel'
 
@@ -32,17 +33,6 @@ const renderDate = (article: IArticle, includeYear: boolean) => {
         <div className='day'>{ day }</div>
         { includeYear ? <div className='year'>{ year }</div> : null }
       </div>
-}
-
-const filterAndSortArticles = (articles: IArticle[] | undefined): IArticle[] => {
-  return R.pipe(
-    R.defaultTo([]),
-    // @ts-ignore
-    R.filter((article: IArticle) => ['Sprints', 'Posts'].includes(article.section)),
-    // @ts-ignore
-    R.sortBy(R.prop('createdAt'))
-  // @ts-ignore
-  )(articles) as IArticle[]
 }
 
 const getContentClassName = (article: IArticle) => article.section === 'Sprints' ? 'sprint-timeline-content' : 'post-timeline-content'
@@ -97,7 +87,7 @@ const Index = () => {
   const getLinkUnderline = (article: IArticle) => article === selectedArticle ? 'always' : 'hover'
 
   return (
-    <Layout title='Home' activeItem='home'>
+    <Layout title='Home' articles={articles}>
       <Grid container spacing={0}>
         <Grid item xs={false} sm={false} md={false} lg={1} />
         <Grid item xs={12} sm={6} md={5} lg={3} >
@@ -112,14 +102,6 @@ const Index = () => {
                   { index < articles.length - 1 ? <TimelineConnector /> : null }
                 </TimelineSeparator>
                 <TimelineContent className={clsx('timeline-content', getContentClassName(article))}>
-                  {/* <Link
-                    className='title'
-                    href={`/posts/${article.id}`} onClick={(e: React.MouseEvent<HTMLElement>) => handleTitleClick(e, article)}
-                    color='textPrimary'
-                    underline={getLinkUnderline(article)}
-                    rel='noopener'>
-                    { getTitle(article) }
-                  </Link> */}
                   <motion.a
                     className={clsx('title', 'MuiTypography-root', 'MuiTypography-colorTextPrimary', 'MuiLink-root',
                       getLinkUnderline(article) === 'hover' ? 'MuiLink-underlineHover' : 'MuiLink-underlineAlways'

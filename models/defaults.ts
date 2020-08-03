@@ -18,4 +18,3 @@ export const DEFAULT_ARTICLE: IArticle = {
 export const EMPTY_ARTICLES = [] as IArticle[]
 
 export const POLLING_INTERVAL = process.env.NODE_ENV === 'production' ? 0 : 2000
-
