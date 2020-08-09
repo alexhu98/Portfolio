@@ -3,32 +3,29 @@ import React from 'react'
 import { GetStaticProps } from 'next'
 import { initializeApollo } from '../../apollo/client'
 import { Context } from '@apollo/react-common'
-import { useQuery } from '@apollo/react-hooks'
 import Layout from '../../components/Layout'
 import { Container } from '@material-ui/core'
 import { ArticlesQuery } from '../../apollo/queries'
-import { ArticlesResult } from '../../models/article'
-import { filterAndSortArticles } from 'models/utils'
+import { IArticle } from '../../models/article'
+import { queryArticlesAndRoutes } from 'models/utils'
 import ArticlePanel from '../../components/ArticlePanel'
 import { useRouter } from 'next/router'
 
 type Props = {
-  id: string,
+  backHref?: string,
+  nextHref?: string,
+  article?: IArticle,
 }
 
-const Post: React.FC<Props> = ({ id }) => {
+const Post: React.FC<Props> = ({ article, backHref, nextHref }) => {
 
   const router = useRouter()
-  const { data } = useQuery<ArticlesResult>(ArticlesQuery)
-  const articles = filterAndSortArticles(data?.articles)
-  const article = R.find(R.propEq('id', id), articles)
-
-  if (!article && data && typeof window !== 'undefined') {
+  if (!article && typeof window !== 'undefined') {
     router.replace('/')
   }
 
   return (
-    <Layout title='Posts' articles={articles}>
+    <Layout title='Posts' backHref={backHref} nextHref={nextHref}>
       <Container>
         <ArticlePanel article={article} />
       </Container>
@@ -40,18 +37,12 @@ export const getStaticProps: GetStaticProps = async (context: Context) => {
   // console.log('getStaticProps -> context', context)
   const { id } = context.params ? context.params : context.query
   const apolloClient = initializeApollo()
-  try {
-    await apolloClient.query({
-      query: ArticlesQuery,
-    })
-  }
-  catch (error) {
-    console.error('Post -> getStaticProps -> error', error)
-  }
+  const { articles, backHref, nextHref } = await queryArticlesAndRoutes(apolloClient, `/posts/${id}`)
   return {
     props: {
-      id,
-      initialApolloState: apolloClient.cache.extract(),
+      backHref,
+      nextHref,
+      article: R.filter(R.propEq('id', id), articles),
     }
   }
 }
