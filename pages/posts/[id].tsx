@@ -18,8 +18,6 @@ type Props = {
 }
 
 const Post: React.FC<Props> = ({ article, backHref, nextHref }) => {
-  console.log(`Post -> article`, article)
-
   const router = useRouter()
   if (!article && typeof window !== 'undefined') {
     router.replace('/')
@@ -43,7 +41,7 @@ export const getStaticProps: GetStaticProps = async (context: Context) => {
     props: {
       backHref,
       nextHref,
-      article: R.filter(R.propEq('id', id), articles),
+      article: R.head(R.filter(R.propEq('id', id), articles)),
     }
   }
 }

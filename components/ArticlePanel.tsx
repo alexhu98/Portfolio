@@ -6,9 +6,7 @@ type Props = {
   article?: IArticle
 }
 
-const ArticlePanel: React.FC<Props> = (props) => {
-  const { article } = props;
-
+const ArticlePanel: React.FC<Props> = ({ article }) => {
   return (
     <div className='article-panel'>
         <ReactMarkdown source={article?.content || ''} escapeHtml={false} />
