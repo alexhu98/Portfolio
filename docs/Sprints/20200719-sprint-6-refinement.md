@@ -26,7 +26,3 @@ export const getStaticProps: GetStaticProps = async (context: Context) => {
   }
 }
 ```
-
-### Material-UI Styles
-
-The FOUC problem is still bugging me a bit. Let's explore if CSS-in-JS will solve the problem.

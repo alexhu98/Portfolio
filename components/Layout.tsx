@@ -1,8 +1,7 @@
 import React, { PropsWithChildren } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { useAnimation } from 'framer-motion';
-import { motion } from 'framer-motion'
+import { motion, useAnimation } from 'framer-motion';
 import { IconButton, Link, Paper, Tabs, Tab } from '@material-ui/core'
 import { ArrowBack, ArrowForward } from '@material-ui/icons'
 import Footer from './Footer'
@@ -38,7 +37,7 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, backHref,
   // then make it visible once loaded
   const containerVariants = {
     hidden: {
-      opacity: 0
+      opacity: 0,
     },
     visible: {
       opacity: 1,
