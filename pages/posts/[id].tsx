@@ -12,12 +12,13 @@ import ArticlePanel from '../../components/ArticlePanel'
 import { useRouter } from 'next/router'
 
 type Props = {
+  article?: IArticle,
   backHref?: string,
   nextHref?: string,
-  article?: IArticle,
 }
 
 const Post: React.FC<Props> = ({ article, backHref, nextHref }) => {
+  console.log(`Post -> article`, article)
 
   const router = useRouter()
   if (!article && typeof window !== 'undefined') {
