@@ -5,6 +5,7 @@ https://portfolio.alexhu.vercel.app/posts/sprint-2-deciding-on-a-framework
 https://portfolio.alexhu.vercel.app/posts/sprint-3-start-coding
 https://portfolio.alexhu.vercel.app/posts/sprint-4-unit-testing
 https://portfolio.alexhu.vercel.app/posts/sprint-5-user-interface-improvement
+https://portfolio.alexhu.vercel.app/posts/sprint-6-refinement
 https://portfolio.alexhu.vercel.app/posts/a-new-beginning
 https://portfolio.alexhu.vercel.app/posts/start-and-stop
 https://portfolio.alexhu.vercel.app/posts/server-side-rendering
