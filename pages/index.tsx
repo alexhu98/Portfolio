@@ -12,7 +12,7 @@ import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem
 import { motion } from 'framer-motion'
 import { ArticlesResult, IArticle } from '../models/article'
 import { DEFAULT_ARTICLE, POLLING_INTERVAL } from '../models/defaults'
-import { filterAndSortArticles } from '../models/utils'
+import { filterAndSortArticles, queryArticlesAndRoutes } from '../models/utils'
 import Layout from '../components/Layout'
 import ArticlePanel from '../components/ArticlePanel'
 
@@ -39,7 +39,12 @@ const getContentClassName = (article: IArticle) => article.section === 'Sprints'
 const getTimelineDot = (article: IArticle) => article.section === 'Sprints' ? 'default' : 'outlined'
 const getTitle = (article: IArticle) => article.section === 'Sprints' ? R.splitAt(2, article.title.split(' '))[1].join(' ') : article.title
 
-const Index = () => {
+type Props = {
+  backHref?: string,
+  nextHref?: string,
+}
+
+const Index: React.FC<Props> = ({ backHref, nextHref }) => {
   const { data } = useQuery<ArticlesResult>(ArticlesQuery, {
     pollInterval: POLLING_INTERVAL,
   })
@@ -52,7 +57,6 @@ const Index = () => {
 
   useEffect(() => {
     if (POLLING_INTERVAL) {
-      // console.log('useEffect -> data', data)
       const sortedArticles = filterAndSortArticles(data?.articles)
       setArticles(sortedArticles)
       const selected = R.find(R.propEq('id', selectedArticle.id), sortedArticles)
@@ -87,7 +91,7 @@ const Index = () => {
   const getLinkUnderline = (article: IArticle) => article === selectedArticle ? 'always' : 'hover'
 
   return (
-    <Layout title='Home' articles={articles}>
+    <Layout title='Home' backHref={backHref} nextHref={nextHref}>
       <Grid container spacing={0}>
         <Grid item xs={false} sm={false} md={false} lg={1} />
         <Grid item xs={12} sm={6} md={5} lg={3} >
@@ -137,16 +141,11 @@ const Index = () => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const apolloClient = initializeApollo()
-  try {
-    await apolloClient.query({
-      query: ArticlesQuery,
-    })
-  }
-  catch (error) {
-    console.error('Posts -> getStaticProps -> error', error)
-  }
+  const { backHref, nextHref } = await queryArticlesAndRoutes(apolloClient, `/`)
   return {
     props: {
+      backHref,
+      nextHref,
       initialApolloState: apolloClient.cache.extract(),
     },
   }

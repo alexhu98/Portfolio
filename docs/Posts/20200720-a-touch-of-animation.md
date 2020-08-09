@@ -2,14 +2,14 @@
 ##### July 20th, 2020 By Alex Hu
 
 [Framer Motion](https://www.framer.com/motion/) is a animation library for React. This library is rather easy to use.
-Instead of a <&nbsp;h2&nbsp;>, you can use <&nbsp;motion.h2&nbsp;> and add the animation as props.
+Instead of a h2, you can use motion.h2 and add the animation as props.
 
 I added some subtle animations to the pages.
 
 ### [Timeline](/)
 
 In the timeline, the link for article title is scaled slightly larger when hovering. The bulk of the work is to
-find what the Link element actually mapped to as an <&nbsp;a&nbsp;> element and then put in the right class names. The actual
+find what the Link element actually mapped to as an anchor element and then put in the right class names. The actual
 animation is a simple whileHover property.
 
 ```js
@@ -23,7 +23,7 @@ whileHover={{
 ### [Article Card](/posts)
 
 The second hover effect is the on the box shadow of the article card and a very slight scaling of it,
-by a simple replacement of the <&nbsp;Card&nbsp;> component. You hardly notice that the animation because of the
+by a simple replacement of the Card component. You hardly notice that the animation because of the
 very short duration but it is there.
 
 ```js

@@ -1,4 +1,3 @@
-import * as R from 'ramda'
 import React, { PropsWithChildren } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
@@ -7,53 +6,20 @@ import { motion } from 'framer-motion'
 import { IconButton, Link, Paper, Tabs, Tab } from '@material-ui/core'
 import { ArrowBack, ArrowForward } from '@material-ui/icons'
 import Footer from './Footer'
-import { IArticle } from 'models/article'
-import { filterAndSortArticles } from 'models/utils'
 
 type Props = {
   title: string
-  articles?: IArticle[],
+  backHref?: string,
+  nextHref?: string,
 }
 
-const buildRoutes = (articles: IArticle[] | undefined): string[] => {
-  // console.log(`buildRoutes() articles`, articles)
-  const routes = R.pipe(
-    filterAndSortArticles,
-    R.map(article => `/posts/${article.id}`),
-    R.concat(['/', '/posts'])
-  // @ts-ignore
-  )(articles)
-  // console.log(`buildRoutes routes`, routes)
-  return routes
-}
-
-const getNextRoute = (path: string, routes: string[], direction: number): string => {
-  // console.log(`getNextRoute.routes`, routes)
-  let routeIndex = routes.indexOf(path) + direction
-  if (routeIndex < 0) {
-    routeIndex = routes.length - 1
-  }
-  else if (routeIndex >= routes.length) {
-    routeIndex = 0
-  }
-  const nextRoute = routes[routeIndex]
-  // console.log(`getNextRoute.routeIndex`, routeIndex)
-  // console.log(`getNextRoute.nextRoute`, nextRoute)
-  return nextRoute || '/'
-}
-
-const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, articles }) => {
-
+const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, backHref, nextHref }) => {
   const router = useRouter()
   const exitAnimation = useAnimation()
-  // console.log(`Layout -> articles?.length = `, articles?.length)
   const activeItem = router.asPath
-  const routes = buildRoutes(articles)
-  const backHref = getNextRoute(router.asPath, routes, -1)
-  const nextHref = getNextRoute(router.asPath, routes, +1)
 
   const back = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (!e.ctrlKey) {
+    if (!e.ctrlKey && backHref) {
       e.preventDefault()
       await exitAnimation.start('exitBack')
       router.push(backHref)
@@ -61,7 +27,7 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, articles 
 }
 
   const next = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (!e.ctrlKey) {
+    if (!e.ctrlKey && nextHref) {
       e.preventDefault()
       await exitAnimation.start('exitNext')
       router.push(nextHref)
