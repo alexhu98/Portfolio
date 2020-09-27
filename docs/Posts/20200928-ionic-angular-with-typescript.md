@@ -1,5 +1,5 @@
 # Ionic Angular with TypeScript
-##### September 21st, 2020 By Alex Hu
+##### September 28th, 2020 By Alex Hu
 
 ### Mobile App Frameworks
 
