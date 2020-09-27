@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "test1": "jest",
-    "test": "jest --watchAll",
+    "watch-test": "jest --watchAll",
     "type-check": "tsc"
   },
   "dependencies": {
