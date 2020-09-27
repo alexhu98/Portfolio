@@ -11,8 +11,7 @@ feeling of sudden pop in and out of hover style.
 One of the side effect of adding the back / next buttons is that too much data is loaded in the query.
 As the return value of getStaticProps() become the static content inside the generated static html,
 we can do all the calculation in the getStaticProps() and just return the necessary information, in this
-case, all I need are the href for the back and next buttons and the article for the page. Prevoiusly,
-I was returning all the articles even through only a single article is being shown. This reduces the
+case, all I need are the href for the back and next buttons and the article for the page. This reduces the
 file size from 80K to only 8K bytes.
 ```js
 export const getStaticProps: GetStaticProps = async (context: Context) => {
