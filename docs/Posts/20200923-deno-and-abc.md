@@ -1,8 +1,11 @@
 # Deno and Abc
 ##### September 23rd, 2020 By Alex Hu
 
-The mobile app is going to access a local server to run some operations on my main computer.
-Although we can add additional API into the existing Portfolio Next.js app, I decided on the
+I want to enhance my existing Android video player app to support streaming files, and also create
+a new mobile app as my very own personal assistant. They are going to access a local private server to run
+some operations on my main computer.
+
+Although I can add additional API into the existing Portfolio Next.js app, I decided on the
 a different server app since this local server is going to be run on my computer at home instead
 of published in the web.
 
