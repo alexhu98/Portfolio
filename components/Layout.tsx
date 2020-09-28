@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { motion, useAnimation } from 'framer-motion';
@@ -16,6 +16,11 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, backHref,
   const router = useRouter()
   const exitAnimation = useAnimation()
   const activeItem = router.asPath
+  const [foucClassName, setFoucClassName] = useState('fouc')
+
+  useEffect(() => {
+    setFoucClassName('')
+  }, [])
 
   const back = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (!e.ctrlKey && backHref) {
@@ -36,33 +41,22 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, backHref,
   // avoid Flash of Unstyled Content by hiding all contents initially
   // then make it visible once loaded
   const containerVariants = {
-    hidden: {
-      opacity: 0,
-    },
-    visible: {
-      opacity: 1,
-      transition: { duration: 0.1 },
-    },
     exitBack: {
-      // opacity: 0,
-      // transition: { duration: 0.1 },
-      // x: '100vw',
-      // transition: { ease: 'easeInOut' },
-      // duration: 1,
+      x: '100vw',
+      transition: { ease: 'easeInOut' },
+      duration: 1,
     },
     exitNext: {
-      // opacity: 0,
-      // transition: { duration: 0.1 },
-      // x: '-100vw',
-      // transition: { ease: 'easeInOut' },
-      // duration: 1,
+      x: '-100vw',
+      transition: { ease: 'easeInOut' },
+      duration: 1,
     },
   }
 
   const clickBackOrNext = (href: string) => backHref === href ? back : nextHref === href ? next : undefined
 
   return (
-    <motion.div variants={containerVariants} initial='hidden' animate='visible'>
+    <div className={foucClassName}>
       <Head>
         <title>{ title }</title>
         <meta charSet='utf-8' />
@@ -90,7 +84,7 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, backHref,
         {children}
         <Footer />
       </motion.div>
-    </motion.div>
+    </div>
   )
 }
 

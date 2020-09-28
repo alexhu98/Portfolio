@@ -2,6 +2,10 @@ body {
   font-family: Roboto, sans-serif;
 }
 
+.fouc {
+  visibility: hidden;
+}
+
 .navbar {
   // sticky navbar at the top
   display: flex;
