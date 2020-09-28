@@ -1,4 +1,4 @@
-# Deno and abc
+# Deno and Abc
 ##### September 23rd, 2020 By Alex Hu
 
 The mobile app is going to access a local server to run some operations on my main computer.
@@ -19,9 +19,9 @@ const require = createRequire(import.meta.url)
 export const R = require('ramda')
 ```
 
-### [abc](https://deno.land/x/abc)
+### [Abc](https://deno.land/x/abc)
 
-Similar to Express for Node.js, abc is a Deno framework to create web application.
+Similar to Express for Node.js, Abc is a Deno framework to create web application.
 I briefly tried [Oak](https://deno.land/x/oak) but was having problems with the RouterContext
 and json parsing in the POST request body
 
