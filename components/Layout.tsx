@@ -42,12 +42,12 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, backHref,
   // then make it visible once loaded
   const containerVariants = {
     exitBack: {
-      x: '100vw',
+      // x: '100vw',
       transition: { ease: 'easeInOut' },
       duration: 1,
     },
     exitNext: {
-      x: '-100vw',
+      // x: '-100vw',
       transition: { ease: 'easeInOut' },
       duration: 1,
     },
