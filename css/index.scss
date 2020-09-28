@@ -132,7 +132,7 @@ h2.recent-articles {
     height: 200px;
   }
 
-  &.MuiPaper-elevation3 {
+  &.MuiPaper-outlined {
     box-shadow: none;
 
     &:hover {
@@ -186,6 +186,12 @@ h2.recent-articles {
 
     .title {
       display: inline-block;
+      transition: transform 0.1s;
+
+      &:hover {
+        // background-color: yellow;
+        transform: scale(1.1);
+      }
     }
 
     .timeline-date {

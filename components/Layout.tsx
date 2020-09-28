@@ -1,7 +1,6 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { motion, useAnimation } from 'framer-motion';
 import { IconButton, Link, Paper, Tabs, Tab } from '@material-ui/core'
 import { ArrowBack, ArrowForward } from '@material-ui/icons'
 import Footer from './Footer'
@@ -14,7 +13,6 @@ type Props = {
 
 const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, backHref, nextHref }) => {
   const router = useRouter()
-  const exitAnimation = useAnimation()
   const activeItem = router.asPath
   const [foucClassName, setFoucClassName] = useState('fouc')
 
@@ -25,7 +23,6 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, backHref,
   const back = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (!e.ctrlKey && backHref) {
       e.preventDefault()
-      await exitAnimation.start('exitBack')
       router.push(backHref)
     }
 }
@@ -33,24 +30,8 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, backHref,
   const next = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (!e.ctrlKey && nextHref) {
       e.preventDefault()
-      await exitAnimation.start('exitNext')
       router.push(nextHref)
     }
-  }
-
-  // avoid Flash of Unstyled Content by hiding all contents initially
-  // then make it visible once loaded
-  const containerVariants = {
-    exitBack: {
-      // x: '100vw',
-      transition: { ease: 'easeInOut' },
-      duration: 1,
-    },
-    exitNext: {
-      // x: '-100vw',
-      transition: { ease: 'easeInOut' },
-      duration: 1,
-    },
   }
 
   const clickBackOrNext = (href: string) => backHref === href ? back : nextHref === href ? next : undefined
@@ -80,10 +61,10 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({ children, title, backHref,
         </div>
       </Paper>
 
-      <motion.div variants={containerVariants} animate={exitAnimation}>
+      <div>
         {children}
         <Footer />
-      </motion.div>
+      </div>
     </div>
   )
 }

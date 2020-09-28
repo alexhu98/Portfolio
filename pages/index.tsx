@@ -6,10 +6,9 @@ import { format } from 'date-fns'
 import { useQuery } from '@apollo/react-hooks'
 import { initializeApollo } from '../apollo/client'
 import { ArticlesQuery } from '../apollo/queries'
-import { Fade, Grid, Hidden, Paper, Typography, useMediaQuery } from '@material-ui/core'
+import { Fade, Grid, Hidden, Link, Paper, Typography, useMediaQuery } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from '@material-ui/lab'
-import { motion } from 'framer-motion'
 import { ArticlesResult, IArticle } from '../models/article'
 import { DEFAULT_ARTICLE, POLLING_INTERVAL } from '../models/defaults'
 import { filterAndSortArticles, queryArticlesAndRoutes } from '../models/utils'
@@ -106,19 +105,14 @@ const Index: React.FC<Props> = ({ backHref, nextHref }) => {
                   { index < articles.length - 1 ? <TimelineConnector /> : null }
                 </TimelineSeparator>
                 <TimelineContent className={clsx('timeline-content', getContentClassName(article))}>
-                  <motion.a
-                    className={clsx('title', 'MuiTypography-root', 'MuiTypography-colorTextPrimary', 'MuiLink-root',
-                      getLinkUnderline(article) === 'hover' ? 'MuiLink-underlineHover' : 'MuiLink-underlineAlways'
-                    )}
+                  <Link
+                    className='title'
                     href={`/posts/${article.id}`} onClick={(e: React.MouseEvent<HTMLElement>) => handleTitleClick(e, article)}
-                    rel='noopener'
-                    whileHover={{
-                      scale: 1.1,
-                      originX: 0,
-                    }}
-                  >
+                    color='textPrimary'
+                    underline={getLinkUnderline(article)}
+                    rel='noopener'>
                     { getTitle(article) }
-                  </motion.a>
+                  </Link>
                 </TimelineContent>
               </TimelineItem>
             )}
