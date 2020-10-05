@@ -38,26 +38,10 @@ Then there is an warning message after running the test:
 A worker process has failed to exit gracefully and has been force exited. This is likely caused by tests leaking due to improper teardown.
 Try running with --runInBand --detectOpenHandles to find leaks.
 ```
-indicating that the server is still listening to the port. To gracefully quit the server, it is listening for
-the /api/terminate GET command and terminate the server accordingly.
+indicating that the server is still listening to the port. To tear down the server gracefully, we have to close the
+ server connection after all the tests.
 ```js
-const server = app.listen(port, () => console.log(`Starting ExpressJS server on Port ${port}`))
-
-if (process.env.NODE_ENV === 'test') {
-  app.get('/api/terminate', (req: Request, res: Response) => {
-    res.send('Terminate...');
-    server.close()
-  })
-}
-```
-Then all we have to do is tear down the server gracefully after all the tests.
-```js
-afterAll(async () => await request(server).get('/api/terminate'))
-```
-By the way, the NODE_ENV is setup via cross-env in package.json so you hooligan
-don't come shutting down my server!
-```
-"test": "cross-env NODE_ENV=test jest",
+afterAll(async () => await server.close())
 ```
 
 ### [Continuous Integration and Continuous Delivery](https://www.infoworld.com/article/3271126/what-is-cicd-continuous-integration-and-continuous-delivery-explained.html)
