@@ -34,3 +34,4 @@ https://portfolio.alexhu.vercel.app/posts/choosing-a-mobile-app-framework
 https://portfolio.alexhu.vercel.app/posts/open-weather-api
 https://portfolio.alexhu.vercel.app/posts/google-calendar-api
 https://portfolio.alexhu.vercel.app/posts/ionic-with-firebase-authentication
+https://portfolio.alexhu.vercel.app/posts/rxjs-data-update
