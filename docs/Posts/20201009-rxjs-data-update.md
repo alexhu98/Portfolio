@@ -180,3 +180,26 @@ export class WeatherComponent implements OnInit {
   }
 }
 ```
+
+### Unsubscribe with SubSink
+
+[SubSink](https://www.npmjs.com/package/subsink) is a dead simple class to absorb RxJS subscriptions in an array
+and allows you to unsubscribe gracefully in a component. It is especially useful when you have multiple
+subscriptions and you can unsubscribe to them all on one call inside ngOnDestroy.
+```js
+import { SubSink } from 'subsink'
+
+export class CalendarComponent implements OnInit, OnDestroy {
+
+  private subs = new SubSink();
+
+  ngOnInit() {
+    this.subs.add(this.calendarService.getEvents().subscribe(data => this.events = data));
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe()
+  }
+}
+```
+
