@@ -100,8 +100,10 @@ export class Tab2Page extends SwipeTabPage {
   }
 }
 ```
-In the html template, I have to add a #swipeTabPage block to surround the actual cntent and specify
-the minimum height to the 100vh - 130px, where 130px roughly accounts for the header and the bottom tabs panel.
+In the html template, I have to add a #swipeTabPage block to surround the actual content and specify
+the minimum height to the calc(100vh - 130px), where 130px roughly accounts for the header and
+the bottom tabs panel. 100vh is simply the viewport height. So the minimum height is going to cover
+almost all the screen area.
 ```
 <ion-header [translucent]="true">
   <ion-toolbar>
@@ -115,7 +117,8 @@ the minimum height to the 100vh - 130px, where 130px roughly accounts for the he
   </div>
 </ion-content>
 ```
-Without this #swipeTabPage block, the swipe gesture would not take place on blank area below the component content.
+This #swipeTabPage block allows the swipe gesture to work even on blank area below the component content. Without it,
+the swipe gesture occurs outside of the SwipeTabPage component and therefore ignored by the gesture controller.
 ```
 .swipe-tab-page {
   min-height: calc(100vh - 130px);

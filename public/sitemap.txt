@@ -8,6 +8,7 @@ https://portfolio.alexhu.vercel.app/posts/sprint-5-user-interface-improvement
 https://portfolio.alexhu.vercel.app/posts/sprint-6-refinement
 https://portfolio.alexhu.vercel.app/posts/sprint-7-private-rest-server
 https://portfolio.alexhu.vercel.app/posts/sprint-8-mobile-app-time
+https://portfolio.alexhu.vercel.app/posts/sprint-9-ionic-native-plugins
 https://portfolio.alexhu.vercel.app/posts/a-new-beginning
 https://portfolio.alexhu.vercel.app/posts/start-and-stop
 https://portfolio.alexhu.vercel.app/posts/server-side-rendering
@@ -37,3 +38,4 @@ https://portfolio.alexhu.vercel.app/posts/ionic-with-firebase-authentication
 https://portfolio.alexhu.vercel.app/posts/rxjs-data-update
 https://portfolio.alexhu.vercel.app/posts/smart-home-devices
 https://portfolio.alexhu.vercel.app/posts/swipe-gesture
+https://portfolio.alexhu.vercel.app/posts/google-and-firebase-authentication
