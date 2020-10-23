@@ -38,4 +38,5 @@ https://portfolio.alexhu.vercel.app/posts/ionic-with-firebase-authentication
 https://portfolio.alexhu.vercel.app/posts/rxjs-data-update
 https://portfolio.alexhu.vercel.app/posts/smart-home-devices
 https://portfolio.alexhu.vercel.app/posts/swipe-gesture
-https://portfolio.alexhu.vercel.app/posts/google-and-firebase-authentication
+https://portfolio.alexhu.vercel.app/posts/google-authentication
+https://portfolio.alexhu.vercel.app/posts/gapi-client-calendar

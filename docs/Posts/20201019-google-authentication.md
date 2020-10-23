@@ -1,5 +1,5 @@
 # Google Authentication
-##### Octember 21th, 2020 By Alex Hu
+##### Octember 19th, 2020 By Alex Hu
 
 As I experienced in
 [Ionic with Firebase Authentication](https://portfolio.alexhu.vercel.app/posts/ionic-with-firebase-authentication) ,
