@@ -61,43 +61,46 @@ api. The gapi.client.calendar also requires the user's access token from the Aut
 the correct calendar can be retrieved.
 
 ```js
-fetchEvents() {
-  const accessToken = this.authenticationService.getAccessToken();
-  if (accessToken && this.calendarApi) {
-    gapi.client.setToken({
-      access_token: accessToken,
-    });
-    const eventStartTime = formatISO(startOfToday())
-    const eventEndTime = formatISO(addWeeks(startOfToday(), 2))
-    const request = this.calendarApi.events.list({
-      calendarId: 'primary',
-      singleEvents: true,
-      timeMin: eventStartTime,
-      timeMax: eventEndTime,
-      orderBy: 'startTime',
-    });
-    request.execute(response => {
-      if (!response.error) {
-        const events = R.map((item: any) => ({
-          id: item.id,
-          summary: item.summary,
-          start: item.start.date || item.start.dateTime,
-          end: item.end.date || item.end.dateTime,
-        }), R.defaultTo([], response.items))
-        const mappedEvents = mapEvents(events)
-        this.ngZone.run(() => {
-          this.events$.next(mappedEvents)
-        });
-      }
-      else {
-        console.error(`CalendarService -> fetchEvents -> error -> response`, response);
-      }
-    });
-  }
-  else {
-    this.ngZone.run(() => {
-      this.events$.next([])
-    });
+  async fetchEvents() {
+    const accessToken = await this.authenticationService.getAccessToken();
+    // console.log(`CalendarService -> fetchEvents -> accessToken`, accessToken)
+    // console.log(`CalendarService -> fetchEvents -> this.calendarApi`, this.calendarApi)
+    if (accessToken && this.calendarApi) {
+      gapi.client.setToken({
+        access_token: accessToken,
+      });
+      const eventStartTime = formatISO(startOfToday())
+      const eventEndTime = formatISO(addWeeks(startOfToday(), 2))
+      const request = this.calendarApi.events.list({
+        calendarId: 'primary',
+        singleEvents: true,
+        timeMin: eventStartTime,
+        timeMax: eventEndTime,
+        orderBy: 'startTime',
+      });
+      request.execute(response => {
+        if (!response.error) {
+          const events = R.map((item: any) => ({
+            id: item.id,
+            summary: item.summary,
+            start: item.start.date || item.start.dateTime,
+            end: item.end.date || item.end.dateTime,
+          }), R.defaultTo([], response.items))
+          const mappedEvents = mapEvents(events)
+          this.ngZone.run(() => {
+            this.events$.next(mappedEvents)
+          });
+        }
+        else {
+          console.error(`CalendarService -> fetchEvents -> error -> response`, response);
+        }
+      });
+    }
+    else {
+      this.ngZone.run(() => {
+        this.events$.next([])
+      });
+    }
   }
 }
 ```
@@ -211,7 +214,7 @@ export class CalendarService implements OnDestroy {
     private authenticationService: AuthenticationService,
   ) {
     this.subs.add(this.refreshTimer$.subscribe(this.refresh$));
-    this.subs.add(this.refresh$.subscribe(() => this.fetchEvents()));
+    this.subs.add(this.refresh$.subscribe(async () => await this.fetchEvents()));
     this.subs.add(this.authenticationService.user$.subscribe(() => this.refresh()));
     this.subs.add(this.gapiService.onLoad().subscribe(() => this.loadGapiClient()));
   }
@@ -222,8 +225,10 @@ export class CalendarService implements OnDestroy {
 
   loadGapiClient() {
     gapi.load('client', async () => {
+      // console.log(`CalendarService -> loadGapiClient -> gapi.client`, gapi.client)
       await gapi.client.load('calendar', 'v3');
       this.calendarApi = (gapi.client as any).calendar;
+      // console.log(`CalendarService -> loadGapiClient -> this.calendarApi`, this.calendarApi)
       this.refresh();
     });
   }
@@ -232,8 +237,10 @@ export class CalendarService implements OnDestroy {
     this.refresh$.next(null);
   }
 
-  fetchEvents() {
-    const accessToken = this.authenticationService.getAccessToken();
+  async fetchEvents() {
+    const accessToken = await this.authenticationService.getAccessToken();
+    // console.log(`CalendarService -> fetchEvents -> accessToken`, accessToken)
+    // console.log(`CalendarService -> fetchEvents -> this.calendarApi`, this.calendarApi)
     if (accessToken && this.calendarApi) {
       gapi.client.setToken({
         access_token: accessToken,
