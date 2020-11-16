@@ -40,3 +40,5 @@ https://portfolio.alexhu.vercel.app/posts/smart-home-devices
 https://portfolio.alexhu.vercel.app/posts/swipe-gesture
 https://portfolio.alexhu.vercel.app/posts/google-authentication
 https://portfolio.alexhu.vercel.app/posts/gapi-client-calendar
+https://portfolio.alexhu.vercel.app/posts/firebase-cloud-firestore
+https://portfolio.alexhu.vercel.app/posts/text-to-speech
